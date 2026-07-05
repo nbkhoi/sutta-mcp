@@ -4,6 +4,9 @@
   "description": "MCP server for SuttaCentral — Dhamma assistant with citations",
   "type": "module",
   "main": "dist/index.js",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "build": "tsc",
     "dev": "tsx src/index.ts",

@@ -1,5 +1,9 @@
 # Sutta MCP
 
+[![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen)](https://nodejs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue)](https://www.typescriptlang.org/)
+[![MCP SDK](https://img.shields.io/badge/MCP%20SDK-%5E1.10.1-purple)](https://modelcontextprotocol.io)
+
 MCP server kết nối Claude với SuttaCentral — giúp trả lời câu hỏi Phật pháp có trích dẫn nguồn kinh điển.
 
 ## Tools
