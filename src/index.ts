@@ -353,12 +353,18 @@ const DIVISIONS: Record<string, Division[]> = {
     { uid: "ea-2", name: "Ekottarikāgama 2", tradition: "Unknown", language: "Chinese" },
   ],
   vinaya: [
-    { uid: "pli-tv", name: "Theravāda Vinaya", tradition: "Theravada", language: "Pali" },
-    { uid: "lzh-mg", name: "Mahāsāṃghika Vinaya", tradition: "Mahāsāṃghika", language: "Chinese" },
-    { uid: "lzh-ms", name: "Mūlasarvāstivāda Vinaya", tradition: "Mūlasarvāstivāda", language: "Chinese" },
-    { uid: "lzh-dg", name: "Dharmaguptaka Vinaya", tradition: "Dharmaguptaka", language: "Chinese" },
-    { uid: "lzh-sv", name: "Sarvāstivāda Vinaya", tradition: "Sarvāstivāda", language: "Chinese" },
-    { uid: "lzh-ks", name: "Mahīśāsaka Vinaya", tradition: "Mahīśāsaka", language: "Chinese" },
+    { uid: "pli-tv-vi", name: "Theravāda Vinayapiṭaka", tradition: "Theravada", language: "Pali" },
+    { uid: "lzh-mg-vi", name: "Mahāsaṅghika Vinaya", tradition: "Mahāsaṅghika", language: "Chinese" },
+    { uid: "san-mg-vi", name: "Mahāsaṅghika Vinaya", tradition: "Mahāsaṅghika", language: "Sanskrit" },
+    { uid: "san-lo-vi", name: "Lokuttaravāda Vinaya", tradition: "Lokuttaravāda", language: "Sanskrit" },
+    { uid: "lzh-mi-vi", name: "Mahīśāsaka Vinaya", tradition: "Mahīśāsaka", language: "Chinese" },
+    { uid: "lzh-dg-vi", name: "Dharmaguptaka Vinaya", tradition: "Dharmaguptaka", language: "Chinese" },
+    { uid: "pgd-dg-vi", name: "Dharmaguptaka Vinaya", tradition: "Dharmaguptaka", language: "Gāndhārī" },
+    { uid: "lzh-sarv-vi", name: "Sarvāstivāda Vinaya", tradition: "Sarvāstivāda", language: "Chinese" },
+    { uid: "san-sarv-vi", name: "Sarvāstivāda Vinaya", tradition: "Sarvāstivāda", language: "Sanskrit" },
+    { uid: "lzh-mu-vi", name: "Mūlasarvāstivāda Vinaya", tradition: "Mūlasarvāstivāda", language: "Chinese" },
+    { uid: "san-mu-vi", name: "Mūlasarvāstivāda Vinaya", tradition: "Mūlasarvāstivāda", language: "Sanskrit" },
+    { uid: "xct-mu-vi", name: "Mūlasarvāstivāda Vinaya", tradition: "Mūlasarvāstivāda", language: "Tibetan" },
   ],
   abhidhamma: [
     { uid: "ds", name: "Dhammasaṅgaṇī", tradition: "Theravada", language: "Pali" },
@@ -385,7 +391,7 @@ function formatDivisions(pitakas: string[]): string {
     if (!divs) continue;
     const label = PITAKA_LABELS[p] ?? p;
     const lines = divs.map(
-      (d) => `  • ${d.uid.padEnd(8)} — ${d.name} (${d.language}, ${d.tradition})`
+      (d) => `  • ${d.uid.padEnd(12)} — ${d.name} (${d.language}, ${d.tradition})`
     );
     sections.push(`**${label}:**\n${lines.join("\n")}`);
   }
