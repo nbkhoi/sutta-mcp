@@ -254,34 +254,15 @@ Claude trả lời có trích dẫn + link suttacentral.net/mn10
 
 ## Constraints
 
-### Cache
-
-Cache tối đa được khuyến khích — vì tính đúng đắn nội dung không đến từ việc "có fetch API hay không", mà đến từ kiến trúc đảm bảo chain đến nguồn luôn hiện diện trong mọi response.
-
-**Prototype:** In-memory Map đơn giản — cache kết quả suttaplex và bilara text trong bộ nhớ process. Không cần TTL, invalidation, hay external storage. Cache tồn tại trong vòng đời của process, mất khi restart.
-
-**Production:**
-
-| Loại data | Chiến lược cache | Lý do |
-|-----------|-----------------|-------|
-| Root text Pali (Mahāsaṅgīti) | Vĩnh viễn | Bất biến theo học thuật |
-| Divisions list | Vĩnh viễn (hardcode) | Biến động cực kỳ hiếm |
-| Bilara segments (nội dung sutta) | Dài hạn + checksum | Hiếm thay đổi, cần validate |
-| SuttaPlex metadata (blurb, parallels) | TTL vài ngày | Có thể cập nhật |
-| Search results | TTL vài giờ | Thay đổi thường xuyên hơn |
-
-Cache production được validate bằng **checksum** đồng bộ với bilara-data repo khi cần.
+**Cache:** Prototype không cache — mọi API call đều real-time, fetch trực tiếp mỗi lần gọi tool. Chiến lược cache cho production xem mục "Hướng nâng cấp".
 
 **Chain đến nguồn được đảm bảo bằng:**
-- Mọi response đều kèm **link `suttacentral.net/{uid}`** — dù data đến từ cache hay API
+- Mọi response đều kèm **link `suttacentral.net/{uid}`**
 - Production: mọi trích dẫn kèm **segment ID** (ví dụ `mn1:2.3`) liên kết trực tiếp đến SC. Prototype: citation ở mức sutta UID + link.
 
-**Giới hạn:** Không scrape hoặc tích lũy nội dung SC thành dataset phục vụ training AI hoặc xây dựng corpus độc lập không có chain đến nguồn.
-
-### Các constraints khác
-
 - **Không dùng data để train** — Sutta MCP không phải training pipeline
-- **Rate limiting:** Mỗi tool call chỉ fetch đúng những gì cần, ưu tiên đọc từ cache trước
+- **Không scrape hoặc tích lũy** nội dung SC thành dataset phục vụ training AI hoặc xây dựng corpus độc lập không có chain đến nguồn
+- **Rate limiting:** Mỗi tool call chỉ fetch đúng những gì cần
 - **Ngôn ngữ:** Output hỗ trợ cả tiếng Anh và tiếng Việt
 - **Attribution:** Mọi nội dung đều ghi rõ nguồn (SuttaCentral), dịch giả, và UID
 
@@ -294,3 +275,42 @@ Cache production được validate bằng **checksum** đồng bộ với bilara
 3. **Cross-tradition search** — khi tìm một chủ đề, tự động fetch parallels và trả về kết quả từ nhiều truyền thống
 4. **Public hosting** — deploy lên Cloudflare Workers hoặc Railway để cộng đồng dùng không cần cài đặt
 5. **Segment ID trong `get_sutta` output** — Bilara API trả về segment ID dạng `mn10:1.1` làm key. Production nên include segment ID trong output để hỗ trợ deep-link đến `suttacentral.net/{uid}#{segment_id}`.
+6. **Cache strategy** — dựa trên HTTP caching header mà chính SuttaCentral API đã trả về (xác nhận bằng live request tới `bilarasuttas` và `suttaplex`): `ETag` (weak) + `Cache-Control: max-age=172800, must-revalidate, proxy-revalidate`. Không cần tự tính checksum hay đồng bộ với bilara-data repo — SC đã tự làm việc này, tự chế thêm là trùng lặp và dễ lệch khi cấu trúc repo đổi.
+
+   **Cache entry:** `{ uid, translator, data, etag, cachedAt }`
+
+   **Đọc cache (áp dụng cho Root text Pali và Bilara segments):**
+   - `now - cachedAt < max-age` (lấy từ header response, không hardcode) → trả thẳng từ cache, không gọi API.
+   - Hết hạn → gọi lại kèm `If-None-Match: <etag lưu>`:
+     - `304 Not Modified` → nội dung vẫn đúng, chỉ reset `cachedAt`.
+     - `200 OK` → nội dung đã đổi, ghi đè `data` + `etag` mới.
+
+   Revalidate đồng bộ ngay tại thời điểm đọc — không cần cron job riêng vì response `304` gần như không tốn chi phí.
+
+   | Loại data | Chiến lược cache |
+   |-----------|-----------------|
+   | Root text Pali (Mahāsaṅgīti) | ETag + max-age như trên |
+   | Bilara segments (nội dung sutta) | ETag + max-age như trên |
+   | SuttaPlex metadata (blurb, parallels) | ETag + max-age như trên |
+   | Search results | TTL vài giờ (không có endpoint SC tương ứng để lấy ETag) |
+   | Divisions list | Không áp dụng ở dạng hardcode hiện tại (không qua API nên không có ETag). Có đường chuyển sang API-backed — xem mục 7. |
+
+   **Phụ thuộc:** stdio hiện tại là 1 process/1 user nên in-memory Map chạy đúng, nhưng chỉ có ích cục bộ. Cloudflare Workers không giữ biến JS giữa các request — cần Workers KV. Giá trị thật của store bền ở mục 4 là **chia sẻ cache giữa nhiều user đồng thời** (ví dụ nhiều người cùng hỏi `mn10` chỉ fetch 1 lần), không phải để sống sót qua restart.
+
+7. **Dynamic divisions list** — thay `DIVISIONS` hardcode bằng API thật `GET /api/menu` (root pitakas) + `GET /api/menu/{uid}` (mở rộng từng nhóm con), xác nhận sống có cùng `ETag` + `Cache-Control: max-age=172800` như các endpoint khác nên áp dụng được chiến lược cache ở mục 6.
+
+   **Không đơn giản như các data khác — 2 rào cản:**
+   - **Cây phân cấp lười (lazy tree), không phẳng.** `/api/menu` chỉ trả 1 cấp con: với pitaka `sutta`, cấp con là nhóm UI (`long`, `middle`, `linked`, `numbered`, `minor`, `other-group`), không phải UID division thật (`dn`, `mn`, `sn`...). Phải gọi tiếp `GET /api/menu/{group-uid}` (ví dụ `/api/menu/long` → trả `dn`, `da`, `da-ot`) mới ra danh sách division thật. Dựng lại đủ 1 pitaka cần nhiều lệnh gọi, không phải 1.
+   - **Không có field `tradition`.** API trả `uid`, `root_name`, `translated_name`, `root_lang_iso`, `root_lang_name`, `blurb` — nhưng cột `tradition` (Theravada/Dharmaguptaka/Sarvāstivāda...) hiện tại là domain knowledge tự thêm tay, không tồn tại trong response. Chuyển sang API vẫn cần giữ một bảng tra cứu nhỏ `uid → tradition` riêng.
+
+   **Bằng chứng hardcode hiện tại đã lệch thật** (so sánh `DIVISIONS.vinaya` trong `src/index.ts` với `/api/menu/vinaya` live):
+
+   | Hardcode hiện tại | SC hiện có |
+   |---|---|
+   | `lzh-mg` | `lzh-mg-vi` (UID đổi) |
+   | `lzh-ms` "Mūlasarvāstivāda" | `lzh-mu-vi` (UID đổi) — cộng `san-mu-vi`, `xct-mu-vi` chưa có trong hardcode |
+   | `lzh-ks` "Mahīśāsaka" | `lzh-mi-vi` (UID đổi) |
+   | — | `san-lo-vi` Lokuttaravāda Vinaya — thiếu hoàn toàn |
+   | — | `pgd-dg-vi` Gāndhārī Dharmaguptaka Vinaya — thiếu hoàn toàn |
+
+   Tức "biến động cực kỳ hiếm" (dòng ~43) không đúng ở tầng UID — phần Vinaya đã đổi/mở rộng so với hardcode. Đây là lý do nên coi `list_divisions` API-backed là một hạng mục nâng cấp thật, không chỉ lý thuyết.
