@@ -289,25 +289,40 @@ server.tool(
     }
 
     const lines: string[] = [`**Parallels của ${uid.toUpperCase()}:**\n`];
+    let count = 0;
 
-    for (const [parallelUid, info] of Object.entries(data as Record<string, any>)) {
-      const type = info?.type ?? "full";
-      const resembling = info?.resembling === true;
-      let icon: string;
-      if (type === "full") {
-        icon = resembling ? "≈" : "≡";
-      } else if (type === "mention") {
-        icon = "→";
-      } else if (type === "retelling") {
-        icon = "↺";
-      } else {
-        icon = "≈";
+    // Response có dạng { <anchor nguồn>: [ { to: { to, uid, acronym... }, type, resembling } ] }
+    // — key là anchor của chính sutta nguồn, target thật nằm trong entry.to
+    for (const entries of Object.values(data as Record<string, any[]>)) {
+      if (!Array.isArray(entries)) continue;
+      for (const entry of entries) {
+        const type = entry?.type ?? "full";
+        const resembling = entry?.resembling === true;
+        let icon: string;
+        if (type === "full") {
+          icon = resembling ? "≈" : "≡";
+        } else if (type === "mention") {
+          icon = "→";
+        } else if (type === "retelling") {
+          icon = "↺";
+        } else {
+          icon = "≈";
+        }
+        const label = resembling ? "resembling" : type;
+        // to.to giữ anchor segment (vd "dn22#17.1") nhưng với văn bản chưa host trên SC
+        // nó suy biến thành mã ngôn ngữ ("lzh") — khi đó to.uid mới là UID thật
+        const toUid = entry?.to?.uid;
+        const toAnchor = entry?.to?.to;
+        const target =
+          toAnchor && toUid && String(toAnchor).includes(String(toUid))
+            ? toAnchor
+            : toUid ?? toAnchor ?? "?";
+        lines.push(`${icon} ${String(target).toUpperCase()} (${label})`);
+        count++;
       }
-      const label = resembling ? "resembling" : type;
-      lines.push(`${icon} ${parallelUid.toUpperCase()} (${label})`);
     }
 
-    lines.push(`\n${Object.keys(data).length} parallels tổng cộng.`);
+    lines.push(`\n${count} parallels tổng cộng.`);
     lines.push(`\nTra cứu chi tiết tại: https://suttacentral.net/${uid}`);
 
     return { content: [{ type: "text", text: lines.join("\n") }] };
