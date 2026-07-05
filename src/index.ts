@@ -211,6 +211,9 @@ server.tool(
     ]);
 
     const citation = formatCitation(suttaplex);
+    const translatorName =
+      (suttaplex?.translations ?? []).find((t: any) => t.author_uid === translator)
+        ?.author ?? translator;
     const fullText = extractText(bilaraData);
     const lines = fullText.split("\n").filter(Boolean);
     const truncated = lines.slice(0, max_segments);
@@ -219,6 +222,7 @@ server.tool(
     const output = [
       "─".repeat(60),
       citation,
+      `Translator: ${translatorName} (${translator})`,
       "─".repeat(60),
       "",
       truncated.join("\n"),
@@ -411,7 +415,11 @@ server.tool(
   },
   async ({ pitaka }) => {
     const pitakas = pitaka ? [pitaka] : ["sutta", "vinaya", "abhidhamma"];
-    const output = formatDivisions(pitakas);
+    const output = [
+      formatDivisions(pitakas),
+      "",
+      "Nguồn: SuttaCentral — xem từng bộ tại https://suttacentral.net/{uid} (vd https://suttacentral.net/dn)",
+    ].join("\n");
     return { content: [{ type: "text", text: output }] };
   }
 );
