@@ -14,6 +14,7 @@ MCP server kết nối Claude với SuttaCentral — giúp trả lời câu hỏ
 | `get_sutta` | Lấy toàn văn sutta theo UID |
 | `get_sutta_meta` | Metadata: tên, blurb, độ khó, danh sách bản dịch |
 | `get_parallels` | Parallels giữa các truyền thống (Pali, Hán tạng, Sanskrit) |
+| `list_divisions` | Liệt kê các bộ kinh, lọc theo tạng (sutta/vinaya/abhidhamma) |
 
 ## Cài đặt
 
