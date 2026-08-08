@@ -60,14 +60,22 @@ Divisions là cấp cao nhất trong API của SuttaCentral. Số lượng gần
 
 **Vinaya Pitaka:**
 
+UID dưới đây là **node duyệt**, không phải prefix của UID kinh văn — xem ngoại lệ ở §"UID format".
+
 | UID | Tên | Truyền thống | Ngôn ngữ gốc |
 |-----|-----|-------------|-------------|
-| `pli-tv` | Theravāda Vinaya | Theravada | Pali (`pli`) |
-| `lzh-mg` | Mahāsāṃghika Vinaya | Mahāsāṃghika | Chinese (`lzh`) |
-| `lzh-ms` | Mūlasarvāstivāda Vinaya | Mūlasarvāstivāda | Chinese (`lzh`) |
-| `lzh-dg` | Dharmaguptaka Vinaya | Dharmaguptaka | Chinese (`lzh`) |
-| `lzh-sv` | Sarvāstivāda Vinaya | Sarvāstivāda | Chinese (`lzh`) |
-| `lzh-ks` | Mahīśāsaka Vinaya | Mahīśāsaka | Chinese (`lzh`) |
+| `pli-tv-vi` | Theravāda Vinayapiṭaka | Theravada | Pali (`pli`) |
+| `lzh-mg-vi` | Mahāsaṅghika Vinaya | Mahāsaṅghika | Chinese (`lzh`) |
+| `san-mg-vi` | Mahāsaṅghika Vinaya | Mahāsaṅghika | Sanskrit (`san`) |
+| `san-lo-vi` | Lokuttaravāda Vinaya | Lokuttaravāda | Sanskrit (`san`) |
+| `lzh-mi-vi` | Mahīśāsaka Vinaya | Mahīśāsaka | Chinese (`lzh`) |
+| `lzh-dg-vi` | Dharmaguptaka Vinaya | Dharmaguptaka | Chinese (`lzh`) |
+| `pgd-dg-vi` | Dharmaguptaka Vinaya | Dharmaguptaka | Gāndhārī (`pgd`) |
+| `lzh-sarv-vi` | Sarvāstivāda Vinaya | Sarvāstivāda | Chinese (`lzh`) |
+| `san-sarv-vi` | Sarvāstivāda Vinaya | Sarvāstivāda | Sanskrit (`san`) |
+| `lzh-mu-vi` | Mūlasarvāstivāda Vinaya | Mūlasarvāstivāda | Chinese (`lzh`) |
+| `san-mu-vi` | Mūlasarvāstivāda Vinaya | Mūlasarvāstivāda | Sanskrit (`san`) |
+| `xct-mu-vi` | Mūlasarvāstivāda Vinaya | Mūlasarvāstivāda | Tibetan (`xct`) |
 
 **Abhidhamma Pitaka:**
 
@@ -95,6 +103,15 @@ Phần prefix chữ cái của UID = division. Ví dụ:
 - `mn10` → division `mn`
 - `sn56.11` → division `sn`
 - `ma98` → division `ma`
+
+**Ngoại lệ — Vinaya.** Sutta và abhidhamma dùng chung một giá trị cho hai vai trò: `dn` vừa là node duyệt vừa là prefix của `dn1`. Vinaya tách đôi:
+
+- **UID node** (bảng Vinaya ở trên, ví dụ `pli-tv-vi`) — dùng để gọi `/api/suttaplex/` và tạo link `suttacentral.net/{uid}`
+- **Prefix kinh văn** (`pli-tv`) — dùng để suy division từ UID kinh, ví dụ `pli-tv-bu-vb-pj1` → `pli-tv`
+
+Chuyển đổi: **prefix = UID node bỏ hậu tố `-vi`**. Đúng 12/12 node vinaya (đối chiếu con của `/api/menu/{uid}`, 2026-08-08).
+
+Prefix vinaya **không** phải UID — `/api/suttaplex/pli-tv` trả rỗng. Không dùng prefix để tạo link.
 
 ### SuttaCentral API endpoints
 
@@ -225,8 +242,8 @@ Sutta Pitaka:
   • ea  — Ekottarikāgama        (Chinese, Mahāsāṃghika)
 
 Vinaya Pitaka:
-  • pli-tv — Theravāda Vinaya   (Pali, Theravada)
-  • lzh-dg — Dharmaguptaka Vinaya (Chinese, Dharmaguptaka)
+  • pli-tv-vi — Theravāda Vinayapiṭaka   (Pali, Theravada)
+  • lzh-dg-vi — Dharmaguptaka Vinaya     (Chinese, Dharmaguptaka)
   ...
 ```
 
