@@ -303,9 +303,9 @@ Claude trả lời có trích dẫn + link suttacentral.net/mn10
    - **Cây phân cấp lười (lazy tree), không phẳng.** `/api/menu` chỉ trả 1 cấp con: với pitaka `sutta`, cấp con là nhóm UI (`long`, `middle`, `linked`, `numbered`, `minor`, `other-group`), không phải UID division thật (`dn`, `mn`, `sn`...). Phải gọi tiếp `GET /api/menu/{group-uid}` (ví dụ `/api/menu/long` → trả `dn`, `da`, `da-ot`) mới ra danh sách division thật. Dựng lại đủ 1 pitaka cần nhiều lệnh gọi, không phải 1.
    - **Không có field `tradition`.** API trả `uid`, `root_name`, `translated_name`, `root_lang_iso`, `root_lang_name`, `blurb` — nhưng cột `tradition` (Theravada/Dharmaguptaka/Sarvāstivāda...) hiện tại là domain knowledge tự thêm tay, không tồn tại trong response. Chuyển sang API vẫn cần giữ một bảng tra cứu nhỏ `uid → tradition` riêng.
 
-   **Bằng chứng hardcode hiện tại đã lệch thật** (so sánh `DIVISIONS.vinaya` trong `src/index.ts` với `/api/menu/vinaya` live):
+   **Bằng chứng drift đã xảy ra** (phát hiện 2026-07-05 khi so `DIVISIONS.vinaya` với `/api/menu/vinaya` live; hardcode đã được resync ngay sau đó):
 
-   | Hardcode hiện tại | SC hiện có |
+   | Hardcode cũ | SC hiện có |
    |---|---|
    | `lzh-mg` | `lzh-mg-vi` (UID đổi) |
    | `lzh-ms` "Mūlasarvāstivāda" | `lzh-mu-vi` (UID đổi) — cộng `san-mu-vi`, `xct-mu-vi` chưa có trong hardcode |
@@ -313,4 +313,12 @@ Claude trả lời có trích dẫn + link suttacentral.net/mn10
    | — | `san-lo-vi` Lokuttaravāda Vinaya — thiếu hoàn toàn |
    | — | `pgd-dg-vi` Gāndhārī Dharmaguptaka Vinaya — thiếu hoàn toàn |
 
-   Tức "biến động cực kỳ hiếm" (dòng ~43) không đúng ở tầng UID — phần Vinaya đã đổi/mở rộng so với hardcode. Đây là lý do nên coi `list_divisions` API-backed là một hạng mục nâng cấp thật, không chỉ lý thuyết.
+   **Kết quả verify toàn bộ `DIVISIONS`** (2026-07-05, đối chiếu `/api/menu/{group}` live):
+
+   | Phần | Kết quả |
+   |---|---|
+   | `sutta` | 11/11 UID hợp lệ. Live có thêm 14 nhóm (`da-ot`, `sa-3`, fragments `gf`/`kf`/`pf`/`tf`/`uf`, `dharmapadas`...) — hardcode là tập con có chủ đích (chỉ bộ chính), không phải drift |
+   | `vinaya` | Đã drift như bảng trên — đã resync theo live, bỏ `other-vi` (catch-all) |
+   | `abhidhamma` | 7/7 khớp tuyệt đối children của `pli-tv-ab` (cả UID lẫn tên) |
+
+   Tức "biến động cực kỳ hiếm" (dòng ~43) đúng với UID kinh/luận chính (`dn`, `mn`, `ds`...) nhưng không đúng với vinaya — SC đã tái cấu trúc UID vinaya (hậu tố `-vi`). Rủi ro drift tập trung ở các phần SC còn tái tổ chức; đây là lý do nên coi `list_divisions` API-backed là một hạng mục nâng cấp thật, không chỉ lý thuyết.
