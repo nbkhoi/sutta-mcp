@@ -118,7 +118,7 @@ Prefix vinaya **không** phải UID — `/api/suttaplex/pli-tv` trả rỗng. Kh
 | Endpoint | Mô tả |
 |----------|-------|
 | `GET /api/suttaplex/{uid}?language={lang}` | Metadata của một sutta hoặc toàn bộ một division |
-| `GET /api/bilarasuttas/{uid}/{translator}` | Toàn văn sutta (segmented) |
+| `GET /api/bilarasuttas/{uid}/{translator}?lang={lang}` | Toàn văn sutta (segmented). Thiếu `lang` → upstream mặc định `en` (`lang = request.args.get('lang', 'en')`, `views.py:1058`) |
 | `GET /api/parallels/{uid}` | Danh sách parallels |
 
 **Translator IDs thông dụng:** `sujato` (Pali, tiếng Anh), `brahmali` (Vinaya, tiếng Anh)
@@ -295,13 +295,13 @@ Claude trả lời có trích dẫn + link suttacentral.net/mn10
    **Hiện trạng ba dịch giả tiếng Việt trên SC:**
    - `minh_chau` — legacy, `segmented=false`, `/api/bilarasuttas/` không trả `translation_text`.
    - `indacanda` — legacy, `segmented=false`, tương tự.
-   - `phantuananh` — Dhammapada (`text_uid: dhp`), **`segmented=true` và đã xuất bản** (scpub43, `is_published: true`), có source trong `bilara-data/translation/vi/phantuananh/sutta/kn`, `suttacentral.net/dhp1-20/vi/phantuananh` render HTTP 200 — **nhưng `/api/bilarasuttas/` vẫn không trả `translation_text`** cho `dhp`, `dhp1-20` lẫn `dhp21-32`.
+   - `phantuananh` — Dhammapada (`text_uid: dhp`), **`segmented=true` và đã xuất bản** (scpub43, `is_published: true`), có source trong `bilara-data/translation/vi/phantuananh/sutta/kn`. `/api/bilarasuttas/` **có trả** `translation_text` khi truyền đúng `?lang=vi` — `dhp1-20`: 108 đoạn, `dhp21-32`: 63 đoạn (đo 2026-08-09); thiếu `?lang=vi` thì thiếu key. Riêng UID gộp `dhp` không phải đơn vị phục vụ của endpoint với **bất kỳ** dịch giả nào (kể cả `sujato` — body chỉ có key `msg`), không phải chuyện riêng của `phantuananh`.
 
-   Tức cột `segmented` trong metadata **không dự đoán được** endpoint có phục vụ hay không.
+   Khi truyền đúng `lang`, mọi case đã đo khớp với cờ `segmented`: `segmented=true` → phục vụ (`sujato`, `phantuananh`, `sabbamitta`); `segmented=false` → không (`minh_chau`, `indacanda`). Mẫu 5 dịch giả — bảo lưu mẫu nhỏ, chưa phải bảo đảm hai chiều; guard của `get_sutta` vẫn khóa vào response thực tế, không khóa vào cờ.
 
    **Ghi chú phân biệt:** `minh_chau` (legacy, non-segmented) và `phantuananh` (segmented) là **hai `author_uid` khác nhau cùng ghi công Thích Minh Châu** — đúng chỗ dễ nhầm mà output của bug cũ tạo ra (`Translator: Bhikkhu Thích Minh Châu (phantuananh)` in trên văn bản Pali).
 
-   **Câu hỏi mở (chưa điều tra):** website SC render `dhp1-20/vi/phantuananh` (HTTP 200) bằng đường nào, khi `/api/bilarasuttas/` không trả `translation_text`? Trả lời được có thể mở khóa bản dịch tiếng Việt segmented. Không kết luận gì thêm cho tới khi có câu trả lời.
+   **Đã có lời giải (2026-08-09, spec `bilara-lang-param`):** website render `dhp1-20/vi/phantuananh` được vì nó truyền `lang` cho backend; `/api/bilarasuttas/` mặc định tiếng Anh khi thiếu query param — `lang = request.args.get('lang', 'en')` (`server/src/api/views/views.py:1058`; câu code là neo chính, số dòng upstream có thể trôi). Fix phía Sutta MCP: `fetchBilaraText()` truyền `?lang=` lấy từ `suttaplex.translations[].lang` — xem `specs/bilara-lang-param/`.
 
 3. **Cross-tradition search** — khi tìm một chủ đề, tự động fetch parallels và trả về kết quả từ nhiều truyền thống
 4. **Public hosting** — deploy lên Cloudflare Workers hoặc Railway để cộng đồng dùng không cần cài đặt

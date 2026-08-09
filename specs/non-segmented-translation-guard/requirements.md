@@ -4,6 +4,16 @@
 **Created:** 2026-08-08
 **Spec slug:** non-segmented-translation-guard
 
+> **Errata (2026-08-09 — spec `bilara-lang-param`):** Nguyên nhân của hiện tượng "HTTP 200
+> nhưng thiếu `translation_text`" mà spec này để mở nay đã được xác lập: `fetchBilaraText()`
+> không truyền query param `lang`, trong khi upstream mặc định tiếng Anh khi thiếu —
+> `lang = request.args.get('lang', 'en')` (`server/src/api/views/views.py:1058`; câu code là
+> neo chính, số dòng upstream có thể trôi). Lời giải, phép đo và fix: `specs/bilara-lang-param/`.
+> Các đoạn tường thuật "nguyên nhân chưa biết" phía dưới (§"Không có nguyên nhân nào đã được
+> xác lập", các assumption liên quan) giữ nguyên như hồ sơ thời điểm, đọc qua ô cửa này.
+> NFR-4 của spec này (biên "đúng 2 request song song") được NFR-6 của `bilara-lang-param`
+> thay thế: tối đa 3 request cho mỗi lời gọi `get_sutta` — request thứ ba là retry-on-miss.
+
 ## Context & Goal
 
 `get_sutta` đang trả về **văn bản gốc Pali dưới tên của dịch giả được yêu cầu**, không kèm bất kỳ cảnh báo nào.
@@ -193,7 +203,7 @@ Xóa `/tmp/mcp-call.sh` và `/tmp/mcp-stderr.log` sau khi verify xong.
 
 **Về các literal đã pin:** mọi chuỗi và con số trong AC dưới đây được chụp live ngày 2026-08-09. Nội dung upstream có thể trôi. Nếu một literal không khớp, **kiểm tra bằng chứng trước khi kết luận là regression**: fetch lại endpoint tương ứng và so; chỉ khi response upstream vẫn như cũ mà output khác thì mới là lỗi của thay đổi này.
 
-**Vai trò các case class:** hai case phải đi vào nhánh guard — `segmented=false` (AC-1) và `segmented=true` nhưng không được phục vụ (AC-5). AC-3 là **đối chứng**: đường bình thường không được chạm guard.
+**Vai trò các case class:** case guard là `segmented=false` — AC-1 và AC-4. AC-3 là **đối chứng**: đường bình thường không được chạm guard. AC-5 nguyên là case guard thứ hai (`segmented=true` mà response thiếu `translation_text`); sau spec `bilara-lang-param` nó là case trả nội dung — xem chính section AC-5.
 
 ### AC-1: Trường hợp hỏng chuẩn — `mn10` + `minh_chau` không còn trả Pali
 
@@ -247,20 +257,12 @@ Con số `194` là **số dòng còn lại sau bộ lọc**, không phải số 
 - **And** không chứa chuỗi `Translator: `
 - **And** không chứa `[Hết văn bản` cũng như `[... văn bản bị cắt`
 
-### AC-5: Case class quyết định — `dhp1-20` + `phantuananh` (`segmented=true` nhưng không được phục vụ)
+### AC-5: Case class quyết định — `dhp1-20` + `phantuananh` (nay trả nội dung — xem `bilara-lang-param`)
 
-- **Maps to:** FR-1, FR-2, FR-3, FR-4
-- **Given** `/api/suttaplex/dhp1-20` liệt kê `phantuananh` với `segmented=true`, `is_root=false`, đã xuất bản (scpub43), và `suttacentral.net/dhp1-20/vi/phantuananh` render HTTP 200
-- **And** `/api/bilarasuttas/dhp1-20/phantuananh` trả HTTP 200 không kèm `translation_text` (108 đoạn root sau lọc)
-- **When** chạy `/tmp/mcp-call.sh get_sutta '{"uid":"dhp1-20","translator":"phantuananh"}'` và xác nhận có dòng `"id":2`
-- **Then** output **chứa** `phantuananh` — nêu tên dịch giả được yêu cầu theo FR-3 mục 2. Đây là neo khẳng định: bốn mệnh đề phủ định phía dưới đều được thỏa mãn bởi một output rỗng, nên phải có ít nhất một mệnh đề mà lần chạy hỏng sẽ trượt.
-- **And** **chứa** `https://suttacentral.net/dhp1-20` (xác minh 2026-08-09: `formatCitation()` phát ra đúng URL này)
-- **And** đi vào **cùng nhánh guard** như AC-1 — chứng minh guard khóa vào response chứ không vào cờ `segmented`
-- **And** **không** chứa `manoseṭṭhā manomayā;` (đoạn root thứ **6** sau lọc; chuỗi này còn lặp lại ở đoạn **13**, nên sự vắng mặt phải đúng cho cả hai lần xuất hiện)
-- **And** không chứa chuỗi `Translator: ` — lưu ý output hiện tại của bug in ra `Translator: Bhikkhu Thích Minh Châu (phantuananh)`, đúng kiểu gán nhầm mà FR-3 mục cấm 1 nhắm tới
-- **And** không chứa `[Hết văn bản` cũng như `[... văn bản bị cắt`
-- **And** **`phantuananh` không xuất hiện trong danh sách gợi ý** (khác với mệnh đề "chứa `phantuananh`" ở trên: tên dịch giả được nêu ở phần phát biểu, nhưng không được nằm trong danh sách thay thế). Đây là mệnh đề tách bạch điều kiện 1 khỏi điều kiện 2 của bộ lọc FR-4: `phantuananh` là `segmented=true` nên bộ lọc `segmented` **không** loại nó; chỉ điều kiện tự-loại-trừ mới loại được.
-- **And** không chứa chuỗi `segmented` — nếu có, thông báo đang khẳng định một điều sai về chính dịch giả này
+- **Maps to:** FR-1, FR-2, FR-3, FR-4 — theo vai trò lịch sử của case; kết cục hiện hành do spec `bilara-lang-param` định nghĩa
+- Bản gốc của tiêu chí này pin `dhp1-20`/`phantuananh` là case guard bắn dù `segmented=true` — đúng tại thời điểm viết, khi chưa lời gọi nào truyền `?lang=` xuống endpoint. Sau fix của `bilara-lang-param` (truyền `?lang=vi`), cùng lời gọi harness đó trả **nội dung bản dịch tiếng Việt** trên đường bình thường, nên các mệnh đề đòi guard của bản gốc sẽ fail thật khi chạy lại và đã được gỡ theo FR-7 của spec đó.
+- **Bản chuẩn hiện hành: AC-1 của `specs/bilara-lang-param/requirements.md`** — output chứa `Translator: Bhikkhu Thích Minh Châu (phantuananh)`, thân bắt đầu `Tiểu Bộ Kinh`, kết thúc `[... văn bản bị cắt sau 50 đoạn. Tổng: 108 đoạn. Tăng max_segments để xem thêm.]`, và **không** chứa `manoseṭṭhā manomayā;` (neo root Pali — bản dịch hiển thị thì root không được phát).
+- Điều case này vẫn chứng minh cho spec này: guard khóa vào **response thực tế** — cùng cặp `(uid, translator)`, response đổi (đúng `lang`) thì kết cục đổi mà không đụng một dòng nào của guard.
 
 ### AC-6: Nhánh danh sách gợi ý rỗng không làm vỡ lệnh cấm `segmented`
 
@@ -372,7 +374,7 @@ Năm chuỗi trên đều đã chạy `grep -F` trên file **chưa sửa** ngày
 
 ## Open Questions
 
-- **Q1:** Website SC render `dhp1-20/vi/phantuananh` bằng đường nào, nếu không phải `/api/bilarasuttas/`? Chưa điều tra. Trả lời được có thể mở khóa bản dịch tiếng Việt segmented, và nó thay thế hướng "chờ SC xuất bản" đã bị bác bỏ. Không chặn spec này — guard cố tình không phụ thuộc vào câu trả lời.
+- **Q1 — đã đóng (2026-08-09, spec `bilara-lang-param`):** Website render `dhp1-20/vi/phantuananh` được vì nó truyền `lang` cho backend; `/api/bilarasuttas/` mặc định tiếng Anh khi thiếu query param — `lang = request.args.get('lang', 'en')` (`views.py:1058`). Fix phía Sutta MCP: truyền `?lang=` lấy từ `suttaplex.translations[].lang` — xem `specs/bilara-lang-param/`. Guard giữ nguyên đối tượng thật: `minh_chau`, `indacanda` vẫn không được phục vụ kể cả khi truyền đúng `lang=vi` (đo 2026-08-09).
 - **Q2:** `get_sutta_meta` hiện liệt kê mọi bản dịch, tức nó vẫn quảng cáo cả `minh_chau` lẫn `phantuananh` cho một caller rồi sẽ bị guard chặn. Ngoài phạm vi hiện tại (không đụng tool khác), nhưng nên xử lý ngay sau. Không chặn.
 - **Q3:** Có nên đưa deep-link cấp bản dịch (`suttacentral.net/{uid}/{lang}/{author_uid}`) vào thông báo guard không? Dạng URL này mới xác minh đúng **một** trường hợp (`dhp1-20/vi/phantuananh`, HTTP 200), chưa đủ để tổng quát hóa. Default hiện tại: chỉ dùng link cấp sutta mà `formatCitation()` sinh ra.
 
