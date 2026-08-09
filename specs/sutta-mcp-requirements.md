@@ -288,7 +288,21 @@ Claude trả lời có trích dẫn + link suttacentral.net/mn10
 ## Hướng nâng cấp (sau prototype)
 
 1. **Dynamic search** — thay `TOPIC_INDEX` tĩnh bằng Elasticsearch của SuttaCentral
-2. **Tiếng Việt** — tích hợp bản dịch tiếng Việt khi có trên SC, fallback sang tiếng Anh. **Lưu ý:** Bản dịch tiếng Việt hiện tại trên SC (ví dụ `minh_chau`) là non-segmented — bilara API (`/api/bilarasuttas`) không phục vụ được. Cần dùng API endpoint khác cho legacy text hoặc chờ SC xuất bản bản dịch segmented tiếng Việt.
+2. **Tiếng Việt** — tích hợp bản dịch tiếng Việt khi có trên SC, fallback sang tiếng Anh.
+
+   **Cơ chế thật (đã xác minh):** với dịch giả tiếng Việt, `/api/bilarasuttas/{uid}/{translator}` trả **HTTP 200** với body chứa `html_text`, `root_text`, `variant_text`, `reference_text`, `keys_order` — và **không có** `translation_text`. Lời gọi API không hỏng; thất bại trước đây nằm ở phía Sutta MCP: `extractText()` fallback im lặng sang `root_text` khi thiếu `translation_text`, khiến `get_sutta` in văn bản Pali dưới tên dịch giả Việt. Lỗi này đã được guard trong spec `non-segmented-translation-guard` — khi thiếu `translation_text`, tool báo rõ và liệt kê dịch giả thay thế thay vì thay thân văn bản.
+
+   **Hiện trạng ba dịch giả tiếng Việt trên SC:**
+   - `minh_chau` — legacy, `segmented=false`, `/api/bilarasuttas/` không trả `translation_text`.
+   - `indacanda` — legacy, `segmented=false`, tương tự.
+   - `phantuananh` — Dhammapada (`text_uid: dhp`), **`segmented=true` và đã xuất bản** (scpub43, `is_published: true`), có source trong `bilara-data/translation/vi/phantuananh/sutta/kn`, `suttacentral.net/dhp1-20/vi/phantuananh` render HTTP 200 — **nhưng `/api/bilarasuttas/` vẫn không trả `translation_text`** cho `dhp`, `dhp1-20` lẫn `dhp21-32`.
+
+   Tức cột `segmented` trong metadata **không dự đoán được** endpoint có phục vụ hay không.
+
+   **Ghi chú phân biệt:** `minh_chau` (legacy, non-segmented) và `phantuananh` (segmented) là **hai `author_uid` khác nhau cùng ghi công Thích Minh Châu** — đúng chỗ dễ nhầm mà output của bug cũ tạo ra (`Translator: Bhikkhu Thích Minh Châu (phantuananh)` in trên văn bản Pali).
+
+   **Câu hỏi mở (chưa điều tra):** website SC render `dhp1-20/vi/phantuananh` (HTTP 200) bằng đường nào, khi `/api/bilarasuttas/` không trả `translation_text`? Trả lời được có thể mở khóa bản dịch tiếng Việt segmented. Không kết luận gì thêm cho tới khi có câu trả lời.
+
 3. **Cross-tradition search** — khi tìm một chủ đề, tự động fetch parallels và trả về kết quả từ nhiều truyền thống
 4. **Public hosting** — deploy lên Cloudflare Workers hoặc Railway để cộng đồng dùng không cần cài đặt
 5. **Segment ID trong `get_sutta` output** — Bilara API trả về segment ID dạng `mn10:1.1` làm key. Production nên include segment ID trong output để hỗ trợ deep-link đến `suttacentral.net/{uid}#{segment_id}`.
