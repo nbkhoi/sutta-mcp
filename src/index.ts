@@ -15,8 +15,8 @@ async function fetchSuttaplex(uid: string, language = "en") {
   return Array.isArray(data) ? data[0] : data;
 }
 
-async function fetchBilaraText(uid: string, translator = "sujato") {
-  const url = `${SC_BASE}/bilarasuttas/${uid}/${translator}`;
+async function fetchBilaraText(uid: string, translator = "sujato", lang?: string) {
+  const url = `${SC_BASE}/bilarasuttas/${uid}/${translator}${lang ? `?lang=${lang}` : ""}`;
   const res = await fetch(url);
   if (!res.ok) throw new Error(`SuttaCentral API error: ${res.status}`);
   return res.json();
@@ -251,7 +251,18 @@ server.tool(
     ]);
 
     const citation = formatCitation(suttaplex);
-    const extracted = extractText(bilaraData);
+    let extracted = extractText(bilaraData);
+
+    // Retry-on-miss (spec bilara-lang-param): upstream mặc định lang='en' khi thiếu query
+    // param (views.py:1058), nên bản dịch khác tiếng Anh cần gọi lại kèm ?lang=. Lang lấy từ
+    // suttaplex đã fetch sẵn — entry ĐẦU TIÊN theo thứ tự API của translator có lang khác
+    // 'en' (luật tie-break, xem specs/bilara-lang-param/design.md) — và chỉ gọi lại một lần.
+    if (extracted.source === "root") {
+      const retryLang = (suttaplex?.translations ?? []).find(
+        (t: any) => t.author_uid === translator && t.lang && t.lang !== "en"
+      )?.lang;
+      if (retryLang) extracted = extractText(await fetchBilaraText(uid, translator, retryLang));
+    }
 
     if (extracted.source !== "translation") {
       return {
