@@ -109,20 +109,31 @@ function searchByTopic(query: string): string[] {
 
 // ─── Render sutta text từ Bilara response ────────────────────────────────────
 
-function extractText(bilaraData: any): string {
-  const translation = bilaraData?.translation_text ?? {};
-  const root = bilaraData?.root_text ?? {};
+// Non-empty tuple mã hóa FR-1: source="translation" thì có ít nhất một dòng sau lọc.
+// Rào chắn MỘT PHẦN — thân hàm là normative nguyên văn, xem N1 trong
+// specs/non-segmented-translation-guard/design.md
+type ExtractedText =
+  | { source: "translation"; lines: [string, ...string[]] }
+  | { source: "root"; lines: string[] };
 
-  const segments = Object.keys(translation).length > 0 ? translation : root;
-  const lines: string[] = [];
-
-  for (const [_id, text] of Object.entries(segments)) {
-    if (text && typeof text === "string" && text.trim()) {
-      lines.push(text.trim());
+function extractText(bilaraData: any): ExtractedText {
+  const collect = (segments: any): string[] => {
+    const out: string[] = [];
+    for (const text of Object.values(segments ?? {})) {
+      // .trim() ở CẢ điều kiện lẫn giá trị đẩy vào — khớp src/index.ts:120-121.
+      // Bỏ .trim() ở vế push vẫn compile và đổi mọi dòng của đường FR-6.
+      if (typeof text === "string" && text.trim()) out.push(text.trim());
     }
-  }
+    return out;
+  };
+  // Cast duy nhất được phép trong hàm này. Nghĩa vụ chứng minh: a.length > 0 ⟹ có phần tử
+  // tại index 0; a luôn là mảng dựng bằng push trong collect(), không bao giờ sparse.
+  const asNonEmpty = (a: string[]): [string, ...string[]] | undefined =>
+    a.length > 0 ? (a as [string, ...string[]]) : undefined;
 
-  return lines.join("\n");
+  const translated = asNonEmpty(collect(bilaraData?.translation_text));
+  if (translated) return { source: "translation", lines: translated };
+  return { source: "root", lines: collect(bilaraData?.root_text) };
 }
 
 function formatCitation(suttaplex: any): string {
@@ -137,6 +148,33 @@ function formatCitation(suttaplex: any): string {
     `**${acronym}** — ${title}`,
     `Difficulty: ${difficulty} | Parallels: ${parallels}`,
     `URL: ${url}`,
+  ].join("\n");
+}
+
+function formatUnavailable(citation: string, translations: any[], translator: string): string {
+  const requested = translations.find((t: any) => t.author_uid === translator);
+  const translatorName = requested?.author ?? translator;
+  const requestedLang = requested?.lang;
+  const rank = (t: any) =>
+    requestedLang && t.lang === requestedLang ? 0 : t.lang === "en" ? 1 : 2;
+
+  const alternatives = translations
+    .filter((t: any) => t.author_uid !== translator && t.segmented === true && t.is_root !== true)
+    .sort((a: any, b: any) => rank(a) - rank(b))
+    .map((t: any) => `  • ${t.lang_name} — ${t.author} (${t.author_uid})`);
+
+  return [
+    "─".repeat(60),
+    citation,
+    "─".repeat(60),
+    "",
+    `API SuttaCentral không trả về nội dung bản dịch nào cho kinh này với dịch giả ${translatorName} (${translator}).`,
+    "",
+    "Server cố ý không thay bằng văn bản gốc Pali, để không gán nhầm văn bản cho dịch giả được yêu cầu.",
+    "",
+    ...(alternatives.length > 0
+      ? ["**Các bản dịch khác của kinh này, có thể lấy được (không bảo đảm):**", ...alternatives]
+      : ["  (không tìm thấy bản dịch nào khác cho kinh này)"]),
   ].join("\n");
 }
 
@@ -197,7 +235,9 @@ server.tool(
     translator: z
       .string()
       .default("sujato")
-      .describe("ID dịch giả: 'sujato' (mặc định, tiếng Anh), 'brahmali' (Vinaya)"),
+      .describe(
+        "ID dịch giả: 'sujato' (mặc định, tiếng Anh), 'brahmali' (Vinaya). Không phải dịch giả nào có trong metadata cũng lấy được toàn văn qua API — kể cả khi metadata ghi segmented=true. Dùng get_sutta_meta để xem danh sách bản dịch của một kinh; nếu dịch giả được yêu cầu không lấy được, tool sẽ báo rõ và gợi ý dịch giả khác."
+      ),
     max_segments: z
       .number()
       .default(50)
@@ -211,11 +251,23 @@ server.tool(
     ]);
 
     const citation = formatCitation(suttaplex);
+    const extracted = extractText(bilaraData);
+
+    if (extracted.source !== "translation") {
+      return {
+        content: [
+          {
+            type: "text",
+            text: formatUnavailable(citation, suttaplex?.translations ?? [], translator),
+          },
+        ],
+      };
+    }
+
     const translatorName =
       (suttaplex?.translations ?? []).find((t: any) => t.author_uid === translator)
         ?.author ?? translator;
-    const fullText = extractText(bilaraData);
-    const lines = fullText.split("\n").filter(Boolean);
+    const lines = extracted.lines;
     const truncated = lines.slice(0, max_segments);
     const isTruncated = lines.length > max_segments;
 
