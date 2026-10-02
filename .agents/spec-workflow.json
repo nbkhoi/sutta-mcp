@@ -1,0 +1,24 @@
+{
+  "context": {
+    "documents": [
+      {
+        "id": "context:agents",
+        "path": "AGENTS.md",
+        "required": true
+      }
+    ],
+    "rules": []
+  },
+  "policies": {
+    "code_review": "on-completion",
+    "phase_pause": "design",
+    "specs_review": "design",
+    "warn_default": "continue"
+  },
+  "schema_version": 1,
+  "spec_root": {
+    "kind": "project-relative",
+    "path": "specs"
+  },
+  "template_overrides": {}
+}
