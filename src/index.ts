@@ -112,24 +112,27 @@ function searchByTopic(query: string): string[] {
 // Non-empty tuple mã hóa FR-1: source="translation" thì có ít nhất một dòng sau lọc.
 // Rào chắn MỘT PHẦN — thân hàm là normative nguyên văn, xem N1 trong
 // specs/non-segmented-translation-guard/design.md
+// Segment.id là key nguyên văn của bilara (segment ID) — spec segment-id-in-get-sutta.
+type Segment = { id: string; text: string };
 type ExtractedText =
-  | { source: "translation"; lines: [string, ...string[]] }
-  | { source: "root"; lines: string[] };
+  | { source: "translation"; lines: [Segment, ...Segment[]] }
+  | { source: "root"; lines: Segment[] };
 
 function extractText(bilaraData: any): ExtractedText {
-  const collect = (segments: any): string[] => {
-    const out: string[] = [];
-    for (const text of Object.values(segments ?? {})) {
+  const collect = (segments: any): Segment[] => {
+    const out: Segment[] = [];
+    for (const [id, text] of Object.entries(segments ?? {})) {
       // .trim() ở CẢ điều kiện lẫn giá trị đẩy vào — khớp src/index.ts:120-121.
       // Bỏ .trim() ở vế push vẫn compile và đổi mọi dòng của đường FR-6.
-      if (typeof text === "string" && text.trim()) out.push(text.trim());
+      // id là key nguyên văn, ghép cặp ngay lúc đọc — không suy từ uid request.
+      if (typeof text === "string" && text.trim()) out.push({ id, text: text.trim() });
     }
     return out;
   };
   // Cast duy nhất được phép trong hàm này. Nghĩa vụ chứng minh: a.length > 0 ⟹ có phần tử
   // tại index 0; a luôn là mảng dựng bằng push trong collect(), không bao giờ sparse.
-  const asNonEmpty = (a: string[]): [string, ...string[]] | undefined =>
-    a.length > 0 ? (a as [string, ...string[]]) : undefined;
+  const asNonEmpty = (a: Segment[]): [Segment, ...Segment[]] | undefined =>
+    a.length > 0 ? (a as [Segment, ...Segment[]]) : undefined;
 
   const translated = asNonEmpty(collect(bilaraData?.translation_text));
   if (translated) return { source: "translation", lines: translated };
@@ -252,6 +255,9 @@ server.tool(
 
     const citation = formatCitation(suttaplex);
     let extracted = extractText(bilaraData);
+    // Lang thực sự phục vụ bản dịch, cho dòng Deep link (spec segment-id-in-get-sutta): lời gọi
+    // đầu không truyền lang nên là 'en' theo mặc định upstream; thành retryLang khi retry.
+    let servedLang = "en";
 
     // Retry-on-miss (spec bilara-lang-param): upstream mặc định lang='en' khi thiếu query
     // param (views.py:1058), nên bản dịch khác tiếng Anh cần gọi lại kèm ?lang=. Lang lấy từ
@@ -261,7 +267,10 @@ server.tool(
       const retryLang = (suttaplex?.translations ?? []).find(
         (t: any) => t.author_uid === translator && t.lang && t.lang !== "en"
       )?.lang;
-      if (retryLang) extracted = extractText(await fetchBilaraText(uid, translator, retryLang));
+      if (retryLang) {
+        extracted = extractText(await fetchBilaraText(uid, translator, retryLang));
+        servedLang = retryLang;
+      }
     }
 
     if (extracted.source !== "translation") {
@@ -286,9 +295,10 @@ server.tool(
       "─".repeat(60),
       citation,
       `Translator: ${translatorName} (${translator})`,
+      `Deep link: https://suttacentral.net/${uid}/${servedLang}/${translator}#<segment_id> (thay <segment_id> bằng ID trong ngoặc vuông ở đầu mỗi đoạn)`,
       "─".repeat(60),
       "",
-      truncated.join("\n"),
+      truncated.map((s) => `[${s.id}] ${s.text}`).join("\n"),
       "",
       isTruncated
         ? `[... văn bản bị cắt sau ${max_segments} đoạn. Tổng: ${lines.length} đoạn. Tăng max_segments để xem thêm.]`
