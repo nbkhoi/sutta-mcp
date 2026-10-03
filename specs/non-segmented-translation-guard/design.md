@@ -5,6 +5,15 @@
 **Spec slug:** non-segmented-translation-guard
 **Requirements:** [requirements.md](./requirements.md)
 
+> **Cập nhật (2026-10-02 — spec `segment-id-in-get-sutta`):** khối kiểu ở §Data Model và khối
+> N1-A ở §`extractText()` đã được thay bằng bản mang segment ID: phần tử của `lines` là
+> `Segment = { id: string; text: string }`, và `collect()` duyệt `Object.entries` thay cho
+> `Object.values` để giữ key. Ngữ nghĩa gate không đổi: `source` vẫn quyết định bằng việc còn
+> ít nhất một giá trị không rỗng sau `.trim()`. Hai khối code đó là bản hiện hành, khớp từng
+> byte với `src/index.ts`. Văn xuôi, sơ đồ và bảng phía dưới còn nhắc `[string, ...string[]]`,
+> `Object.values` hay "19 dòng" là hồ sơ thời điểm. Lý do và phép đo:
+> `specs/segment-id-in-get-sutta/design.md`.
+
 ## Context Recap
 
 `extractText()` chọn nguồn văn bản bằng `Object.keys(translation).length > 0 ? translation : root` (`src/index.ts:116`) rồi trả về một chuỗi. Khi bilara trả HTTP 200 mà không có `translation_text`, hàm rơi im lặng sang `root_text` và `get_sutta` in văn bản Pali dưới dòng `Translator: <tên dịch giả được yêu cầu>`. Thiết kế này thay hợp đồng của `extractText()` bằng một kiểu trả về mang theo nguồn đã dùng, để `get_sutta` rẽ nhánh sang một thông báo tường minh thay vì phát ra văn bản sai attribution. Toàn bộ *hành vi* đã chốt ở `requirements.md`; tài liệu này chỉ chốt *hình dạng code*.
@@ -52,9 +61,11 @@ Một kiểu mới ở module scope, trong `src/index.ts`:
 // Non-empty tuple mã hóa FR-1: source="translation" thì có ít nhất một dòng sau lọc.
 // Rào chắn MỘT PHẦN — thân hàm là normative nguyên văn, xem N1 trong
 // specs/non-segmented-translation-guard/design.md
+// Segment.id là key nguyên văn của bilara (segment ID) — spec segment-id-in-get-sutta.
+type Segment = { id: string; text: string };
 type ExtractedText =
-  | { source: "translation"; lines: [string, ...string[]] }
-  | { source: "root"; lines: string[] };
+  | { source: "translation"; lines: [Segment, ...Segment[]] }
+  | { source: "root"; lines: Segment[] };
 ```
 
 ### Compiler và grep bắt được gì — và không bắt được gì
@@ -122,19 +133,20 @@ Không có lệnh grep cho non-null assertion: `grep -c '!' src/index.ts` trả 
 
 ```ts
 function extractText(bilaraData: any): ExtractedText {
-  const collect = (segments: any): string[] => {
-    const out: string[] = [];
-    for (const text of Object.values(segments ?? {})) {
+  const collect = (segments: any): Segment[] => {
+    const out: Segment[] = [];
+    for (const [id, text] of Object.entries(segments ?? {})) {
       // .trim() ở CẢ điều kiện lẫn giá trị đẩy vào — khớp src/index.ts:120-121.
       // Bỏ .trim() ở vế push vẫn compile và đổi mọi dòng của đường FR-6.
-      if (typeof text === "string" && text.trim()) out.push(text.trim());
+      // id là key nguyên văn, ghép cặp ngay lúc đọc — không suy từ uid request.
+      if (typeof text === "string" && text.trim()) out.push({ id, text: text.trim() });
     }
     return out;
   };
   // Cast duy nhất được phép trong hàm này. Nghĩa vụ chứng minh: a.length > 0 ⟹ có phần tử
   // tại index 0; a luôn là mảng dựng bằng push trong collect(), không bao giờ sparse.
-  const asNonEmpty = (a: string[]): [string, ...string[]] | undefined =>
-    a.length > 0 ? (a as [string, ...string[]]) : undefined;
+  const asNonEmpty = (a: Segment[]): [Segment, ...Segment[]] | undefined =>
+    a.length > 0 ? (a as [Segment, ...Segment[]]) : undefined;
 
   const translated = asNonEmpty(collect(bilaraData?.translation_text));
   if (translated) return { source: "translation", lines: translated };
