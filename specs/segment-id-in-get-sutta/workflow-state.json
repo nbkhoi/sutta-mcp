@@ -1,0 +1,167 @@
+{
+  "contract_sha256": "ba1ed234114061d5296ae8847b9d5b17bae80938dbc3cc892205b75c53967249",
+  "contract_status": "active",
+  "contract_updates": [],
+  "decisions": [
+    {
+      "choice": "continue",
+      "contract_sha256": "ba1ed234114061d5296ae8847b9d5b17bae80938dbc3cc892205b75c53967249",
+      "decision_id": "decision-1",
+      "evidence": [],
+      "kind": "phase-pause",
+      "scope": {
+        "id": "design",
+        "type": "phase"
+      }
+    }
+  ],
+  "git": {
+    "baseline": null,
+    "evidence": []
+  },
+  "history": [
+    {
+      "event_id": "event-1",
+      "from_revision": 0,
+      "kind": "created",
+      "refs": [],
+      "to_revision": 1
+    },
+    {
+      "event_id": "event-2",
+      "from_revision": 1,
+      "kind": "contract-activated",
+      "refs": [
+        "ba1ed234114061d5296ae8847b9d5b17bae80938dbc3cc892205b75c53967249"
+      ],
+      "to_revision": 2
+    },
+    {
+      "event_id": "event-3",
+      "from_revision": 3,
+      "kind": "gate-opened",
+      "refs": [
+        "requirements",
+        "specs/segment-id-in-get-sutta/reviews/requirements-review-1.md"
+      ],
+      "to_revision": 4
+    },
+    {
+      "event_id": "event-4",
+      "from_revision": 6,
+      "kind": "report-processed",
+      "refs": [
+        "specs/segment-id-in-get-sutta/reviews/requirements-review-1.md",
+        "cc09c95ed790b9ac48ae04be6a177edf79c31204cf96a4ecdae3ad0e12e14026"
+      ],
+      "to_revision": 7
+    },
+    {
+      "event_id": "event-5",
+      "from_revision": 7,
+      "kind": "phase-advanced",
+      "refs": [
+        "requirements",
+        "design"
+      ],
+      "to_revision": 8
+    },
+    {
+      "event_id": "event-6",
+      "from_revision": 9,
+      "kind": "gate-opened",
+      "refs": [
+        "design",
+        "specs/segment-id-in-get-sutta/reviews/design-review-1.md"
+      ],
+      "to_revision": 10
+    },
+    {
+      "event_id": "event-7",
+      "from_revision": 12,
+      "kind": "report-processed",
+      "refs": [
+        "specs/segment-id-in-get-sutta/reviews/design-review-1.md",
+        "ecee170e581603b007a1adb1374ad2361545336c58bcf42a249d3d0cf499d318"
+      ],
+      "to_revision": 13
+    },
+    {
+      "event_id": "event-8",
+      "from_revision": 13,
+      "kind": "gate-opened",
+      "refs": [
+        "phase-pause:design"
+      ],
+      "to_revision": 14
+    },
+    {
+      "event_id": "event-9",
+      "from_revision": 14,
+      "kind": "decision-recorded",
+      "refs": [
+        "decision-1",
+        "design"
+      ],
+      "to_revision": 15
+    },
+    {
+      "event_id": "event-10",
+      "from_revision": 16,
+      "kind": "review-skipped",
+      "refs": [
+        "tasks",
+        "specs_review:design"
+      ],
+      "to_revision": 17
+    },
+    {
+      "event_id": "event-11",
+      "from_revision": 16,
+      "kind": "phase-advanced",
+      "refs": [
+        "tasks",
+        "build"
+      ],
+      "to_revision": 17
+    }
+  ],
+  "invalidations": [],
+  "lifecycle": "active",
+  "next_action": {
+    "kind": "implement-task",
+    "scope": {
+      "id": "T-1-1",
+      "type": "task"
+    }
+  },
+  "pending_gate": null,
+  "phase": "build",
+  "processed_reports": [
+    {
+      "disposition": "resolved",
+      "path": "specs/segment-id-in-get-sutta/reviews/requirements-review-1.md",
+      "purpose": "phase-review",
+      "scope": {
+        "id": "requirements",
+        "type": "artifact"
+      },
+      "sha256": "cc09c95ed790b9ac48ae04be6a177edf79c31204cf96a4ecdae3ad0e12e14026",
+      "verdict": "Approve with changes"
+    },
+    {
+      "disposition": "resolved",
+      "path": "specs/segment-id-in-get-sutta/reviews/design-review-1.md",
+      "purpose": "phase-review",
+      "scope": {
+        "id": "design",
+        "type": "artifact"
+      },
+      "sha256": "ecee170e581603b007a1adb1374ad2361545336c58bcf42a249d3d0cf499d318",
+      "verdict": "Approve with changes"
+    }
+  ],
+  "schema_version": 1,
+  "state_revision": 17,
+  "verification": []
+}
