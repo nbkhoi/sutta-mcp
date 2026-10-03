@@ -16,8 +16,392 @@
     }
   ],
   "git": {
-    "baseline": null,
-    "evidence": []
+    "baseline": {
+      "base_commit": "ff02cf7a3224a6df7b1929924e6c976487c2a94b",
+      "head_commit": "ff02cf7a3224a6df7b1929924e6c976487c2a94b",
+      "scope": {
+        "id": "T-4-8",
+        "type": "task"
+      },
+      "worktree_status_sha256": "479f96602fdae43420c1403bc803a846676c8a2693146087a837d6af9feebdbe"
+    },
+    "evidence": [
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-1",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-1-1-baseline.status",
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "ff02cf7a3224a6df7b1929924e6c976487c2a94b"
+        ],
+        "evidence_id": "git-2",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-1-1-diff-2.bin",
+        "output_sha256": "65d082aeb0a44342b3efbe3c62dd545f446630c83e2f1ac54facbd67a36eb074"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-3",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-2-1-baseline.status",
+        "output_sha256": "9995762d411282106de32766ebc6d958454b2bac1a5bc836b7f278b4b6e00dc9"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "ff02cf7a3224a6df7b1929924e6c976487c2a94b"
+        ],
+        "evidence_id": "git-4",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-2-1-diff-4.bin",
+        "output_sha256": "2db8f7670e3da67ca131600456b128253d3241599a3de870a944fc1cfba9b350"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-5",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-2-2-baseline.status",
+        "output_sha256": "9995762d411282106de32766ebc6d958454b2bac1a5bc836b7f278b4b6e00dc9"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "ff02cf7a3224a6df7b1929924e6c976487c2a94b"
+        ],
+        "evidence_id": "git-6",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-2-2-diff-6.bin",
+        "output_sha256": "b25ea98c733e663285e2bcde7ffd6902acdd12756be0c620f0cc4590fef8a8a6"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-7",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-3-1-baseline.status",
+        "output_sha256": "9995762d411282106de32766ebc6d958454b2bac1a5bc836b7f278b4b6e00dc9"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "ff02cf7a3224a6df7b1929924e6c976487c2a94b"
+        ],
+        "evidence_id": "git-8",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-3-1-diff-8.bin",
+        "output_sha256": "67628600512101b8b31ca4bec0c18aa1fe54993f8412c6b7de26304c31f03d9a"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-9",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-3-2-baseline.status",
+        "output_sha256": "948919b266a8104d6d8d48c1706baba40002436d9d4109debdad3c197c140015"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "ff02cf7a3224a6df7b1929924e6c976487c2a94b"
+        ],
+        "evidence_id": "git-10",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-3-2-diff-10.bin",
+        "output_sha256": "98c9a7a01064463f0263b7a33560050fd0615dfe0cb4dcbe13d906b77bd2a8eb"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-11",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-3-3-baseline.status",
+        "output_sha256": "c7e49510fcc7fd673a81b8d2500a36fe4a4c31fd899ec6c73a4a822874775439"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "ff02cf7a3224a6df7b1929924e6c976487c2a94b"
+        ],
+        "evidence_id": "git-12",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-3-3-diff-12.bin",
+        "output_sha256": "55aa19eb5cf23b1591cba556f61eabf568ed726f8959cf377955977ef430846e"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-13",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-4-1-baseline.status",
+        "output_sha256": "479f96602fdae43420c1403bc803a846676c8a2693146087a837d6af9feebdbe"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "ff02cf7a3224a6df7b1929924e6c976487c2a94b"
+        ],
+        "evidence_id": "git-14",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-4-1-diff-14.bin",
+        "output_sha256": "a6c9e09b5e23094378171a8e8cadfb6f09bf76273ec26e41f76a308a3d1cc446"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-15",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-4-2-baseline.status",
+        "output_sha256": "479f96602fdae43420c1403bc803a846676c8a2693146087a837d6af9feebdbe"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "ff02cf7a3224a6df7b1929924e6c976487c2a94b"
+        ],
+        "evidence_id": "git-16",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-4-2-diff-16.bin",
+        "output_sha256": "d8763045e7c16122ca22dd43295db5c6bac4b64ac470f90ee0c0cd8680800a86"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-17",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-4-3-baseline.status",
+        "output_sha256": "479f96602fdae43420c1403bc803a846676c8a2693146087a837d6af9feebdbe"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "ff02cf7a3224a6df7b1929924e6c976487c2a94b"
+        ],
+        "evidence_id": "git-18",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-4-3-diff-18.bin",
+        "output_sha256": "6b8f06278b4e68df5d104e36bd6b4012cbcb7209758da672ca09a743b072b54f"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-19",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-4-4-baseline.status",
+        "output_sha256": "479f96602fdae43420c1403bc803a846676c8a2693146087a837d6af9feebdbe"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "ff02cf7a3224a6df7b1929924e6c976487c2a94b"
+        ],
+        "evidence_id": "git-20",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-4-4-diff-20.bin",
+        "output_sha256": "e0ca956e5e922afdb99215daa19b1ff4c5ab0e96eb0c392edc064fd1f688e393"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-21",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-4-5-baseline.status",
+        "output_sha256": "479f96602fdae43420c1403bc803a846676c8a2693146087a837d6af9feebdbe"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "ff02cf7a3224a6df7b1929924e6c976487c2a94b"
+        ],
+        "evidence_id": "git-22",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-4-5-diff-22.bin",
+        "output_sha256": "6e8c4ea6daf9ce7e394e59d04fc9d115336bc62893c208f120674c447c32b897"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-23",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-4-6-baseline.status",
+        "output_sha256": "479f96602fdae43420c1403bc803a846676c8a2693146087a837d6af9feebdbe"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "ff02cf7a3224a6df7b1929924e6c976487c2a94b"
+        ],
+        "evidence_id": "git-24",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-4-6-diff-24.bin",
+        "output_sha256": "33add4790e51f9f0e9a36a5d51721d92332713d602ec92af79541edf27928238"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-25",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-4-7-baseline.status",
+        "output_sha256": "479f96602fdae43420c1403bc803a846676c8a2693146087a837d6af9feebdbe"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "ff02cf7a3224a6df7b1929924e6c976487c2a94b"
+        ],
+        "evidence_id": "git-26",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-4-7-diff-26.bin",
+        "output_sha256": "199046c84790fdf61ec4177b9e1b782150d8b2ebaf603d6b667bd70fff76f8df"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-27",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-4-9-baseline.status",
+        "output_sha256": "479f96602fdae43420c1403bc803a846676c8a2693146087a837d6af9feebdbe"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "ff02cf7a3224a6df7b1929924e6c976487c2a94b"
+        ],
+        "evidence_id": "git-28",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-4-9-diff-28.bin",
+        "output_sha256": "df16f895d87b0fb95039d6694faca442a988d53fb64c386f5abdc710bb5dbcc8"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-29",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-4-8-baseline.status",
+        "output_sha256": "479f96602fdae43420c1403bc803a846676c8a2693146087a837d6af9feebdbe"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "ff02cf7a3224a6df7b1929924e6c976487c2a94b"
+        ],
+        "evidence_id": "git-30",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-4-8-diff-30.bin",
+        "output_sha256": "2959dfd77d677672e74cba27b6bcf35f6c9d973b2375b8531901b87cf98d21dc"
+      }
+    ]
   },
   "history": [
     {
@@ -124,19 +508,182 @@
         "build"
       ],
       "to_revision": 17
+    },
+    {
+      "event_id": "event-12",
+      "from_revision": 20,
+      "kind": "task-advanced",
+      "refs": [
+        "T-1-1",
+        "T-2-1"
+      ],
+      "to_revision": 21
+    },
+    {
+      "event_id": "event-13",
+      "from_revision": 24,
+      "kind": "task-advanced",
+      "refs": [
+        "T-2-1",
+        "T-2-2"
+      ],
+      "to_revision": 25
+    },
+    {
+      "event_id": "event-14",
+      "from_revision": 28,
+      "kind": "task-advanced",
+      "refs": [
+        "T-2-2",
+        "T-3-1"
+      ],
+      "to_revision": 29
+    },
+    {
+      "event_id": "event-15",
+      "from_revision": 32,
+      "kind": "task-advanced",
+      "refs": [
+        "T-3-1",
+        "T-3-2"
+      ],
+      "to_revision": 33
+    },
+    {
+      "event_id": "event-16",
+      "from_revision": 36,
+      "kind": "task-advanced",
+      "refs": [
+        "T-3-2",
+        "T-3-3"
+      ],
+      "to_revision": 37
+    },
+    {
+      "event_id": "event-17",
+      "from_revision": 40,
+      "kind": "task-advanced",
+      "refs": [
+        "T-3-3",
+        "T-4-1"
+      ],
+      "to_revision": 41
+    },
+    {
+      "event_id": "event-18",
+      "from_revision": 44,
+      "kind": "task-advanced",
+      "refs": [
+        "T-4-1",
+        "T-4-2"
+      ],
+      "to_revision": 45
+    },
+    {
+      "event_id": "event-19",
+      "from_revision": 48,
+      "kind": "task-advanced",
+      "refs": [
+        "T-4-2",
+        "T-4-3"
+      ],
+      "to_revision": 49
+    },
+    {
+      "event_id": "event-20",
+      "from_revision": 52,
+      "kind": "task-advanced",
+      "refs": [
+        "T-4-3",
+        "T-4-4"
+      ],
+      "to_revision": 53
+    },
+    {
+      "event_id": "event-21",
+      "from_revision": 56,
+      "kind": "task-advanced",
+      "refs": [
+        "T-4-4",
+        "T-4-5"
+      ],
+      "to_revision": 57
+    },
+    {
+      "event_id": "event-22",
+      "from_revision": 60,
+      "kind": "task-advanced",
+      "refs": [
+        "T-4-5",
+        "T-4-6"
+      ],
+      "to_revision": 61
+    },
+    {
+      "event_id": "event-23",
+      "from_revision": 64,
+      "kind": "task-advanced",
+      "refs": [
+        "T-4-6",
+        "T-4-7"
+      ],
+      "to_revision": 65
+    },
+    {
+      "event_id": "event-24",
+      "from_revision": 68,
+      "kind": "task-advanced",
+      "refs": [
+        "T-4-7",
+        "T-4-9"
+      ],
+      "to_revision": 69
+    },
+    {
+      "event_id": "event-25",
+      "from_revision": 72,
+      "kind": "task-advanced",
+      "refs": [
+        "T-4-9",
+        "T-4-8"
+      ],
+      "to_revision": 73
+    },
+    {
+      "event_id": "event-26",
+      "from_revision": 76,
+      "kind": "gate-opened",
+      "refs": [
+        "segment-id-in-get-sutta",
+        "specs/segment-id-in-get-sutta/reviews/code-review-final-1.md"
+      ],
+      "to_revision": 77
+    },
+    {
+      "event_id": "event-27",
+      "from_revision": 79,
+      "kind": "report-processed",
+      "refs": [
+        "specs/segment-id-in-get-sutta/reviews/code-review-final-1.md",
+        "c035f6bb63cd3bf59fd846b072f827bfad510c24b2f61cf9858d358ed9a5899a"
+      ],
+      "to_revision": 80
+    },
+    {
+      "event_id": "event-28",
+      "from_revision": 80,
+      "kind": "completed",
+      "refs": [],
+      "to_revision": 81
     }
   ],
   "invalidations": [],
-  "lifecycle": "active",
+  "lifecycle": "complete",
   "next_action": {
-    "kind": "implement-task",
-    "scope": {
-      "id": "T-1-1",
-      "type": "task"
-    }
+    "kind": "report-complete"
   },
   "pending_gate": null,
-  "phase": "build",
+  "phase": "complete",
   "processed_reports": [
     {
       "disposition": "resolved",
@@ -159,9 +706,231 @@
       },
       "sha256": "ecee170e581603b007a1adb1374ad2361545336c58bcf42a249d3d0cf499d318",
       "verdict": "Approve with changes"
+    },
+    {
+      "disposition": "resolved",
+      "path": "specs/segment-id-in-get-sutta/reviews/code-review-final-1.md",
+      "purpose": "on-completion",
+      "scope": {
+        "id": "segment-id-in-get-sutta",
+        "type": "feature"
+      },
+      "sha256": "c035f6bb63cd3bf59fd846b072f827bfad510c24b2f61cf9858d358ed9a5899a",
+      "verdict": "Approve with changes"
     }
   ],
   "schema_version": 1,
-  "state_revision": 17,
-  "verification": []
+  "state_revision": 81,
+  "verification": [
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-1-1.sh"
+      ],
+      "evidence_id": "verification-1",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-1-1-verify-1.log",
+      "output_sha256": "020a458be1570f41afc8bcc01d963fb5fa1a68a159d07895c1b88237b4600a47",
+      "scope": {
+        "id": "T-1-1",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-2-1.sh"
+      ],
+      "evidence_id": "verification-2",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-2-1-verify-1.log",
+      "output_sha256": "0f9c77450d74bc9b816970b2a88b0a27deec4ea74d1507e71f39f4c3f3a30f1d",
+      "scope": {
+        "id": "T-2-1",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-2-2.sh"
+      ],
+      "evidence_id": "verification-3",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-2-2-verify-1.log",
+      "output_sha256": "ad66de5e92df2aa4eecc6ba8f4a7a96945cc936b1121c88a2f4874c45cb326ca",
+      "scope": {
+        "id": "T-2-2",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-3-1.sh"
+      ],
+      "evidence_id": "verification-4",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-3-1-verify-1.log",
+      "output_sha256": "921fe9f3f09afb2eed00ba15098bcfe7eb4ee589855d1f77400985412f3c18e8",
+      "scope": {
+        "id": "T-3-1",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-3-2.sh"
+      ],
+      "evidence_id": "verification-5",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-3-2-verify-1.log",
+      "output_sha256": "b26a425906cb8ba1b4f355b9347ae1973e622f75b700b34480f0eb47c1dd0b7f",
+      "scope": {
+        "id": "T-3-2",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-3-3.sh"
+      ],
+      "evidence_id": "verification-6",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-3-3-verify-1.log",
+      "output_sha256": "a6b8516d008df7619f49b43e837158109617f05753e6cf03afc0b9a5430d8c06",
+      "scope": {
+        "id": "T-3-3",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-4-1.sh"
+      ],
+      "evidence_id": "verification-7",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-4-1-verify-1.log",
+      "output_sha256": "959f50d4f45c639aea9552e0c176f120269c0f965ba6cd54c1dafa388f5f13f2",
+      "scope": {
+        "id": "T-4-1",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-4-2.sh"
+      ],
+      "evidence_id": "verification-8",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-4-2-verify-1.log",
+      "output_sha256": "f40a2a636dcba451d4fab79eaeeb0b7d1e80a624be1dd9fc61bdcf7825a0262b",
+      "scope": {
+        "id": "T-4-2",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-4-3.sh"
+      ],
+      "evidence_id": "verification-9",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-4-3-verify-1.log",
+      "output_sha256": "6ff24b667b64de073c487e5e7e23c1b80faa1796709b904368ac5a0f6633d5aa",
+      "scope": {
+        "id": "T-4-3",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-4-4.sh"
+      ],
+      "evidence_id": "verification-10",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-4-4-verify-1.log",
+      "output_sha256": "a359a8aad1f0504e04259f12573a9da14465403c45cc3304dde55d36e8478732",
+      "scope": {
+        "id": "T-4-4",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-4-5.sh"
+      ],
+      "evidence_id": "verification-11",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-4-5-verify-1.log",
+      "output_sha256": "edd8666f4893292ffa2df60b820acb7e917ca48e0191d3e70602a4fbd4ca2db1",
+      "scope": {
+        "id": "T-4-5",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-4-6.sh"
+      ],
+      "evidence_id": "verification-12",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-4-6-verify-1.log",
+      "output_sha256": "6a4912c72f0005396e72d89112c278e344bfd7c64b8ea6b5b085a41d1adc7022",
+      "scope": {
+        "id": "T-4-6",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-4-7.sh"
+      ],
+      "evidence_id": "verification-13",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-4-7-verify-1.log",
+      "output_sha256": "3fdcd7278ad2046432036d68d21ba5a59b68ea1e59dc5a84c6f25d6dee267c05",
+      "scope": {
+        "id": "T-4-7",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-4-9.sh"
+      ],
+      "evidence_id": "verification-14",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-4-9-verify-1.log",
+      "output_sha256": "df4f8b679478a818228fc548da5a9c8ffd670713d93c50bca43c51030d227b0f",
+      "scope": {
+        "id": "T-4-9",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-4-8.sh"
+      ],
+      "evidence_id": "verification-15",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/segment-id-in-get-sutta/T-4-8-verify-1.log",
+      "output_sha256": "b77506fd9b0c68f18db9b57c0c2edc50f60b99ca0887fbcf3d0484f8b38383ea",
+      "scope": {
+        "id": "T-4-8",
+        "type": "task"
+      }
+    }
+  ]
 }

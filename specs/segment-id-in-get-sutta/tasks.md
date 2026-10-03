@@ -1,6 +1,6 @@
 # Tasks: Segment ID trong output của `get_sutta`
 
-**Status:** In Progress
+**Status:** Complete
 **Created:** 2026-10-03
 **Spec slug:** segment-id-in-get-sutta
 **Design:** [design.md](./design.md)
@@ -25,7 +25,7 @@
 
 ## Phase 1: Foundation
 
-- [ ] **T-1-1:** Đổi kiểu sang `Segment` và viết lại thân `extractText()` (**N5-T + N1-A bản mới, nguyên văn**)
+- [x] **T-1-1:** Đổi kiểu sang `Segment` và viết lại thân `extractText()` (**N5-T + N1-A bản mới, nguyên văn**)
   - **Files:** `src/index.ts:112-137` (khối comment + kiểu `:112-117`, thân hàm `:119-137`)
   - **Acceptance:**
     - Thay `:112-117` bằng khối N5-T ở `design.md:82-89` (8 dòng) và thay toàn bộ hàm `:119-137` bằng khối N1-A ở `design.md:109-128` (20 dòng), khớp **từng ký tự**.
@@ -40,11 +40,11 @@
     - `grep -c 'translation_text' src/index.ts` = 1; `grep -c 'segmented' src/index.ts` = 3; `grep -c ' as ' src/index.ts` = 2.
     - Kiểm hành vi: T-4-3..T-4-7 (sau T-2-2).
   - **Depends on:** —
-  - **Result:**
+  - **Result:** Khối N5-T (`design.md:82-89`) và N1-A (`design.md:109-128`) chép byte-for-byte bằng script vào `src/index.ts:112-139` (trước đây `:112-137`; dòng trống giữa hai khối giữ nguyên); handler `get_sutta` không đụng. `npm run build` thoát 0; diff N5-T rỗng (8/8 dòng); diff N1-A rỗng (20/20 dòng); `grep -c 'translation_text'` = 1, `grep -c 'segmented'` = 3, `grep -c ' as '` = 2. `git diff -U0 -- src/index.ts`: 5 hunk, +11/−8. Không chạy harness (theo §Conventions); không tạo file tạm.
 
 ## Phase 2: Core Implementation
 
-- [ ] **T-2-1:** Ghi lại lang đã phục vụ trong khối retry (**N3-B bản mới, nguyên văn**)
+- [x] **T-2-1:** Ghi lại lang đã phục vụ trong khối retry (**N3-B bản mới, nguyên văn**)
   - **Files:** `src/index.ts:253-265` (từ dòng `const citation` tới `}` đóng khối retry, ngay trước dòng trống + gate N1-B)
   - **Acceptance:**
     - Thay `:253-265` bằng khối N3-B bản mới ở `design.md:140-158` (19 dòng, gồm dòng neo `const citation` không đổi), khớp **từng ký tự**.
@@ -59,9 +59,9 @@
     - `grep -c -F 'extracted.source !== "translation"' src/index.ts` = 1.
     - Kiểm hành vi của luật served-lang: **T-4-6** (duy nhất).
   - **Depends on:** T-1-1
-  - **Result:**
+  - **Result:** Khối N3-B bản mới (`design.md:140-158`, 19 dòng) chép byte-for-byte bằng script, thay `src/index.ts:256-268` (dải `:253-265` của task dịch +3 dòng do T-1-1; định vị bằng dòng neo `const citation` duy nhất và dòng trống + gate N1-B ngay sau), nay ở `:256-274`. `npm run build` thoát 0; diff `let extracted … }` rỗng (18/18 dòng); `grep -c 'servedLang'` = 2 (`:260` `let servedLang = "en";`, `:272` `servedLang = retryLang;` trong `if (retryLang) { … }`), không có phép gán thứ ba; `grep -c -F 'extracted.source !== "translation"'` = 1. Hunk của task: +3 (comment 2 dòng + `let servedLang`) và −1/+4 (dòng `if (retryLang)` thành khối); predicate `find`, gate, guard không đổi. Không chạy harness; không tạo file tạm.
 
-- [ ] **T-2-2:** Render tiền tố `[id] ` và dòng `Deep link:` trong mảng `output` (**N5-R, nguyên văn**)
+- [x] **T-2-2:** Render tiền tố `[id] ` và dòng `Deep link:` trong mảng `output` (**N5-R, nguyên văn**)
   - **Files:** `src/index.ts`, mảng `const output = [ … ]` của `get_sutta` (`:285-296` trước T-2-1; định vị theo nội dung)
   - **Acceptance:**
     - Chèn dòng `design.md:172` ngay sau dòng `` `Translator: ${translatorName} (${translator})`, ``.
@@ -74,13 +74,13 @@
     - `grep -c -F 'truncated.join' src/index.ts` = 0 (chặn dạng `[object Object]` compile sạch).
     - `grep -c 'servedLang' src/index.ts` = 3 (thêm đúng một lần đọc, trong dòng `Deep link:`).
   - **Depends on:** T-2-1
-  - **Result:**
+  - **Result:** Hai dòng N5-R chép byte-for-byte bằng script từ `design.md:172` (chèn ngay sau dòng `Translator:`, nay `src/index.ts:298`) và `design.md:178` (thay dòng `truncated.join("\n"),` duy nhất, nay `:301`); mọi dòng khác của mảng `output` không đổi (diff 2 hunk: +1, −1/+1). `npm run build` thoát 0; `grep -c -x -F -f /tmp/n5r-1.txt` = 1, `-f /tmp/n5r-2.txt` = 1, hai file đã xóa; `grep -c -F 'truncated.join'` = 0; `grep -c 'servedLang'` = 3. Smoke một lần (`mn10`/`sujato`, `max_segments: 3`, file tạm trong scratchpad ngoài repo, đã xóa): `"id":2` = 1, dòng `Deep link: https://suttacentral.net/mn10/en/sujato#<segment_id> …` sau `Translator:`, thân `[mn10:0.1] Middle Discourses 10` / `[mn10:0.2] Mindfulness Meditation` / `[mn10:1.1] So I have heard.`, không có `[object Object]`; đây không phải kiểm AC (T-4-x).
 
 ## Phase 3: Đồng bộ tài liệu (FR-7, FR-8)
 
 Mỗi file spec là **một** task. Áp các thao tác theo nội dung (fence, dòng neo), không theo số dòng đã dịch; nếu theo số dòng thì áp từ dưới lên. `design.md:248`: không đụng gì khác trong ba file ngoài các thao tác được liệt kê (và ngoại lệ có chủ đích ở T-3-2).
 
-- [ ] **T-3-1:** Áp G-1, G-2, G-3 vào `specs/non-segmented-translation-guard/design.md`
+- [x] **T-3-1:** Áp G-1, G-2, G-3 vào `specs/non-segmented-translation-guard/design.md`
   - **Files:** `specs/non-segmented-translation-guard/design.md` (fence `:51-58`, fence `:123-143`, sau dòng `:6`)
   - **Acceptance:**
     - G-1: thay nội dung fence `ts` của §Data Model (nội dung `:52-57`) bằng khối N5-T (`design.md:82-89`).
@@ -93,9 +93,9 @@ Mỗi file spec là **một** task. Áp các thao tác theo nội dung (fence, d
     - `diff <(sed -n '253,260p' specs/segment-id-in-get-sutta/design.md) <(grep -A7 -F '> **Cập nhật (2026-10-02 — spec `segment-id-in-get-sutta`)' specs/non-segmented-translation-guard/design.md)` rỗng.
     - `git diff --stat -- specs/non-segmented-translation-guard/design.md` chỉ chạm ba vùng trên (đọc `git diff`).
   - **Depends on:** T-1-1
-  - **Result:**
+  - **Result:** Áp bằng script, định vị theo nội dung (fence `ts` duy nhất mở bằng `// Non-empty tuple` ở `:51-58`, fence `ts` duy nhất mở bằng `function extractText` ở `:123-143`, dòng `**Requirements:**` + dòng trống + `## Context Recap`), áp từ dưới lên: G-2 thay nội dung fence bằng `design.md:109-128`, G-1 bằng `design.md:82-89`, G-3 chèn dòng trống + E-1 (`design.md:253-260`) sau dòng trống sẵn có sau `:6`. Diff N1-A `src/index.ts` ↔ file rỗng (20/20); diff N5-T rỗng (8/8); diff E-1 (`sed -n '253,260p'` ↔ `grep -A7 -F` neo, neo xuất hiện 1 lần) rỗng. `git diff --stat`: +20/−8, đúng 3 hunk (E-1 +9 tại `@@ -5,6`, fence kiểu +4/−2 tại `@@ -52,9`, fence N1-A +7/−6 tại `@@ -122,19`); văn xuôi, sơ đồ, bảng không đổi. `src/index.ts` không đụng; không tạo file tạm.
 
-- [ ] **T-3-2:** Áp L-1, L-2 vào `specs/bilara-lang-param/design.md`, kèm đính chính `:49` và `:55` (design-review-1 S2)
+- [x] **T-3-2:** Áp L-1, L-2 vào `specs/bilara-lang-param/design.md`, kèm đính chính `:49` và `:55` (design-review-1 S2)
   - **Files:** `specs/bilara-lang-param/design.md` (fence `:110-124`, sau dòng `:7`; câu ở `:49` và `:55`)
   - **Acceptance:**
     - L-1: thay nội dung fence `ts` của khối N3-B (nội dung `:111-123`) bằng khối N3-B bản mới (`design.md:140-158`, gồm dòng `const citation` như fence cũ).
@@ -107,9 +107,9 @@ Mỗi file spec là **một** task. Áp các thao tác theo nội dung (fence, d
     - Khối E-2 đã chèn so với `sed -n '266,271p' specs/segment-id-in-get-sutta/design.md`: `diff` chỉ hiện các dòng đính chính thêm vào (mọi dòng nguyên văn của E-2 còn nguyên).
     - `git diff -- specs/bilara-lang-param/design.md`: chỉ chạm fence N3-B và khối E-2; dòng `:49`/`:55` cũ không có trong hunk nào dạng `-`.
   - **Depends on:** T-2-1
-  - **Result:**
+  - **Result:** Áp bằng script, định vị theo nội dung: L-1 thay nội dung fence `ts` duy nhất mở bằng `    const citation = formatCitation(suttaplex);` (`:110-124`) bằng `design.md:140-158` (19 dòng); L-2 chèn dòng trống + E-2 (`design.md:266-271`) sau dòng `**Tiền nhiệm:**` (`:7`), trước dòng trống + `## Context Recap`. **Đính chính S2 (lệch có chủ đích khỏi E-2 nguyên văn):** 4 dòng nối ngay sau dòng cuối của E-2, trong cùng blockquote: `> Đính chính (design-review-1 S2): ở §Vùng giữ nguyên byte-for-byte / vùng đổi, dòng bảng` / `> "Thân `extractText()` — N1-A tiền nhiệm (19 dòng) | Giữ nguyên từng byte." và câu "không khối` / `> N1 nào bị đụng" đúng với thay đổi của spec này, nhưng là hồ sơ thời điểm: N1-A đã được thay bởi` / `> spec `segment-id-in-get-sutta`.` — lý do: E-2 nguyên văn chỉ phủ N3-B và "11/12 dòng", không phủ dòng bảng `:49` và câu `:55` vốn đọc như trạng thái hiện hành sau khi N1-A bị thay (design-review-1 S2; `design.md:248`: văn xuôi cũ là hồ sơ thời điểm). Không amend `specs/segment-id-in-get-sutta/design.md`. Test: diff N3-B `src/index.ts` ↔ file rỗng (18/18); diff `sed -n '266,271p'` ↔ `grep -A9 -F` neo E-2 chỉ có `6a7,10` (4 dòng đính chính thêm), 6 dòng E-2 nguyên vẹn; `git diff`: +18/−1, 3 hunk (E-2 + đính chính +11, fence N3-B +3 và −1/+4), dòng `-` duy nhất là `if (retryLang) extracted = …` cũ trong fence; dòng `:49`/`:55` cũ không đổi một byte (nay `:60`/`:66`, đối chiếu với `git show HEAD:`). Không tạo file tạm.
 
-- [ ] **T-3-3:** Áp M-1, M-2 vào `specs/sutta-mcp-requirements.md` (FR-8, AC-8)
+- [x] **T-3-3:** Áp M-1, M-2 vào `specs/sutta-mcp-requirements.md` (FR-8, AC-8)
   - **Files:** `specs/sutta-mcp-requirements.md:174`, `:308`
   - **Acceptance:**
     - M-1: thay nguyên dòng `:308` (bắt đầu `5. **Segment ID trong`) bằng `design.md:277`.
@@ -122,11 +122,11 @@ Mỗi file spec là **một** task. Áp các thao tác theo nội dung (fence, d
     - `git diff --numstat -- specs/sutta-mcp-requirements.md` = `2	2`.
     - Đọc mục Output của Tool 2: nêu segment ID theo đoạn và dạng deep-link.
   - **Depends on:** —
-  - **Result:**
+  - **Result:** Thay nguyên dòng bằng script, định vị theo neo đầu dòng (mỗi neo đúng 1 hit): M-1 `:308` (`5. **Segment ID trong`) ← `design.md:277`; M-2 `:174` (`**Output:** Toàn văn sutta`) ← `design.md:283`. AC-8 (`grep -c -F`, pattern trong heredoc có trích dẫn): `suttacentral.net/{uid}#{segment_id}` = 0; `{uid}/{lang}/{translator}#{segment_id}` = 1; `segment-id-in-get-sutta` = 2. `git diff --numstat` = `2	2`; `git diff -U0` chỉ 2 hunk `@@ -174 +174 @@`, `@@ -308 +308 @@` (dòng Constraints `:278` không đổi). Đọc mục Output của Tool 2: nêu segment ID nguyên văn theo đoạn (`[mn10:1.1] So I have heard.`) và dòng `Deep link: https://suttacentral.net/{uid}/{lang}/{translator}#<segment_id>`. File script tạm trong scratchpad đã xóa.
 
 ## Phase 4: Verification
 
-- [ ] **T-4-1:** Build sạch, phạm vi diff, `package.json` không đổi, bất biến grep (AC-6 phần phạm vi; NFR-1..NFR-5, NFR-7)
+- [x] **T-4-1:** Build sạch, phạm vi diff, `package.json` không đổi, bất biến grep (AC-6 phần phạm vi; NFR-1..NFR-5, NFR-7)
   - **Files:** — (chỉ kiểm)
   - **Acceptance:**
     - `npm run build` thoát mã 0 (NFR-3).
@@ -138,9 +138,9 @@ Mỗi file spec là **một** task. Áp các thao tác theo nội dung (fence, d
     - Số đo lệch (hunk, +/−): halt và báo cáo, không sửa `design.md`.
   - **Test:** các lệnh trên; ghi số đo thực.
   - **Depends on:** T-2-2
-  - **Result:**
+  - **Result:** Mọi số đo khớp, chạy bằng script heredoc có trích dẫn (đã xóa, cùng file diff tạm `/tmp/t41-diff.txt`). `npm run build` thoát 0. NFR-1: `git diff --exit-code -- package.json package-lock.json` thoát 0; `git status --short -- package.json package-lock.json` rỗng. NFR-2: `git ls-files --others --exclude-standard -- src/` rỗng; `git status --short` chỉ ` M` 6 file (`src/index.ts`, 3 design/master spec, `tasks.md`, `workflow-state.json`), không file mới; `git diff --exit-code -- tsconfig.json` thoát 0. `git diff -U0 -- src/index.ts`: 9 hunk, +20/−10 (numstat `20	10`); 0 lần mỗi chuỗi `formatCitation`, `formatUnavailable`, `search_topic`, `get_sutta_meta`, `get_parallels`, `list_divisions`, `TOPIC_INDEX`, `DIVISIONS`, `z.`, gate (chống-vacuous: cùng file diff có `servedLang` 3, `Segment` 8). Bảng bất biến: `segmented` 3; `sujato` 3; `phantuananh|sabbamitta|minh_chau|indacanda|trush|piyadassi` 0; gate 1; `translation_text` 1; `Object\.keys` 2; `' as '` 2. Đọc code: không lời gọi `fetch(` mới (vẫn 3, trong 3 helper); `get_sutta` gọi `fetchSuttaplex` + `fetchBilaraText` song song (`:252-253`) và tối đa một `fetchBilaraText` retry (`:271`) → ≤ 3 request, chỉ `/suttaplex/` và `/bilarasuttas/` (NFR-4); schema `get_sutta` (`:236-248`) ngoài mọi hunk (D3).
 
-- [ ] **T-4-2:** Kiểm tĩnh đồng bộ khối normative: diff tương đối (AC-6) và tuyệt đối
+- [x] **T-4-2:** Kiểm tĩnh đồng bộ khối normative: diff tương đối (AC-6) và tuyệt đối
   - **Files:** — (chỉ kiểm)
   - **Acceptance:**
     - **Tương đối (AC-6, FR-7):** ba diff rỗng giữa `src/index.ts` và design tiền nhiệm — N1-A với `specs/non-segmented-translation-guard/design.md` (20 dòng), N5-T với cùng file (8 dòng), N3-B với `specs/bilara-lang-param/design.md` (18 dòng). Awk pattern như T-1-1/T-2-1.
@@ -149,9 +149,9 @@ Mỗi file spec là **một** task. Áp các thao tác theo nội dung (fence, d
     - Ghi rõ trong Result: **các diff này không bắt được việc lấy `{lang}` từ metadata translator** — một phép gán lại `servedLang` sau gate giữ N3-B nguyên văn và qua mọi diff. Lưới duy nhất là T-4-6.
   - **Test:** sáu lệnh `diff` + hai `grep`; ghi số dòng mỗi phía. Xóa file trung gian.
   - **Depends on:** T-3-1, T-3-2
-  - **Result:**
+  - **Result:** Sáu `diff` đều rỗng (exit 0), số dòng `src/index.ts`/design: tương đối — N1-A ↔ `specs/non-segmented-translation-guard/design.md` 20/20, N5-T ↔ cùng file 8/8, N3-B ↔ `specs/bilara-lang-param/design.md` 18/18; tuyệt đối ↔ `specs/segment-id-in-get-sutta/design.md` — N1-A 20/20, N5-T 8/8, N3-B 18/18. N5-R: `grep -c -x -F -f` dòng `design.md:172` (pattern 169 byte) = 1, dòng `:178` (62 byte) = 1; `grep -c -F 'truncated.join'` = 0. **Các diff này không bắt được việc lấy `{lang}` từ metadata translator** — một phép gán lại `servedLang` sau gate (vd. `translations.find(t => t.author_uid === translator)?.lang`) giữ N3-B nguyên văn và qua mọi diff trên; lưới duy nhất là T-4-6. Script tạm và `/tmp/n5r-1.txt`, `/tmp/n5r-2.txt` đã xóa.
 
-- [ ] **T-4-3:** Harness — AC-1 (`mn10`/`sujato`) và AC-2 (`dhp1-20`/`phantuananh`)
+- [x] **T-4-3:** Harness — AC-1 (`mn10`/`sujato`) và AC-2 (`dhp1-20`/`phantuananh`)
   - **Files:** — (harness ngoài repo)
   - **Acceptance:**
     - Dựng `/tmp/mcp-call.sh`, `decode()`, `body()` theo §Conventions. `npm run build` trước. Mỗi lần chạy: `grep -c '"id":2'` = 1.
@@ -161,9 +161,9 @@ Mỗi file spec là **một** task. Áp các thao tác theo nội dung (fence, d
     - Literal lệch: fetch lại endpoint, halt và báo cáo.
   - **Test:** như trên. Giữ `/tmp/mcp-call.sh` cho T-4-4..T-4-7.
   - **Depends on:** T-4-1
-  - **Result:**
+  - **Result:** Harness dựng bằng chính lệnh `cat` heredoc ở `non-segmented-translation-guard/requirements.md:183-192` (nội dung `/tmp/mcp-call.sh` diff rỗng với `:184-191`); `decode()`/`body()` chép từ `design.md:321-323`. `npm run build` thoát 0 trước khi chạy. `"id":2` = 1 ở cả hai lần chạy, decode thoát 0; stderr chỉ `Sutta MCP server running (stdio)`. **AC-1** (`mn10`/`sujato`, `/tmp/out-sujato.txt`): 50 dòng thân; thân 1 `[mn10:0.1] Middle Discourses 10`, thân 3 `[mn10:1.1] So I have heard.`, thân 50 `[mn10:13.1] And so they meditate observing an aspect of the body internally …` — khớp; 50/50 dòng khớp `^\[mn10:[0-9][0-9.]*\] \S`; `https://suttacentral.net/mn10/en/sujato#` đúng 1 dòng (dòng 6, trước thân 1 ở dòng 9); `body | grep -c 'https://'` = 0; có `URL: https://suttacentral.net/mn10` và `Translator: Bhikkhu Sujato (sujato)` (khớp `-x`); dòng cuối đúng `[... văn bản bị cắt sau 50 đoạn. Tổng: 194 đoạn. Tăng max_segments để xem thêm.]`; dòng `Deep link:` khớp `-x -F` với `design.md:186` (pattern 140 byte) = 1. **AC-2** (`dhp1-20`/`phantuananh`, `/tmp/out-phantuananh.txt`): 50 dòng thân; thân 1 `[dhp1:0.1] Tiểu Bộ Kinh`, thân 3 `[dhp1:0.3] Phẩm Song Yếu`, thân 50 `[dhp9:0] Chuyện Devadatta (Đề-bà-đạt-đa)` — khớp; `grep -c -F '[dhp1-20:'` = 0; `https://suttacentral.net/dhp1-20/vi/phantuananh#` = 1; `https://suttacentral.net/dhp1-20/en/` = 0; dòng cuối đúng `[... văn bản bị cắt sau 50 đoạn. Tổng: 108 đoạn. Tăng max_segments để xem thêm.]`. Không literal nào lệch nên không cần fetch lại. Giữ `/tmp/mcp-call.sh`, `/tmp/mcp-stderr.log`, `/tmp/out-{sujato,phantuananh,mn10-raw,dhp-raw}.txt` (thuộc glob của T-4-9); script kiểm tạm trong scratchpad đã xóa.
 
-- [ ] **T-4-4:** Harness — AC-3 (`mn10`/`sabbamitta` → `de`, `mn10`/`trush` → `gu`)
+- [x] **T-4-4:** Harness — AC-3 (`mn10`/`sabbamitta` → `de`, `mn10`/`trush` → `gu`)
   - **Files:** — (harness ngoài repo)
   - **Acceptance:**
     - `"id":2` = 1 mỗi lần chạy.
@@ -172,9 +172,9 @@ Mỗi file spec là **một** task. Áp các thao tác theo nội dung (fence, d
     - Literal lệch: fetch lại endpoint, halt và báo cáo.
   - **Test:** như trên.
   - **Depends on:** T-4-1
-  - **Result:**
+  - **Result:** `npm run build` thoát 0 rồi chạy `/tmp/mcp-call.sh` tuần tự; `"id":2` = 1 ở cả hai lần, decode thoát 0, stderr chỉ `Sutta MCP server running (stdio)`. **sabbamitta** (`/tmp/out-sabbamitta.txt`): 50 dòng thân; thân 50 đúng `[mn10:12.0] 1.5. Den Geist auf die Elemente richten`; `https://suttacentral.net/mn10/de/sabbamitta#` = 1 (`/mn10/en/sabbamitta` = 0); dòng cuối `[... văn bản bị cắt sau 50 đoạn. Tổng: 200 đoạn. Tăng max_segments để xem thêm.]`. **trush** (`/tmp/out-trush.txt`): 50 dòng thân; thân 1 đúng `[mn10:0.1] મજ્જ઼િમ નિકાય ૧૦`; `https://suttacentral.net/mn10/gu/trush#` = 1; `grep -c -F '/mn10/hi/trush'` = 0; dòng cuối `[... văn bản bị cắt sau 50 đoạn. Tổng: 230 đoạn. Tăng max_segments để xem thêm.]`. Matcher đều `grep -F`/so chuỗi trong script heredoc có trích dẫn (đã xóa). Không literal nào lệch, không cần fetch lại. File `/tmp/out-{sabbamitta,trush}{,-raw}.txt` giữ lại, thuộc glob T-4-9.
 
-- [ ] **T-4-5:** Harness — AC-4 (`max_segments` 3 và 500), baseline FR-2, ID gạch nối trên toàn 194 dòng
+- [x] **T-4-5:** Harness — AC-4 (`max_segments` 3 và 500), baseline FR-2, ID gạch nối trên toàn 194 dòng
   - **Files:** — (harness ngoài repo)
   - **Acceptance:**
     - `"id":2` = 1 mỗi lần chạy.
@@ -185,9 +185,9 @@ Mỗi file spec là **một** task. Áp các thao tác theo nội dung (fence, d
     - Literal lệch: fetch lại endpoint, halt và báo cáo.
   - **Test:** như trên.
   - **Depends on:** T-4-1
-  - **Result:**
+  - **Result:** `npm run build` thoát 0; `"id":2` = 1 ở cả hai lần chạy, decode thoát 0, stderr chỉ dòng khởi động. **`max_segments: 3`** (`/tmp/out-s3.txt`): đúng 3 dòng thân `[mn10:0.1] Middle Discourses 10` / `[mn10:0.2] Mindfulness Meditation` / `[mn10:1.1] So I have heard.`; dòng cuối đúng `[... văn bản bị cắt sau 3 đoạn. Tổng: 194 đoạn. Tăng max_segments để xem thêm.]`; toàn output `diff` với `design.md:197-209` rỗng (13/13 dòng, gồm dấu cách cuối dòng tiêu đề). **`max_segments: 500`** (`/tmp/out-s500.txt`): 194 dòng thân; dòng thân cuối đúng `[mn10:47.4] Satisfied, the mendicants approved what the Buddha said.`; dòng cuối `[Hết văn bản — 194 đoạn]`; `grep -c -F` `[mn10:3.6]`/`[mn10:4.9]`/`[mn10:4.10]` = 0 (chống-vacuous: `[mn10:3.5]` = 1). **Baseline FR-2** (cùng phiên, `/tmp/ref-mn10-sujato.txt` dựng bằng lệnh `node -e` ở `design.md:363`, 194 dòng): `body | diff - ref` rỗng (ID + text); diff sau khi bỏ tiền tố cả hai phía rỗng (194/194). **Kiểm bổ sung 2:** dòng thân 63 đúng `[mn10:18-23.1] Furthermore, suppose they were to see a corpse discarded in a charnel ground, a skeleton with flesh and blood, held together by sinews …`; `grep -vcE '^\[mn10:[0-9][0-9.-]*\] \S'` = 0 (chống-vacuous: `grep -cE` = 194). Không literal nào lệch. Script kiểm (scratchpad) đã xóa; `/tmp/out-s3{,-raw}.txt`, `/tmp/out-s500{,-raw}.txt`, `/tmp/ref-mn10-sujato.txt` giữ lại cho T-4-9.
 
-- [ ] **T-4-6:** Harness — **lang đã phục vụ ≠ lang đầu tiên của translator: `snp1.8`/`piyadassi` (BẮT BUỘC; lưới duy nhất của luật served-lang FR-4)**
+- [x] **T-4-6:** Harness — **lang đã phục vụ ≠ lang đầu tiên của translator: `snp1.8`/`piyadassi` (BẮT BUỘC; lưới duy nhất của luật served-lang FR-4)**
   - **Files:** — (harness ngoài repo)
   - **Acceptance:**
     - Đây là **lưới duy nhất** cho luật "`{lang}` là lang thực sự đã phục vụ" của FR-4 (design-review-1 W1; `design.md:378-383`, `:443`). Không AC nào và không diff khối nào bắt được cách viết tắt `translations.find(t => t.author_uid === translator)?.lang`. Không được bỏ qua, gộp vào task khác, hay thay bằng đọc code.
@@ -200,9 +200,9 @@ Mỗi file spec là **một** task. Áp các thao tác theo nội dung (fence, d
     - Literal lệch so với giá trị vừa fetch lại: halt và báo cáo; không sửa spec.
   - **Test:** như trên, matcher bằng `grep -F`.
   - **Depends on:** T-4-1
-  - **Result:**
+  - **Result:** **Fetch lại trước harness (2026-10-03):** `/api/suttaplex/snp1.8` liệt kê `piyadassi` ở index 11 (`lang: "en"`, `segmented: false`) và index 27 (`lang: "lt"`, `segmented: true`) — entry đầu tiên của translator là `en`, entry khác-`en` đầu tiên là `lt`, nên case vẫn phân biệt được cách viết tắt. `/api/bilarasuttas/snp1.8/piyadassi` không `lang`: không có `translation_text` (0 key); `?lang=en`: cũng không; `?lang=lt`: có, 43 key / 42 đoạn không rỗng sau `.trim()`, đoạn đầu `snp1.8:0.1` → `Suttų rinkinukas 1.8` — khớp số design đo. **Harness:** `npm run build` thoát 0; `get_sutta '{"uid":"snp1.8","translator":"piyadassi"}'`: `"id":2` = 1, decode thoát 0, stderr chỉ dòng khởi động; dòng thân 1 khớp `grep -x -F '[snp1.8:0.1] Suttų rinkinukas 1.8'`; `grep -c -F 'https://suttacentral.net/snp1.8/lt/piyadassi#'` = 1; `grep -c -F 'https://suttacentral.net/snp1.8/en/piyadassi'` = 0; dòng cuối khớp `grep -x -F '[Hết văn bản — 42 đoạn]'`; 42 dòng thân. Luật served-lang FR-4 đứng vững trên case phân biệt duy nhất. Script kiểm (scratchpad) đã xóa; `/tmp/out-snp18{,-raw}.txt` giữ lại cho T-4-9.
 
-- [ ] **T-4-7:** Harness — AC-5 nhánh guard không đổi (`mn10`/`minh_chau`, `thag1.1`/`indacanda`)
+- [x] **T-4-7:** Harness — AC-5 nhánh guard không đổi (`mn10`/`minh_chau`, `thag1.1`/`indacanda`)
   - **Files:** — (harness ngoài repo)
   - **Acceptance:**
     - `"id":2` = 1 mỗi lần chạy (điều kiện tiên quyết cho mọi mệnh đề phủ định dưới).
@@ -211,9 +211,9 @@ Mỗi file spec là **một** task. Áp các thao tác theo nội dung (fence, d
     - `git diff -U0 -- src/index.ts` không chạm thân `formatUnavailable()` (đã kiểm ở T-4-1; ghi lại tham chiếu).
   - **Test:** như trên.
   - **Depends on:** T-4-1
-  - **Result:**
+  - **Result:** `npm run build` thoát 0; hai lần chạy tuần tự, `"id":2` = 1 mỗi lần, decode thoát 0, stderr chỉ dòng khởi động. Cả hai output (`/tmp/out-minhchau.txt`, `/tmp/out-indacanda.txt`) chứa `API SuttaCentral không trả về nội dung bản dịch nào cho kinh này với dịch giả` (1 lần) và 0 lần mỗi chuỗi `[mn10:`, `[thag1.1:`, `https://suttacentral.net/mn10/`, `https://suttacentral.net/thag1.1/`, `Translator: `, `[Hết văn bản`, `[... văn bản bị cắt`, `Deep link` (`grep -c -F`). Neo AC-4 của `specs/bilara-lang-param/requirements.md`: minh_chau chứa đúng câu `… với dịch giả Thích Minh Châu (minh_chau).`, danh sách gợi ý 10 entry, dòng đầu `English — Bhikkhu Sujato (sujato)`; indacanda chứa `(indacanda)` và `https://suttacentral.net/thag1.1`, không chứa `Sīhānaṁva nadantānaṁ,`; cả hai không chứa `Evaṁ me sutaṁ` và `segmented`; `grep -c 'segmented' src/index.ts` = 3. `formatUnavailable()`: tham chiếu T-4-1 (`formatUnavailable` 0 lần trong `git diff -U0`), kiểm lại lúc này vẫn 0, và thân hàm (26 dòng) `diff` với `git show HEAD:src/index.ts` rỗng. Script kiểm (scratchpad) đã xóa; `/tmp/out-{minhchau,indacanda}{,-raw}.txt` giữ lại cho T-4-9.
 
-- [ ] **T-4-8:** AC-7 — mở hai deep-link trên trình duyệt có giao diện (kiểm thủ công)
+- [x] **T-4-8:** AC-7 — mở hai deep-link trên trình duyệt có giao diện (kiểm thủ công)
   - **Files:** — (không ghi file nào trong repo; không sửa `design.md`)
   - **Acceptance:**
     - Mở **một lần** trên trình duyệt thường (có giao diện, không headless): `https://suttacentral.net/mn10/en/sujato#mn10:13.1` và `https://suttacentral.net/dhp1-20/vi/phantuananh#dhp9:0`.
@@ -223,16 +223,16 @@ Mỗi file spec là **một** task. Áp các thao tác theo nội dung (fence, d
     - Nếu trang không cuộn tới đúng đoạn: halt, đưa lại requirements (AC-7, FR-4).
   - **Test:** quan sát trực tiếp trên trình duyệt.
   - **Depends on:** —
-  - **Result:**
+  - **Result:** Người thực hiện: user (báo trong phiên orchestrator, nguyên văn "Safari 26.6.2 - cả 2 đúng"); ngày 2026-10-03; trình duyệt Safari 26.6.2 (có giao diện). `https://suttacentral.net/mn10/en/sujato#mn10:13.1`: đạt — trang hiển thị văn bản, cuộn tới đúng đoạn `And so they meditate observing an aspect of the body internally …`, đoạn được tô nổi bật. `https://suttacentral.net/dhp1-20/vi/phantuananh#dhp9:0`: đạt — trang hiển thị văn bản, cuộn tới đúng đoạn `Chuyện Devadatta (Đề-bà-đạt-đa)`, đoạn được tô nổi bật. Implementer không mở trình duyệt; ghi lại theo báo cáo của user do orchestrator chuyển.
 
-- [ ] **T-4-9:** Dọn file tạm (NFR-2)
+- [x] **T-4-9:** Dọn file tạm (NFR-2)
   - **Files:** — (`/tmp`, ngoài repo)
   - **Acceptance:**
     - Xóa `/tmp/mcp-call.sh`, `/tmp/mcp-stderr.log`, `/tmp/out-*.txt`, `/tmp/ref-mn10-sujato.txt`, `/tmp/n5r-*.txt` và mọi file trung gian còn lại do T-1-1..T-4-7 tạo.
     - `git status --short` chỉ còn các file thuộc phạm vi spec: `src/index.ts`, `specs/non-segmented-translation-guard/design.md`, `specs/bilara-lang-param/design.md`, `specs/sutta-mcp-requirements.md`, và `specs/segment-id-in-get-sutta/` (cùng tệp workflow/INDEX do orchestrator quản lý, nếu có). Không file debug/log nào trong repo.
   - **Test:** `ls /tmp/mcp-call.sh /tmp/mcp-stderr.log /tmp/out-*.txt /tmp/ref-*.txt /tmp/n5r-*.txt 2>&1` báo không tồn tại; `git status --short`.
   - **Depends on:** T-4-2, T-4-3, T-4-4, T-4-5, T-4-6, T-4-7
-  - **Result:**
+  - **Result:** Xóa theo tên 21 file do T-4-3..T-4-7 tạo (liệt kê trước khi xóa, không file lạ nào khớp glob): `/tmp/mcp-call.sh`, `/tmp/mcp-stderr.log`, `/tmp/ref-mn10-sujato.txt`, 18 file `/tmp/out-*.txt` (`sujato`, `phantuananh`, `mn10-raw`, `dhp-raw`, `sabbamitta{,-raw}`, `trush{,-raw}`, `s3{,-raw}`, `s500{,-raw}`, `snp18{,-raw}`, `minhchau{,-raw}`, `indacanda{,-raw}`). `/tmp/n5r-*.txt` và `/tmp/t41-diff.txt` đã xóa ngay trong T-2-2/T-4-1/T-4-2; script kiểm trong scratchpad đã xóa trong từng task. Test: `ls /tmp/mcp-call.sh /tmp/mcp-stderr.log /tmp/out-*.txt /tmp/ref-*.txt /tmp/n5r-*.txt` (bash) báo `No such file or directory` cho cả năm. `git status --short`: chỉ ` M` `src/index.ts`, `specs/non-segmented-translation-guard/design.md`, `specs/bilara-lang-param/design.md`, `specs/sutta-mcp-requirements.md`, `specs/segment-id-in-get-sutta/tasks.md`, `specs/segment-id-in-get-sutta/workflow-state.json` (orchestrator); không file untracked, không file debug/log trong repo (`dist/`, `node_modules/`, `.claude/`, `claudedocs/` là ignored sẵn có). T-4-8 không đụng.
 
 ## AC coverage
 
