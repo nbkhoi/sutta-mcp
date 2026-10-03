@@ -1,0 +1,148 @@
+{
+  "configuration_sha256": "c4117879b17d15036716f33d518649fe7987663f0c740afa61d22e964625b4ea",
+  "dependencies": [
+    {
+      "category": "workflow",
+      "id": "workflow:spec",
+      "locator": {
+        "path": "workflow.md",
+        "scope": "package"
+      },
+      "sha256": "cbf46fdad562afa11666ae1f5ff1140f418d2776d7752a68efcebe7b4e2142e0"
+    },
+    {
+      "category": "kickback-loop",
+      "id": "loop:kickback",
+      "locator": {
+        "path": "kickback-loop.md",
+        "scope": "package"
+      },
+      "sha256": "00373d465c1796a4451c68965418b4f579f76bf1def9f60e93adf2ee843ea284"
+    },
+    {
+      "category": "challenge-method",
+      "id": "method:challenge",
+      "locator": {
+        "path": "challenge-method.md",
+        "scope": "package"
+      },
+      "sha256": "b7a555d94e4b95a113429fe8a6397e7be505e25fe21ee86daa330e02fbbb7b47"
+    },
+    {
+      "category": "role",
+      "id": "role:requirements-analyst",
+      "locator": {
+        "path": "roles/requirements-analyst.md",
+        "scope": "package"
+      },
+      "sha256": "e983e559c3f2ed025d2cfd74c7e46e7523c2bb83e523bd8844a36a0f3b6ea745"
+    },
+    {
+      "category": "role",
+      "id": "role:design-author",
+      "locator": {
+        "path": "roles/design-author.md",
+        "scope": "package"
+      },
+      "sha256": "62e3a14c4368fee92c5990734275aabe2872e8a7b391cc4466fe0f1886120ceb"
+    },
+    {
+      "category": "role",
+      "id": "role:task-planner",
+      "locator": {
+        "path": "roles/task-planner.md",
+        "scope": "package"
+      },
+      "sha256": "874354cef1dd9ce257b84176681458f50fa785fc2d47e5b924717802c601f19d"
+    },
+    {
+      "category": "role",
+      "id": "role:reviewer",
+      "locator": {
+        "path": "roles/reviewer.md",
+        "scope": "package"
+      },
+      "sha256": "3c104aef76ed70f84009050c5e595baed44ca7d28ce4f1382e97ccfc332dd257"
+    },
+    {
+      "category": "role",
+      "id": "role:implementer",
+      "locator": {
+        "path": "roles/implementer.md",
+        "scope": "package"
+      },
+      "sha256": "a6ae6095f0c6b3c9eab4974e33356f494431c2241ae84678fd31e0d850c56744"
+    },
+    {
+      "category": "role",
+      "id": "role:code-reviewer",
+      "locator": {
+        "path": "roles/code-reviewer.md",
+        "scope": "package"
+      },
+      "sha256": "26d39ea9ca12090909425622cdf50628ac0fb1e4effe786e0a42a64e79dddc8c"
+    },
+    {
+      "category": "template",
+      "id": "template:requirements",
+      "locator": {
+        "path": "templates/requirements.md.tmpl",
+        "scope": "package"
+      },
+      "sha256": "a886ba98df6f0e6931d6fb9005886e3d13f69a7b04420c875a94b3e61bc2c7d9"
+    },
+    {
+      "category": "template",
+      "id": "template:design",
+      "locator": {
+        "path": "templates/design.md.tmpl",
+        "scope": "package"
+      },
+      "sha256": "9db23b5925bdf4364fc6e1a21db9d4a8a3a1bd078a532d683f97b879307d5f4e"
+    },
+    {
+      "category": "template",
+      "id": "template:tasks",
+      "locator": {
+        "path": "templates/tasks.md.tmpl",
+        "scope": "package"
+      },
+      "sha256": "b823fe61077814789c5c1d6524e4a256d8d8b89588b9a29820befcecf39b87f3"
+    },
+    {
+      "category": "context",
+      "id": "context:agents",
+      "locator": {
+        "path": "AGENTS.md",
+        "scope": "project"
+      },
+      "sha256": "576451b454fd9a6fb93fddaf36bcf309edf222b0a2d983b5266d98a333c5c1b8"
+    }
+  ],
+  "effective_policy": {
+    "code_review": "on-completion",
+    "phase_pause": "design",
+    "specs_review": "design",
+    "warn_default": "continue"
+  },
+  "overrides": {},
+  "paths": {
+    "contract": "specs/segment-id-in-get-sutta/workflow-contract.json",
+    "design": "specs/segment-id-in-get-sutta/design.md",
+    "requirements": "specs/segment-id-in-get-sutta/requirements.md",
+    "reviews": "specs/segment-id-in-get-sutta/reviews",
+    "spec_dir": "specs/segment-id-in-get-sutta",
+    "state": "specs/segment-id-in-get-sutta/workflow-state.json",
+    "tasks": "specs/segment-id-in-get-sutta/tasks.md"
+  },
+  "project": {
+    "root": ".",
+    "root_kind": "git-worktree"
+  },
+  "schema_version": 1,
+  "spec_root": {
+    "kind": "project-relative",
+    "path": "specs"
+  },
+  "spec_slug": "segment-id-in-get-sutta"
+}
