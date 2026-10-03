@@ -171,7 +171,7 @@ API trả về 2 field: `type` (string) và `resembling` (boolean).
 | `translator` | string | Không | ID dịch giả. Mặc định: `sujato` |
 | `max_segments` | number | Không | Giới hạn số đoạn trả về. Mặc định: `50` |
 
-**Output:** Toàn văn sutta kèm citation header và link.
+**Output:** Toàn văn sutta kèm citation header và link. Mỗi đoạn in kèm segment ID nguyên văn từ key của Bilara, dạng `[mn10:1.1] So I have heard.`. Header có thêm một dòng `Deep link: https://suttacentral.net/{uid}/{lang}/{translator}#<segment_id>`, trong đó `{lang}` là lang thực sự đã phục vụ bản dịch; nối segment ID vào sau `#` để được link cuộn tới đúng đoạn (spec `segment-id-in-get-sutta`).
 
 **Nguồn dữ liệu:** `GET /api/bilarasuttas/{uid}/{translator}`
 
@@ -305,7 +305,7 @@ Claude trả lời có trích dẫn + link suttacentral.net/mn10
 
 3. **Cross-tradition search** — khi tìm một chủ đề, tự động fetch parallels và trả về kết quả từ nhiều truyền thống
 4. **Public hosting** — deploy lên Cloudflare Workers hoặc Railway để cộng đồng dùng không cần cài đặt
-5. **Segment ID trong `get_sutta` output** — Bilara API trả về segment ID dạng `mn10:1.1` làm key. Production nên include segment ID trong output để hỗ trợ deep-link đến `suttacentral.net/{uid}#{segment_id}`.
+5. **Segment ID trong `get_sutta` output** — **đã thực hiện (2026-10-02, spec `segment-id-in-get-sutta`).** Bilara API trả về segment ID dạng `mn10:1.1` làm key; `get_sutta` in mỗi đoạn kèm ID nguyên văn (`[mn10:1.1] So I have heard.`) và thêm một dòng header `Deep link:`. Dạng deep-link cuộn tới đúng đoạn là `suttacentral.net/{uid}/{lang}/{translator}#{segment_id}`, ví dụ `https://suttacentral.net/mn10/en/sujato#mn10:1.1`, với `{lang}` là lang thực sự đã phục vụ bản dịch. Trang cấp sutta `suttacentral.net/{uid}` là trang thẻ suttaplex, không có phần tử đoạn nào để cuộn tới.
 6. **Cache strategy** — dựa trên HTTP caching header mà chính SuttaCentral API đã trả về (xác nhận bằng live request tới `bilarasuttas` và `suttaplex`): `ETag` (weak) + `Cache-Control: max-age=172800, must-revalidate, proxy-revalidate`. Không cần tự tính checksum hay đồng bộ với bilara-data repo — SC đã tự làm việc này, tự chế thêm là trùng lặp và dễ lệch khi cấu trúc repo đổi.
 
    **Cache entry:** `{ uid, translator, data, etag, cachedAt }`

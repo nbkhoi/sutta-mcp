@@ -6,6 +6,17 @@
 **Requirements:** [requirements.md](./requirements.md)
 **Tiền nhiệm:** `specs/non-segmented-translation-guard/` — khối N1 của nó ràng buộc hình dạng diff (FR-6)
 
+> **Cập nhật (2026-10-02 — spec `segment-id-in-get-sutta`):** khối N3-B ở §N3 đã được thay bằng
+> bản giữ lại lang đã phục vụ bản dịch: thêm `let servedLang = "en";` (kèm comment) và gán
+> `servedLang = retryLang` khi retry, để `get_sutta` dựng dòng `Deep link:`. Luật tie-break,
+> điều kiện retry và số request không đổi. Khối code đó là bản hiện hành, khớp từng byte với
+> `src/index.ts`. Sơ đồ và các con số "11 dòng"/"12 dòng" phía dưới là hồ sơ thời điểm. Lý do:
+> `specs/segment-id-in-get-sutta/design.md`.
+> Đính chính (design-review-1 S2): ở §Vùng giữ nguyên byte-for-byte / vùng đổi, dòng bảng
+> "Thân `extractText()` — N1-A tiền nhiệm (19 dòng) | Giữ nguyên từng byte." và câu "không khối
+> N1 nào bị đụng" đúng với thay đổi của spec này, nhưng là hồ sơ thời điểm: N1-A đã được thay bởi
+> spec `segment-id-in-get-sutta`.
+
 ## Context Recap
 
 Nguyên nhân đã xác lập ở requirements: `fetchBilaraText()` không truyền query param `lang`, upstream mặc định `'en'` khi thiếu (`lang = request.args.get('lang', 'en')`, `views.py:1058`), nên mọi bản dịch segmented không phải tiếng Anh về đến nơi đều thiếu `translation_text` và guard tiền nhiệm chặn oan. Ba mảnh deliverable: (1) code — truyền `lang` xuống endpoint, kèm đường suy `lang` server-side; (2) sửa `specs/non-segmented-translation-guard/requirements.md`; (3) sửa `specs/sutta-mcp-requirements.md`. Toàn bộ *hành vi* đã chốt ở requirements (FR-1..FR-8, NFR-1..6); tài liệu này chốt bốn thứ requirements ủy quyền: **phương án lấy `lang`**, **luật tie-break cho case một-nhiều**, **hình dạng code**, và **nội dung nguyên văn các khối sửa spec**.
@@ -110,6 +121,9 @@ Tham số thứ ba optional: mọi call site cũ (`:250`) compile nguyên trạn
 ```ts
     const citation = formatCitation(suttaplex);
     let extracted = extractText(bilaraData);
+    // Lang thực sự phục vụ bản dịch, cho dòng Deep link (spec segment-id-in-get-sutta): lời gọi
+    // đầu không truyền lang nên là 'en' theo mặc định upstream; thành retryLang khi retry.
+    let servedLang = "en";
 
     // Retry-on-miss (spec bilara-lang-param): upstream mặc định lang='en' khi thiếu query
     // param (views.py:1058), nên bản dịch khác tiếng Anh cần gọi lại kèm ?lang=. Lang lấy từ
@@ -119,7 +133,10 @@ Tham số thứ ba optional: mọi call site cũ (`:250`) compile nguyên trạn
       const retryLang = (suttaplex?.translations ?? []).find(
         (t: any) => t.author_uid === translator && t.lang && t.lang !== "en"
       )?.lang;
-      if (retryLang) extracted = extractText(await fetchBilaraText(uid, translator, retryLang));
+      if (retryLang) {
+        extracted = extractText(await fetchBilaraText(uid, translator, retryLang));
+        servedLang = retryLang;
+      }
     }
 ```
 
