@@ -308,7 +308,7 @@ Claude trả lời có trích dẫn + link suttacentral.net/mn10
 5. **Segment ID trong `get_sutta` output** — **đã thực hiện (2026-10-02, spec `segment-id-in-get-sutta`).** Bilara API trả về segment ID dạng `mn10:1.1` làm key; `get_sutta` in mỗi đoạn kèm ID nguyên văn (`[mn10:1.1] So I have heard.`) và thêm một dòng header `Deep link:`. Dạng deep-link cuộn tới đúng đoạn là `suttacentral.net/{uid}/{lang}/{translator}#{segment_id}`, ví dụ `https://suttacentral.net/mn10/en/sujato#mn10:1.1`, với `{lang}` là lang thực sự đã phục vụ bản dịch. Trang cấp sutta `suttacentral.net/{uid}` là trang thẻ suttaplex, không có phần tử đoạn nào để cuộn tới.
 6. **Cache strategy** — dựa trên HTTP caching header mà chính SuttaCentral API đã trả về (xác nhận bằng live request tới `bilarasuttas` và `suttaplex`): `ETag` (weak) + `Cache-Control: max-age=172800, must-revalidate, proxy-revalidate`. Không cần tự tính checksum hay đồng bộ với bilara-data repo — SC đã tự làm việc này, tự chế thêm là trùng lặp và dễ lệch khi cấu trúc repo đổi.
 
-   **Cache entry:** `{ uid, translator, data, etag, cachedAt }`
+   **Cache entry:** `{ url, data, etag, cachedAt }`, khóa theo **URL request đầy đủ, gồm cả query** (`?lang=`, `?language=`). Không khóa theo `{ uid, translator }`: cùng `uid` + `translator`, `/api/bilarasuttas/` trả nội dung khác nhau tùy `?lang=` (ví dụ `phantuananh` thiếu `translation_text` khi không truyền `lang`, có khi truyền `?lang=vi` — spec `bilara-lang-param`), nên khóa thiếu `lang` sẽ trộn hai response.
 
    **Đọc cache (áp dụng cho Root text Pali và Bilara segments):**
    - `now - cachedAt < max-age` (lấy từ header response, không hardcode) → trả thẳng từ cache, không gọi API.
@@ -323,10 +323,12 @@ Claude trả lời có trích dẫn + link suttacentral.net/mn10
    | Root text Pali (Mahāsaṅgīti) | ETag + max-age như trên |
    | Bilara segments (nội dung sutta) | ETag + max-age như trên |
    | SuttaPlex metadata (blurb, parallels) | ETag + max-age như trên |
-   | Search results | TTL vài giờ (không có endpoint SC tương ứng để lấy ETag) |
+   | Search results | ETag + max-age như trên — `/api/search/instant` trả cùng `ETag` (weak) + `Cache-Control: max-age=172800` (đo 2026-10-17) |
    | Divisions list | Không áp dụng ở dạng hardcode hiện tại (không qua API nên không có ETag). Có đường chuyển sang API-backed — xem mục 7. |
 
    **Phụ thuộc:** stdio hiện tại là 1 process/1 user nên in-memory Map chạy đúng, nhưng chỉ có ích cục bộ. Cloudflare Workers không giữ biến JS giữa các request — cần Workers KV. Giá trị thật của store bền ở mục 4 là **chia sẻ cache giữa nhiều user đồng thời** (ví dụ nhiều người cùng hỏi `mn10` chỉ fetch 1 lần), không phải để sống sót qua restart.
+
+   **Giới hạn (theo Constraints "không tích lũy nội dung SC"):** cache chỉ là bản sao tạm thời của response để tránh gọi lặp lại, không phải kho nội dung. Store phải có giới hạn dung lượng (đẩy mục cũ ra khi đầy) và thời hạn tồn tại tối đa cho mỗi mục; chỉ ghi khi có tool call của người dùng, không prefetch hay làm ấm cache hàng loạt; không có đường nào liệt kê, xuất hay tái dùng nội dung cache ngoài việc trả lời chính lời gọi đó.
 
 7. **Dynamic divisions list** — thay `DIVISIONS` hardcode bằng API thật `GET /api/menu` (root pitakas) + `GET /api/menu/{uid}` (mở rộng từng nhóm con), xác nhận sống có cùng `ETag` + `Cache-Control: max-age=172800` như các endpoint khác nên áp dụng được chiến lược cache ở mục 6.
 
