@@ -253,6 +253,14 @@ server.tool(
       fetchBilaraText(uid, translator),
     ]);
 
+    // UID không tồn tại: SC trả HTTP 200, suttaplex có `uid` rỗng — cùng tín hiệu `!sp?.uid` của
+    // tool metadata. Không xét body bilara: `{"msg":"Not Found"}` cũng gặp ở UID nhánh (mn, dhp).
+    if (!suttaplex?.uid) {
+      return {
+        content: [{ type: "text", text: `Không tìm thấy sutta với UID: ${uid}` }],
+      };
+    }
+
     const citation = formatCitation(suttaplex);
     let extracted = extractText(bilaraData);
     // Lang thực sự phục vụ bản dịch, cho dòng Deep link (spec segment-id-in-get-sutta): lời gọi
