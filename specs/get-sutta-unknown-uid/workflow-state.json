@@ -1,0 +1,558 @@
+{
+  "contract_sha256": "6cdfe79e455ca6ecbf6ffc454f48bbd2555db643d5627ee399b40690a6e3daeb",
+  "contract_status": "active",
+  "contract_updates": [],
+  "decisions": [
+    {
+      "choice": "continue",
+      "contract_sha256": "6cdfe79e455ca6ecbf6ffc454f48bbd2555db643d5627ee399b40690a6e3daeb",
+      "decision_id": "decision-1",
+      "evidence": [],
+      "kind": "phase-pause",
+      "scope": {
+        "id": "design",
+        "type": "phase"
+      }
+    }
+  ],
+  "git": {
+    "baseline": {
+      "base_commit": "249bb97f04185a7bac358645d504649b354f259d",
+      "head_commit": "249bb97f04185a7bac358645d504649b354f259d",
+      "scope": {
+        "id": "T-3-5",
+        "type": "task"
+      },
+      "worktree_status_sha256": "f20db9e64428715b1c7e79e1adcd4e94aca919e73390f0585e74e7383179423d"
+    },
+    "evidence": [
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-1",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/get-sutta-unknown-uid/T-1-1-baseline.status",
+        "output_sha256": "32006ec7a3c63f9d54fa5eddc28e215f5c09918a635139625a9d342e14c67ee0"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "249bb97f04185a7bac358645d504649b354f259d"
+        ],
+        "evidence_id": "git-2",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/get-sutta-unknown-uid/T-1-1-diff-2.bin",
+        "output_sha256": "7af789a33de3f7e2dbef0dee22e2bb643adb3645dfea0c7cfeb76ac12de8f9ff"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-3",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/get-sutta-unknown-uid/T-2-1-baseline.status",
+        "output_sha256": "32006ec7a3c63f9d54fa5eddc28e215f5c09918a635139625a9d342e14c67ee0"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "249bb97f04185a7bac358645d504649b354f259d"
+        ],
+        "evidence_id": "git-4",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/get-sutta-unknown-uid/T-2-1-diff-4.bin",
+        "output_sha256": "ac67440f9b959e332a93b8550d387c6a944062aa4ecd073ebf8ca95d8d8b74bf"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-5",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/get-sutta-unknown-uid/T-3-1-baseline.status",
+        "output_sha256": "f20db9e64428715b1c7e79e1adcd4e94aca919e73390f0585e74e7383179423d"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "249bb97f04185a7bac358645d504649b354f259d"
+        ],
+        "evidence_id": "git-6",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/get-sutta-unknown-uid/T-3-1-diff-6.bin",
+        "output_sha256": "13b3d83a8804c9e79ee9afa28373145592d3a223d2d926aaf3dfebdfb9ff5e52"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-7",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/get-sutta-unknown-uid/T-3-2-baseline.status",
+        "output_sha256": "f20db9e64428715b1c7e79e1adcd4e94aca919e73390f0585e74e7383179423d"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "249bb97f04185a7bac358645d504649b354f259d"
+        ],
+        "evidence_id": "git-8",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/get-sutta-unknown-uid/T-3-2-diff-8.bin",
+        "output_sha256": "ae7bef1ee0a0df9202bc57883bd6fd22a27d6dd3376a253880595625a5387315"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-9",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/get-sutta-unknown-uid/T-3-3-baseline.status",
+        "output_sha256": "f20db9e64428715b1c7e79e1adcd4e94aca919e73390f0585e74e7383179423d"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "249bb97f04185a7bac358645d504649b354f259d"
+        ],
+        "evidence_id": "git-10",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/get-sutta-unknown-uid/T-3-3-diff-10.bin",
+        "output_sha256": "78fc51dbdf260f35767c585e0c2f7de1c7b61a1c2a8a6b5d5accb010e6657369"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-11",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/get-sutta-unknown-uid/T-3-4-baseline.status",
+        "output_sha256": "f20db9e64428715b1c7e79e1adcd4e94aca919e73390f0585e74e7383179423d"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "249bb97f04185a7bac358645d504649b354f259d"
+        ],
+        "evidence_id": "git-12",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/get-sutta-unknown-uid/T-3-4-diff-12.bin",
+        "output_sha256": "caf4a7ff8150e2012d75a08adf12419524a3bcba5edaff4402e329c2b8e5ae4a"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-13",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/get-sutta-unknown-uid/T-3-5-baseline.status",
+        "output_sha256": "f20db9e64428715b1c7e79e1adcd4e94aca919e73390f0585e74e7383179423d"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "249bb97f04185a7bac358645d504649b354f259d"
+        ],
+        "evidence_id": "git-14",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/get-sutta-unknown-uid/T-3-5-diff-14.bin",
+        "output_sha256": "598ad03b5691c8244cb2d0aafd4583ac2700f44d8abcb7e28bafab1efeaacce6"
+      }
+    ]
+  },
+  "history": [
+    {
+      "event_id": "event-1",
+      "from_revision": 0,
+      "kind": "created",
+      "refs": [],
+      "to_revision": 1
+    },
+    {
+      "event_id": "event-2",
+      "from_revision": 1,
+      "kind": "contract-activated",
+      "refs": [
+        "6cdfe79e455ca6ecbf6ffc454f48bbd2555db643d5627ee399b40690a6e3daeb"
+      ],
+      "to_revision": 2
+    },
+    {
+      "event_id": "event-3",
+      "from_revision": 3,
+      "kind": "gate-opened",
+      "refs": [
+        "requirements",
+        "specs/get-sutta-unknown-uid/reviews/requirements-review-1.md"
+      ],
+      "to_revision": 4
+    },
+    {
+      "event_id": "event-4",
+      "from_revision": 6,
+      "kind": "report-processed",
+      "refs": [
+        "specs/get-sutta-unknown-uid/reviews/requirements-review-1.md",
+        "a20444ee56bea857952af84c68aa8c8a7fea50e1b769cc4e1be9925a98002ad0"
+      ],
+      "to_revision": 7
+    },
+    {
+      "event_id": "event-5",
+      "from_revision": 7,
+      "kind": "phase-advanced",
+      "refs": [
+        "requirements",
+        "design"
+      ],
+      "to_revision": 8
+    },
+    {
+      "event_id": "event-6",
+      "from_revision": 9,
+      "kind": "gate-opened",
+      "refs": [
+        "design",
+        "specs/get-sutta-unknown-uid/reviews/design-review-1.md"
+      ],
+      "to_revision": 10
+    },
+    {
+      "event_id": "event-7",
+      "from_revision": 12,
+      "kind": "report-processed",
+      "refs": [
+        "specs/get-sutta-unknown-uid/reviews/design-review-1.md",
+        "d2b8eb424c174bcaee5e9b8b7170383d8a4dceb8a910caada2d383bd85b10b1c"
+      ],
+      "to_revision": 13
+    },
+    {
+      "event_id": "event-8",
+      "from_revision": 13,
+      "kind": "gate-opened",
+      "refs": [
+        "phase-pause:design"
+      ],
+      "to_revision": 14
+    },
+    {
+      "event_id": "event-9",
+      "from_revision": 14,
+      "kind": "decision-recorded",
+      "refs": [
+        "decision-1",
+        "design"
+      ],
+      "to_revision": 15
+    },
+    {
+      "event_id": "event-10",
+      "from_revision": 16,
+      "kind": "review-skipped",
+      "refs": [
+        "tasks",
+        "specs_review:design"
+      ],
+      "to_revision": 17
+    },
+    {
+      "event_id": "event-11",
+      "from_revision": 16,
+      "kind": "phase-advanced",
+      "refs": [
+        "tasks",
+        "build"
+      ],
+      "to_revision": 17
+    },
+    {
+      "event_id": "event-12",
+      "from_revision": 20,
+      "kind": "task-advanced",
+      "refs": [
+        "T-1-1",
+        "T-2-1"
+      ],
+      "to_revision": 21
+    },
+    {
+      "event_id": "event-13",
+      "from_revision": 24,
+      "kind": "task-advanced",
+      "refs": [
+        "T-2-1",
+        "T-3-1"
+      ],
+      "to_revision": 25
+    },
+    {
+      "event_id": "event-14",
+      "from_revision": 28,
+      "kind": "task-advanced",
+      "refs": [
+        "T-3-1",
+        "T-3-2"
+      ],
+      "to_revision": 29
+    },
+    {
+      "event_id": "event-15",
+      "from_revision": 32,
+      "kind": "task-advanced",
+      "refs": [
+        "T-3-2",
+        "T-3-3"
+      ],
+      "to_revision": 33
+    },
+    {
+      "event_id": "event-16",
+      "from_revision": 36,
+      "kind": "task-advanced",
+      "refs": [
+        "T-3-3",
+        "T-3-4"
+      ],
+      "to_revision": 37
+    },
+    {
+      "event_id": "event-17",
+      "from_revision": 41,
+      "kind": "task-advanced",
+      "refs": [
+        "T-3-4",
+        "T-3-5"
+      ],
+      "to_revision": 42
+    },
+    {
+      "event_id": "event-18",
+      "from_revision": 45,
+      "kind": "gate-opened",
+      "refs": [
+        "get-sutta-unknown-uid",
+        "specs/get-sutta-unknown-uid/reviews/code-review-final-1.md"
+      ],
+      "to_revision": 46
+    },
+    {
+      "event_id": "event-19",
+      "from_revision": 48,
+      "kind": "report-processed",
+      "refs": [
+        "specs/get-sutta-unknown-uid/reviews/code-review-final-1.md",
+        "6072d707a9235797c4bf6c786a35c3e0d45caa81e3d6326209c1e9fa8207058a"
+      ],
+      "to_revision": 49
+    },
+    {
+      "event_id": "event-20",
+      "from_revision": 49,
+      "kind": "completed",
+      "refs": [],
+      "to_revision": 50
+    }
+  ],
+  "invalidations": [],
+  "lifecycle": "complete",
+  "next_action": {
+    "kind": "report-complete"
+  },
+  "pending_gate": null,
+  "phase": "complete",
+  "processed_reports": [
+    {
+      "disposition": "resolved",
+      "path": "specs/get-sutta-unknown-uid/reviews/requirements-review-1.md",
+      "purpose": "phase-review",
+      "scope": {
+        "id": "requirements",
+        "type": "artifact"
+      },
+      "sha256": "a20444ee56bea857952af84c68aa8c8a7fea50e1b769cc4e1be9925a98002ad0",
+      "verdict": "Approve with changes"
+    },
+    {
+      "disposition": "resolved",
+      "path": "specs/get-sutta-unknown-uid/reviews/design-review-1.md",
+      "purpose": "phase-review",
+      "scope": {
+        "id": "design",
+        "type": "artifact"
+      },
+      "sha256": "d2b8eb424c174bcaee5e9b8b7170383d8a4dceb8a910caada2d383bd85b10b1c",
+      "verdict": "Approve with changes"
+    },
+    {
+      "disposition": "resolved",
+      "path": "specs/get-sutta-unknown-uid/reviews/code-review-final-1.md",
+      "purpose": "on-completion",
+      "scope": {
+        "id": "get-sutta-unknown-uid",
+        "type": "feature"
+      },
+      "sha256": "6072d707a9235797c4bf6c786a35c3e0d45caa81e3d6326209c1e9fa8207058a",
+      "verdict": "Approve"
+    }
+  ],
+  "schema_version": 1,
+  "state_revision": 50,
+  "verification": [
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-1-1.sh"
+      ],
+      "evidence_id": "verification-1",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/get-sutta-unknown-uid/T-1-1-verify-1.log",
+      "output_sha256": "ee52096126c766115d3cd35fa7a7dc2c6313558f910207b5ad60c5cb8c458def",
+      "scope": {
+        "id": "T-1-1",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-2-1.sh"
+      ],
+      "evidence_id": "verification-2",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/get-sutta-unknown-uid/T-2-1-verify-1.log",
+      "output_sha256": "e7414f9b70459137bf04082ed97072a1b1ce8955518c7d2791ba67c9f282bdd6",
+      "scope": {
+        "id": "T-2-1",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-3-1.sh"
+      ],
+      "evidence_id": "verification-3",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/get-sutta-unknown-uid/T-3-1-verify-1.log",
+      "output_sha256": "8472fe96aceee9cece2d6822bf285c39c797a4fc8f63652e261ab4634a1aee5f",
+      "scope": {
+        "id": "T-3-1",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-3-2.sh"
+      ],
+      "evidence_id": "verification-4",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/get-sutta-unknown-uid/T-3-2-verify-1.log",
+      "output_sha256": "92e9288b8521ae75a5b6210ad64de9caa2c1c65bdb86790c4f496bcc7cb05807",
+      "scope": {
+        "id": "T-3-2",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-3-3.sh"
+      ],
+      "evidence_id": "verification-5",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/get-sutta-unknown-uid/T-3-3-verify-1.log",
+      "output_sha256": "28b59d476cf0bc5921d628ed027510c34c1e509dd7883ebc7aa71517058f7161",
+      "scope": {
+        "id": "T-3-3",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-3-4.sh"
+      ],
+      "evidence_id": "verification-6",
+      "exit_code": 1,
+      "output_path": ".claude/spec-evidence/get-sutta-unknown-uid/T-3-4-verify-1.log",
+      "output_sha256": "96414c75e59ca0e66c09d6d90d08de02b995abe265513e4428dd936bc71b779e",
+      "scope": {
+        "id": "T-3-4",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-3-4.sh"
+      ],
+      "evidence_id": "verification-7",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/get-sutta-unknown-uid/T-3-4-verify-2.log",
+      "output_sha256": "866e7374447765894ff6cb6f2c1b05c78cb063563ea461fe2335cea00dbe34ec",
+      "scope": {
+        "id": "T-3-4",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-3-5.sh"
+      ],
+      "evidence_id": "verification-8",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/get-sutta-unknown-uid/T-3-5-verify-1.log",
+      "output_sha256": "df139dc6ed6efd932a4c00aa28d492ba2fa9459e411e24b66566dc207c2c977d",
+      "scope": {
+        "id": "T-3-5",
+        "type": "task"
+      }
+    }
+  ]
+}
