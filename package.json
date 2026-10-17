@@ -2,6 +2,7 @@
   "name": "sutta-mcp",
   "version": "0.1.0",
   "description": "MCP server for SuttaCentral — Dhamma assistant with citations",
+  "license": "PolyForm-Noncommercial-1.0.0",
   "type": "module",
   "main": "dist/index.js",
   "engines": {

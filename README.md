@@ -80,3 +80,16 @@ Tiếng Việt: `chánh niệm`, `tứ diệu đế`, `bát chánh đạo`, `vô
 
 SuttaCentral yêu cầu content của họ không được dùng để train AI.
 MCP này chỉ fetch dữ liệu theo thời gian thực để trả lời người dùng, không cache hay train.
+
+## Giấy phép
+
+Sutta MCP phát hành theo [PolyForm Noncommercial 1.0.0](LICENSE). Bạn được dùng, sửa và chia sẻ
+tự do cho mọi mục đích phi thương mại — tu học cá nhân, thực hành tôn giáo, nghiên cứu, chùa và
+tổ chức từ thiện, trường học, cơ quan nhà nước. Không được bán hoặc dùng cho mục đích thương mại.
+Đây là giấy phép source-available, không phải open source theo định nghĩa của OSI.
+
+Tác giả không bán dự án này. Theo tinh thần SuttaCentral cho đi kinh điển miễn phí, Sutta MCP
+cũng được cho đi như một pháp thí.
+
+Giấy phép chỉ áp dụng cho code của Sutta MCP. Nội dung kinh do SuttaCentral cung cấp theo
+[điều khoản riêng của SuttaCentral](https://suttacentral.net/licensing).
