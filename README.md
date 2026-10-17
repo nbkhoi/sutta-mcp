@@ -83,6 +83,11 @@ MCP này chỉ fetch dữ liệu theo thời gian thực để trả lời ngư�
 Hiện chưa có cache; nếu thêm (roadmap mục 6), cache chỉ là bản sao tạm thời, có giới hạn,
 không tích lũy thành bộ dữ liệu.
 
+## Tài liệu thiết kế
+
+- [Đặc tả và roadmap](specs/sutta-mcp-requirements.md) — tools, ràng buộc, hướng nâng cấp
+- [Danh sách spec tính năng](specs/INDEX.md)
+
 ## Giấy phép
 
 Sutta MCP phát hành theo [PolyForm Noncommercial 1.0.0](LICENSE). Bạn được dùng, sửa và chia sẻ
