@@ -20,7 +20,7 @@ No test runner or linter is configured yet.
 
 ## Architecture
 
-Single-file server: `src/index.ts` (~410 lines). Everything lives here.
+Single-file server: `src/index.ts` (~510 lines). Everything lives here.
 
 **Three layers:**
 
@@ -28,14 +28,14 @@ Single-file server: `src/index.ts` (~410 lines). Everything lives here.
 2. **Topic index** — `TOPIC_INDEX` is a static `Record<string, string[]>` mapping topic keywords (both English and Vietnamese) to sutta UIDs. This is the prototype search mechanism; the roadmap calls for replacing it with SuttaCentral's Elasticsearch.
 3. **MCP tool definitions** — five tools registered via `server.tool()`:
    - `search_topic` — topic keyword → list of sutta UIDs with metadata
-   - `get_sutta` — full sutta text via Bilara API (with `max_segments` truncation)
+   - `get_sutta` — full sutta text via Bilara API, each segment prefixed with its segment ID plus a `Deep link:` header (with `max_segments` truncation)
    - `get_sutta_meta` — metadata only (blurb, difficulty, translations list)
    - `get_parallels` — cross-tradition parallel texts for a given sutta
    - `list_divisions` — hardcoded division listing filtered by pitaka (sutta/vinaya/abhidhamma); no API call
 
 **Key SuttaCentral API endpoints used:**
 - `GET /api/suttaplex/{uid}?language={lang}` — metadata
-- `GET /api/bilarasuttas/{uid}/{translator}` — segmented text
+- `GET /api/bilarasuttas/{uid}/{translator}?lang={lang}` — segmented text; `lang` defaults to `en` upstream, so non-English translations are retried once with `?lang=`
 - `GET /api/parallels/{uid}` — parallels
 
 ## Extending the Topic Index
