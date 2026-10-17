@@ -11,7 +11,7 @@ MCP server kết nối Claude với SuttaCentral — giúp trả lời câu hỏ
 | Tool | Mô tả |
 |------|-------|
 | `search_topic` | Tìm sutta theo chủ đề (vô ngã, chánh niệm, tứ diệu đế...) |
-| `get_sutta` | Lấy toàn văn sutta theo UID |
+| `get_sutta` | Lấy toàn văn sutta theo UID, mỗi đoạn kèm segment ID để dẫn link tới đúng đoạn trên SuttaCentral |
 | `get_sutta_meta` | Metadata: tên, blurb, độ khó, danh sách bản dịch |
 | `get_parallels` | Parallels giữa các truyền thống (Pali, Hán tạng, Sanskrit) |
 | `list_divisions` | Liệt kê các bộ kinh, lọc theo tạng (sutta/vinaya/abhidhamma) |
@@ -19,8 +19,8 @@ MCP server kết nối Claude với SuttaCentral — giúp trả lời câu hỏ
 ## Cài đặt
 
 ```bash
-git clone <repo>
-cd suttacentral-mcp
+git clone https://github.com/nbkhoi/sutta-mcp.git
+cd sutta-mcp
 npm install
 npm run build
 ```
@@ -43,7 +43,7 @@ Thêm vào file config của Claude Desktop:
   "mcpServers": {
     "suttacentral": {
       "command": "node",
-      "args": ["/đường/dẫn/tuyệt/đối/suttacentral-mcp/dist/index.js"]
+      "args": ["/đường/dẫn/tuyệt/đối/sutta-mcp/dist/index.js"]
     }
   }
 }
@@ -79,7 +79,9 @@ Tiếng Việt: `chánh niệm`, `tứ diệu đế`, `bát chánh đạo`, `vô
 ## Lưu ý
 
 SuttaCentral yêu cầu content của họ không được dùng để train AI.
-MCP này chỉ fetch dữ liệu theo thời gian thực để trả lời người dùng, không cache hay train.
+MCP này chỉ fetch dữ liệu theo thời gian thực để trả lời người dùng và không train.
+Hiện chưa có cache; nếu thêm (roadmap mục 6), cache chỉ là bản sao tạm thời, có giới hạn,
+không tích lũy thành bộ dữ liệu.
 
 ## Giấy phép
 
