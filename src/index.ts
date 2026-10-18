@@ -75,9 +75,9 @@ const TOPIC_INDEX: Record<string, string[]> = {
   "ngũ uẩn": ["sn22.59", "mn109"],
 
   // Niết bàn / Nibbana
-  "nibbana": ["ud8.1", "iti43", "sn43.14"],
-  "nirvana": ["ud8.1", "iti43"],
-  "niết bàn": ["ud8.1", "iti43"],
+  "nibbana": ["ud8.1", "iti43", "sn43.12"],
+  "nirvana": ["ud8.1", "iti43", "sn43.12"],
+  "niết bàn": ["ud8.1", "iti43", "sn43.12"],
 
   // Nghiệp / Kamma
   "kamma": ["mn135", "an3.65", "mn57"],
