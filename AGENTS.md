@@ -25,7 +25,7 @@ Single-file server: `src/index.ts` (~510 lines). Everything lives here.
 **Three layers:**
 
 1. **SuttaCentral API helpers** — `fetchSuttaplex()`, `fetchBilaraText()`, `fetchParallels()` wrapping `https://suttacentral.net/api`.
-2. **Topic index** — `TOPIC_INDEX` is a static `Record<string, string[]>` mapping topic keywords (both English and Vietnamese) to sutta UIDs. This is the prototype search mechanism; the roadmap calls for replacing it with SuttaCentral's Elasticsearch.
+2. **Topic index** — `TOPIC_INDEX` is a static `Record<string, string[]>` mapping topic keywords (both English and Vietnamese) to sutta UIDs. This is the prototype search mechanism; the roadmap calls for replacing it with SuttaCentral's search API (`/api/search/instant`), which does not handle Vietnamese queries on its own.
 3. **MCP tool definitions** — five tools registered via `server.tool()`:
    - `search_topic` — topic keyword → list of sutta UIDs with metadata
    - `get_sutta` — full sutta text via Bilara API, each segment prefixed with its segment ID plus a `Deep link:` header (with `max_segments` truncation)
