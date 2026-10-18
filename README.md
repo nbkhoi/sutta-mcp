@@ -74,7 +74,7 @@ Tiếng Việt: `chánh niệm`, `tứ diệu đế`, `bát chánh đạo`, `vô
 ## Mở rộng
 
 Để thêm chủ đề mới, chỉnh `TOPIC_INDEX` trong `src/index.ts`.
-Đây là prototype — bước tiếp theo là tích hợp Elasticsearch của SuttaCentral để search thực sự.
+Đây là prototype — bước tiếp theo là tích hợp search API của SuttaCentral (`/api/search/instant`) để search thực sự.
 
 ## Lưu ý
 

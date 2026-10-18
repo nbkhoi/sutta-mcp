@@ -287,7 +287,14 @@ Claude trả lời có trích dẫn + link suttacentral.net/mn10
 
 ## Hướng nâng cấp (sau prototype)
 
-1. **Dynamic search** — thay `TOPIC_INDEX` tĩnh bằng Elasticsearch của SuttaCentral
+1. **Dynamic search** — thay `TOPIC_INDEX` tĩnh bằng search API của SuttaCentral: `GET /api/search/instant?query=&language=&limit=`.
+
+   **Đã đo (2026-10-17, 2026-10-18), cần giải quyết trong requirements:**
+   - **Truy vấn tiếng Việt gần như không có kết quả.** `niết bàn`, `vô ngã` với `language=en`: `total` 0. Với `language=vi`: `total` 20–21 nhưng `hits` rỗng, chỉ có mảng `suttaplex`. Thuật ngữ Pali/Anh thì có (`anatta` + `language=vi`: 145, chủ yếu hit Pali; `nibbana` + `language=en`: 456). Yêu cầu song ngữ của Tool 1 không đạt được nếu chỉ chuyển truy vấn thẳng sang API — cần ánh xạ từ khóa Việt sang thuật ngữ Pali/Anh, hoặc giữ `TOPIC_INDEX` làm fallback cho tiếng Việt.
+   - **Hit không phải sutta.** Hit đầu của `nibbana` là `{"category": "dictionary", "url": "/define/nibbana"}`, không có `uid`. Đưa thẳng vào `formatCitation()` sẽ in `**?**` và link `suttacentral.net/?` (cùng dạng lỗi #10, #11), nên phải lọc.
+   - **Hit theo bản dịch, không theo sutta.** Mỗi hit mang `uid` + `author_uid` + `lang`, nên một sutta có thể xuất hiện nhiều lần; response còn có mảng `suttaplex` riêng. Cần chọn nguồn và cách gộp theo `uid`.
+   - **GET và POST lệch `total`.** Cùng `query=mindfulness`: GET 1461, POST 1472. Chưa rõ nguyên nhân.
+
 2. **Tiếng Việt** — tích hợp bản dịch tiếng Việt khi có trên SC. **Đã thực hiện phần lấy bản dịch** (spec `non-segmented-translation-guard`, `bilara-lang-param`). Không có fallback tự động sang tiếng Anh: khi bản dịch được yêu cầu không có `translation_text`, `get_sutta` báo rõ và liệt kê các bản dịch khác (cùng lang trước, rồi `en`) để người gọi chọn.
 
    **Cơ chế thật (đã xác minh):** với dịch giả tiếng Việt, `/api/bilarasuttas/{uid}/{translator}` trả **HTTP 200** với body chứa `html_text`, `root_text`, `variant_text`, `reference_text`, `keys_order` — và **không có** `translation_text`. Lời gọi API không hỏng; thất bại trước đây nằm ở phía Sutta MCP: `extractText()` fallback im lặng sang `root_text` khi thiếu `translation_text`, khiến `get_sutta` in văn bản Pali dưới tên dịch giả Việt. Lỗi này đã được guard trong spec `non-segmented-translation-guard` — khi thiếu `translation_text`, tool báo rõ và liệt kê dịch giả thay thế thay vì thay thân văn bản.
@@ -303,7 +310,7 @@ Claude trả lời có trích dẫn + link suttacentral.net/mn10
 
    **Đã có lời giải (2026-08-09, spec `bilara-lang-param`):** website render `dhp1-20/vi/phantuananh` được vì nó truyền `lang` cho backend; `/api/bilarasuttas/` mặc định tiếng Anh khi thiếu query param — `lang = request.args.get('lang', 'en')` (`server/src/api/views/views.py:1058`; câu code là neo chính, số dòng upstream có thể trôi). Fix phía Sutta MCP: `fetchBilaraText()` truyền `?lang=` lấy từ `suttaplex.translations[].lang` — xem `specs/bilara-lang-param/`.
 
-3. **Cross-tradition search** — khi tìm một chủ đề, tự động fetch parallels và trả về kết quả từ nhiều truyền thống
+3. **Cross-tradition search** — khi tìm một chủ đề, tự động fetch parallels và trả về kết quả từ nhiều truyền thống. **Phụ thuộc** mục 1 (cần danh sách kết quả động). **Ràng buộc:** fetch parallels cho mọi kết quả nhân số lời gọi API, trái Constraints "Mỗi tool call chỉ fetch đúng những gì cần" — phải giới hạn số kết quả được mở rộng hoặc chỉ fetch khi người gọi yêu cầu. Tool `get_parallels` đã phục vụ trường hợp từng sutta.
 4. **Public hosting** — deploy lên Cloudflare Workers hoặc Railway để cộng đồng dùng không cần cài đặt. **Điều kiện:** server hiện chỉ có transport stdio (`StdioServerTransport`), tức chạy như tiến trình con của client; host công khai cần thêm một transport HTTP của MCP. Cache dùng chung giữa nhiều user cần store bền — xem mục 6.
 5. **Segment ID trong `get_sutta` output** — **đã thực hiện (2026-10-02, spec `segment-id-in-get-sutta`).** Bilara API trả về segment ID dạng `mn10:1.1` làm key; `get_sutta` in mỗi đoạn kèm ID nguyên văn (`[mn10:1.1] So I have heard.`) và thêm một dòng header `Deep link:`. Dạng deep-link cuộn tới đúng đoạn là `suttacentral.net/{uid}/{lang}/{translator}#{segment_id}`, ví dụ `https://suttacentral.net/mn10/en/sujato#mn10:1.1`, với `{lang}` là lang thực sự đã phục vụ bản dịch. Trang cấp sutta `suttacentral.net/{uid}` là trang thẻ suttaplex, không có phần tử đoạn nào để cuộn tới.
 6. **Cache strategy** — dựa trên HTTP caching header mà chính SuttaCentral API đã trả về (xác nhận bằng live request tới `bilarasuttas` và `suttaplex`): `ETag` (weak) + `Cache-Control: max-age=172800, must-revalidate, proxy-revalidate`. Không cần tự tính checksum hay đồng bộ với bilara-data repo — SC đã tự làm việc này, tự chế thêm là trùng lặp và dễ lệch khi cấu trúc repo đổi.
