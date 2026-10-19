@@ -1,0 +1,1342 @@
+{
+  "contract_sha256": "3d199da86db95edeb40eb99a01754301f4fd3bce5ffc21c5f97c9a4567b2986f",
+  "contract_status": "active",
+  "contract_updates": [
+    {
+      "affected_gates": [
+        {
+          "id": "dependencies.context:agents",
+          "type": "contract"
+        }
+      ],
+      "decision_id": "decision-5",
+      "new_sha256": "3d199da86db95edeb40eb99a01754301f4fd3bce5ffc21c5f97c9a4567b2986f",
+      "old_sha256": "5148c63967787c7f3d1cf01e678543fd412d43e1984cf5eb4b30e78cf87a4e0f",
+      "status": "applied"
+    }
+  ],
+  "decisions": [
+    {
+      "choice": "reopen",
+      "contract_sha256": "5148c63967787c7f3d1cf01e678543fd412d43e1984cf5eb4b30e78cf87a4e0f",
+      "decision_id": "decision-1",
+      "evidence": [
+        {
+          "path": "specs/dynamic-search/reviews/requirements-review-1.md",
+          "sha256": "2db8f72c037132e5564cfd37abc2c59b261fd0d6446d9a1db7607ef8b7009675"
+        }
+      ],
+      "kind": "reopen",
+      "scope": {
+        "id": "requirements",
+        "type": "artifact"
+      }
+    },
+    {
+      "choice": "reopen",
+      "contract_sha256": "5148c63967787c7f3d1cf01e678543fd412d43e1984cf5eb4b30e78cf87a4e0f",
+      "decision_id": "decision-2",
+      "evidence": [
+        {
+          "path": "specs/dynamic-search/reviews/requirements-review-2.md",
+          "sha256": "ba0141917a1dee72aeef780a9cc52a21ad36b1a3c60f79b43115c379b5cb5a04"
+        }
+      ],
+      "kind": "reopen",
+      "scope": {
+        "id": "requirements",
+        "type": "artifact"
+      }
+    },
+    {
+      "choice": "reopen",
+      "contract_sha256": "5148c63967787c7f3d1cf01e678543fd412d43e1984cf5eb4b30e78cf87a4e0f",
+      "decision_id": "decision-3",
+      "evidence": [
+        {
+          "path": "specs/dynamic-search/reviews/design-review-1.md",
+          "sha256": "fba2401f0c1078b86ae2b82e5d55fc83965376f9a96323a19cc6d09ce8962d6d"
+        }
+      ],
+      "kind": "reopen",
+      "scope": {
+        "id": "design",
+        "type": "artifact"
+      }
+    },
+    {
+      "choice": "continue",
+      "contract_sha256": "5148c63967787c7f3d1cf01e678543fd412d43e1984cf5eb4b30e78cf87a4e0f",
+      "decision_id": "decision-4",
+      "evidence": [],
+      "kind": "phase-pause",
+      "scope": {
+        "id": "design",
+        "type": "phase"
+      }
+    },
+    {
+      "choice": "apply:3d199da86db95edeb40eb99a01754301f4fd3bce5ffc21c5f97c9a4567b2986f",
+      "contract_sha256": "5148c63967787c7f3d1cf01e678543fd412d43e1984cf5eb4b30e78cf87a4e0f",
+      "decision_id": "decision-5",
+      "evidence": [
+        {
+          "path": ".claude/spec-evidence/dynamic-search/contract-update-preview.json",
+          "sha256": "c63c2d773b7f19f941aa3af84e9aff2cc392702ea75a55acb26417e7befba532"
+        }
+      ],
+      "kind": "contract-update",
+      "scope": {
+        "id": "3d199da86db95edeb40eb99a01754301f4fd3bce5ffc21c5f97c9a4567b2986f",
+        "type": "contract"
+      }
+    }
+  ],
+  "git": {
+    "baseline": {
+      "base_commit": "40846bb402e1d82863d038c335789c4b92b63616",
+      "head_commit": "40846bb402e1d82863d038c335789c4b92b63616",
+      "scope": {
+        "id": "T-6-1",
+        "type": "task"
+      },
+      "worktree_status_sha256": "b1869606c2f16207d51f024c3f34eb4f610afc597e14e2c706eec976fcaacbfc"
+    },
+    "evidence": [
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-1",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-1-1-baseline.status",
+        "output_sha256": "07be94afd5fc8b02788fb41927dcf34cb75b62fc8824243aa3e00fec60701f50"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "40846bb402e1d82863d038c335789c4b92b63616"
+        ],
+        "evidence_id": "git-2",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-1-1-diff-2.bin",
+        "output_sha256": "d6071d786c8935bb55eedd5529415dabad63d5372922edb07c6c6bd738057e2b"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-3",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-2-1-baseline.status",
+        "output_sha256": "07be94afd5fc8b02788fb41927dcf34cb75b62fc8824243aa3e00fec60701f50"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "40846bb402e1d82863d038c335789c4b92b63616"
+        ],
+        "evidence_id": "git-4",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-2-1-diff-4.bin",
+        "output_sha256": "f52515b9c86e3f562b33d7190e020d725cb07ab58634a73d82468aaffd15f7fb"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-5",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-2-2-baseline.status",
+        "output_sha256": "47742d6519a74a1a3abfb807b9687c1a87603b1da0399cdb73eb07944078ea0c"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "40846bb402e1d82863d038c335789c4b92b63616"
+        ],
+        "evidence_id": "git-6",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-2-2-diff-6.bin",
+        "output_sha256": "a992ffbf71e16d18d5312f7e5cee8741428cb23d693028f93841b37b59a05f68"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-7",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-2-3-baseline.status",
+        "output_sha256": "47742d6519a74a1a3abfb807b9687c1a87603b1da0399cdb73eb07944078ea0c"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "40846bb402e1d82863d038c335789c4b92b63616"
+        ],
+        "evidence_id": "git-8",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-2-3-diff-8.bin",
+        "output_sha256": "df86bf31d958b7a155f757d326212913ea0e0ac697e91e97d8ca866e5e57d769"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-9",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-3-1-baseline.status",
+        "output_sha256": "47742d6519a74a1a3abfb807b9687c1a87603b1da0399cdb73eb07944078ea0c"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "40846bb402e1d82863d038c335789c4b92b63616"
+        ],
+        "evidence_id": "git-10",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-3-1-diff-10.bin",
+        "output_sha256": "f1fe16d8ddcdd4df6c5c921a98a782c76cb324a82a5d13c0019551733ad1322b"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-11",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-3-2-baseline.status",
+        "output_sha256": "47742d6519a74a1a3abfb807b9687c1a87603b1da0399cdb73eb07944078ea0c"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "40846bb402e1d82863d038c335789c4b92b63616"
+        ],
+        "evidence_id": "git-12",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-3-2-diff-12.bin",
+        "output_sha256": "dcb8176aa041862e02262be291c7edfa79b9b9fa5dc8f61cb3e5b6f8343d2763"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-13",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-3-3-baseline.status",
+        "output_sha256": "47742d6519a74a1a3abfb807b9687c1a87603b1da0399cdb73eb07944078ea0c"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "40846bb402e1d82863d038c335789c4b92b63616"
+        ],
+        "evidence_id": "git-14",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-3-3-diff-14.bin",
+        "output_sha256": "a24a8e696fc935f6d71d7c230e6ccde0eca70ea91dc751b3b815798c7f26d39d"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-15",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-3-4-baseline.status",
+        "output_sha256": "47742d6519a74a1a3abfb807b9687c1a87603b1da0399cdb73eb07944078ea0c"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "40846bb402e1d82863d038c335789c4b92b63616"
+        ],
+        "evidence_id": "git-16",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-3-4-diff-16.bin",
+        "output_sha256": "2e918ed731d447dbb1722961e4d24a79446b89a4c7e2a655dd0163297f4cdd32"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-17",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-3-5-baseline.status",
+        "output_sha256": "47742d6519a74a1a3abfb807b9687c1a87603b1da0399cdb73eb07944078ea0c"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "40846bb402e1d82863d038c335789c4b92b63616"
+        ],
+        "evidence_id": "git-18",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-3-5-diff-18.bin",
+        "output_sha256": "5589c8db75819359dd474add2592b8807e02a32c94112116125815318e124d3d"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-19",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-3-6-baseline.status",
+        "output_sha256": "47742d6519a74a1a3abfb807b9687c1a87603b1da0399cdb73eb07944078ea0c"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "40846bb402e1d82863d038c335789c4b92b63616"
+        ],
+        "evidence_id": "git-20",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-3-6-diff-20.bin",
+        "output_sha256": "11c76bfe94389a625e73fa3728d4cb0172bc73a15e469e277aaafefce3b1a3d8"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-21",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-3-7-baseline.status",
+        "output_sha256": "47742d6519a74a1a3abfb807b9687c1a87603b1da0399cdb73eb07944078ea0c"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "40846bb402e1d82863d038c335789c4b92b63616"
+        ],
+        "evidence_id": "git-22",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-3-7-diff-22.bin",
+        "output_sha256": "074db53a061be301ce6a435734c6a2ad14965e236f1274df11871904ad32b2dd"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-23",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-3-8-baseline.status",
+        "output_sha256": "47742d6519a74a1a3abfb807b9687c1a87603b1da0399cdb73eb07944078ea0c"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "40846bb402e1d82863d038c335789c4b92b63616"
+        ],
+        "evidence_id": "git-24",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-3-8-diff-24.bin",
+        "output_sha256": "7db16097b4d604a8c1e49658efce622a3b61b9490a6fce792f550503eb742f7f"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-25",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-3-9-baseline.status",
+        "output_sha256": "47742d6519a74a1a3abfb807b9687c1a87603b1da0399cdb73eb07944078ea0c"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "40846bb402e1d82863d038c335789c4b92b63616"
+        ],
+        "evidence_id": "git-26",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-3-9-diff-26.bin",
+        "output_sha256": "79d5faf736083c130e4fedbab548207b5db4770f1179153a9b25b9525aba6de2"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-27",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-3-10-baseline.status",
+        "output_sha256": "47742d6519a74a1a3abfb807b9687c1a87603b1da0399cdb73eb07944078ea0c"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "40846bb402e1d82863d038c335789c4b92b63616"
+        ],
+        "evidence_id": "git-28",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-3-10-diff-28.bin",
+        "output_sha256": "13dcc55572cb180702313dc639462b5d387015d955201fd307a3733a40b74fe8"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-29",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-4-1-baseline.status",
+        "output_sha256": "47742d6519a74a1a3abfb807b9687c1a87603b1da0399cdb73eb07944078ea0c"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "40846bb402e1d82863d038c335789c4b92b63616"
+        ],
+        "evidence_id": "git-30",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-4-1-diff-30.bin",
+        "output_sha256": "54c263db4658840ca890a499bb810bf42f2c887716d6f2b9798449b9b9632eef"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-31",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-4-2-baseline.status",
+        "output_sha256": "e5e9a3d0f9355d4ed6c8032724c5216f6792c3718ccfccaf06441d407d196bc4"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "40846bb402e1d82863d038c335789c4b92b63616"
+        ],
+        "evidence_id": "git-32",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-4-2-diff-32.bin",
+        "output_sha256": "687f56fddd54b9dfdf078d783c7bb5ca3f2b2c96a8f424d71a4d2121047e9b5e"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-33",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-5-1-baseline.status",
+        "output_sha256": "b1869606c2f16207d51f024c3f34eb4f610afc597e14e2c706eec976fcaacbfc"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "40846bb402e1d82863d038c335789c4b92b63616"
+        ],
+        "evidence_id": "git-34",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-5-1-diff-34.bin",
+        "output_sha256": "8eafdf51b5426277fb768f17abf485c6c78f2667d5389d7b811d0e098b0ca0b6"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-35",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-6-1-baseline.status",
+        "output_sha256": "b1869606c2f16207d51f024c3f34eb4f610afc597e14e2c706eec976fcaacbfc"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "40846bb402e1d82863d038c335789c4b92b63616"
+        ],
+        "evidence_id": "git-36",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/dynamic-search/T-6-1-diff-36.bin",
+        "output_sha256": "8b62eb72426b73058c7dd3fdbebd22402240790a1e5f24f34e50f23b8eaf25be"
+      }
+    ]
+  },
+  "history": [
+    {
+      "event_id": "event-1",
+      "from_revision": 0,
+      "kind": "created",
+      "refs": [],
+      "to_revision": 1
+    },
+    {
+      "event_id": "event-2",
+      "from_revision": 1,
+      "kind": "contract-activated",
+      "refs": [
+        "5148c63967787c7f3d1cf01e678543fd412d43e1984cf5eb4b30e78cf87a4e0f"
+      ],
+      "to_revision": 2
+    },
+    {
+      "event_id": "event-3",
+      "from_revision": 3,
+      "kind": "gate-opened",
+      "refs": [
+        "requirements",
+        "specs/dynamic-search/reviews/requirements-review-1.md"
+      ],
+      "to_revision": 4
+    },
+    {
+      "event_id": "event-4",
+      "from_revision": 6,
+      "kind": "report-processed",
+      "refs": [
+        "specs/dynamic-search/reviews/requirements-review-1.md",
+        "2db8f72c037132e5564cfd37abc2c59b261fd0d6446d9a1db7607ef8b7009675"
+      ],
+      "to_revision": 7
+    },
+    {
+      "event_id": "event-5",
+      "from_revision": 7,
+      "kind": "reopened",
+      "refs": [
+        "decision-1"
+      ],
+      "to_revision": 8
+    },
+    {
+      "event_id": "event-6",
+      "from_revision": 8,
+      "kind": "gate-opened",
+      "refs": [
+        "requirements",
+        "specs/dynamic-search/reviews/requirements-review-2.md"
+      ],
+      "to_revision": 9
+    },
+    {
+      "event_id": "event-7",
+      "from_revision": 11,
+      "kind": "report-processed",
+      "refs": [
+        "specs/dynamic-search/reviews/requirements-review-2.md",
+        "ba0141917a1dee72aeef780a9cc52a21ad36b1a3c60f79b43115c379b5cb5a04"
+      ],
+      "to_revision": 12
+    },
+    {
+      "event_id": "event-8",
+      "from_revision": 12,
+      "kind": "reopened",
+      "refs": [
+        "decision-2"
+      ],
+      "to_revision": 13
+    },
+    {
+      "event_id": "event-9",
+      "from_revision": 13,
+      "kind": "gate-opened",
+      "refs": [
+        "requirements",
+        "specs/dynamic-search/reviews/requirements-review-3.md"
+      ],
+      "to_revision": 14
+    },
+    {
+      "event_id": "event-10",
+      "from_revision": 16,
+      "kind": "report-processed",
+      "refs": [
+        "specs/dynamic-search/reviews/requirements-review-3.md",
+        "ff104160aaa09e7af0970fa2bd4e52e6991373ad4b21e68a212fd550b6b5f2f3"
+      ],
+      "to_revision": 17
+    },
+    {
+      "event_id": "event-11",
+      "from_revision": 17,
+      "kind": "reopen-advanced",
+      "refs": [
+        "requirements",
+        "design"
+      ],
+      "to_revision": 18
+    },
+    {
+      "event_id": "event-12",
+      "from_revision": 18,
+      "kind": "phase-advanced",
+      "refs": [
+        "requirements",
+        "design"
+      ],
+      "to_revision": 19
+    },
+    {
+      "event_id": "event-13",
+      "from_revision": 20,
+      "kind": "gate-opened",
+      "refs": [
+        "design",
+        "specs/dynamic-search/reviews/design-review-1.md"
+      ],
+      "to_revision": 21
+    },
+    {
+      "event_id": "event-14",
+      "from_revision": 23,
+      "kind": "report-processed",
+      "refs": [
+        "specs/dynamic-search/reviews/design-review-1.md",
+        "fba2401f0c1078b86ae2b82e5d55fc83965376f9a96323a19cc6d09ce8962d6d"
+      ],
+      "to_revision": 24
+    },
+    {
+      "event_id": "event-15",
+      "from_revision": 24,
+      "kind": "reopened",
+      "refs": [
+        "decision-3"
+      ],
+      "to_revision": 25
+    },
+    {
+      "event_id": "event-16",
+      "from_revision": 25,
+      "kind": "gate-opened",
+      "refs": [
+        "design",
+        "specs/dynamic-search/reviews/design-review-2.md"
+      ],
+      "to_revision": 26
+    },
+    {
+      "event_id": "event-17",
+      "from_revision": 28,
+      "kind": "report-processed",
+      "refs": [
+        "specs/dynamic-search/reviews/design-review-2.md",
+        "042d33309bf3567a35374d6c9a8f609f4610e28c12d38eef9808daa6be7f963d"
+      ],
+      "to_revision": 29
+    },
+    {
+      "event_id": "event-18",
+      "from_revision": 29,
+      "kind": "reopen-advanced",
+      "refs": [
+        "design",
+        "tasks"
+      ],
+      "to_revision": 30
+    },
+    {
+      "event_id": "event-19",
+      "from_revision": 30,
+      "kind": "gate-opened",
+      "refs": [
+        "phase-pause:design"
+      ],
+      "to_revision": 31
+    },
+    {
+      "event_id": "event-20",
+      "from_revision": 31,
+      "kind": "decision-recorded",
+      "refs": [
+        "decision-4",
+        "design"
+      ],
+      "to_revision": 32
+    },
+    {
+      "event_id": "event-21",
+      "from_revision": 33,
+      "kind": "review-skipped",
+      "refs": [
+        "tasks",
+        "specs_review:design"
+      ],
+      "to_revision": 34
+    },
+    {
+      "event_id": "event-22",
+      "from_revision": 33,
+      "kind": "phase-advanced",
+      "refs": [
+        "tasks",
+        "build"
+      ],
+      "to_revision": 34
+    },
+    {
+      "event_id": "event-23",
+      "from_revision": 37,
+      "kind": "task-advanced",
+      "refs": [
+        "T-1-1",
+        "T-2-1"
+      ],
+      "to_revision": 38
+    },
+    {
+      "event_id": "event-24",
+      "from_revision": 41,
+      "kind": "task-advanced",
+      "refs": [
+        "T-2-1",
+        "T-2-2"
+      ],
+      "to_revision": 42
+    },
+    {
+      "event_id": "event-25",
+      "from_revision": 45,
+      "kind": "task-advanced",
+      "refs": [
+        "T-2-2",
+        "T-2-3"
+      ],
+      "to_revision": 46
+    },
+    {
+      "event_id": "event-26",
+      "from_revision": 49,
+      "kind": "task-advanced",
+      "refs": [
+        "T-2-3",
+        "T-3-1"
+      ],
+      "to_revision": 50
+    },
+    {
+      "event_id": "event-27",
+      "from_revision": 53,
+      "kind": "task-advanced",
+      "refs": [
+        "T-3-1",
+        "T-3-2"
+      ],
+      "to_revision": 54
+    },
+    {
+      "event_id": "event-28",
+      "from_revision": 57,
+      "kind": "task-advanced",
+      "refs": [
+        "T-3-2",
+        "T-3-3"
+      ],
+      "to_revision": 58
+    },
+    {
+      "event_id": "event-29",
+      "from_revision": 61,
+      "kind": "task-advanced",
+      "refs": [
+        "T-3-3",
+        "T-3-4"
+      ],
+      "to_revision": 62
+    },
+    {
+      "event_id": "event-30",
+      "from_revision": 65,
+      "kind": "task-advanced",
+      "refs": [
+        "T-3-4",
+        "T-3-5"
+      ],
+      "to_revision": 66
+    },
+    {
+      "event_id": "event-31",
+      "from_revision": 69,
+      "kind": "task-advanced",
+      "refs": [
+        "T-3-5",
+        "T-3-6"
+      ],
+      "to_revision": 70
+    },
+    {
+      "event_id": "event-32",
+      "from_revision": 73,
+      "kind": "task-advanced",
+      "refs": [
+        "T-3-6",
+        "T-3-7"
+      ],
+      "to_revision": 74
+    },
+    {
+      "event_id": "event-33",
+      "from_revision": 77,
+      "kind": "task-advanced",
+      "refs": [
+        "T-3-7",
+        "T-3-8"
+      ],
+      "to_revision": 78
+    },
+    {
+      "event_id": "event-34",
+      "from_revision": 81,
+      "kind": "task-advanced",
+      "refs": [
+        "T-3-8",
+        "T-3-9"
+      ],
+      "to_revision": 82
+    },
+    {
+      "event_id": "event-35",
+      "from_revision": 85,
+      "kind": "task-advanced",
+      "refs": [
+        "T-3-9",
+        "T-3-10"
+      ],
+      "to_revision": 86
+    },
+    {
+      "event_id": "event-36",
+      "from_revision": 89,
+      "kind": "task-advanced",
+      "refs": [
+        "T-3-10",
+        "T-4-1"
+      ],
+      "to_revision": 90
+    },
+    {
+      "event_id": "event-37",
+      "from_revision": 93,
+      "kind": "task-advanced",
+      "refs": [
+        "T-4-1",
+        "T-4-2"
+      ],
+      "to_revision": 94
+    },
+    {
+      "event_id": "event-38",
+      "from_revision": 97,
+      "kind": "task-advanced",
+      "refs": [
+        "T-4-2",
+        "T-5-1"
+      ],
+      "to_revision": 98
+    },
+    {
+      "event_id": "event-39",
+      "from_revision": 101,
+      "kind": "task-advanced",
+      "refs": [
+        "T-5-1",
+        "T-6-1"
+      ],
+      "to_revision": 102
+    },
+    {
+      "event_id": "event-40",
+      "from_revision": 103,
+      "kind": "decision-recorded",
+      "refs": [
+        "decision-5",
+        ".claude/spec-evidence/dynamic-search/contract-update-preview.json",
+        "c63c2d773b7f19f941aa3af84e9aff2cc392702ea75a55acb26417e7befba532"
+      ],
+      "to_revision": 104
+    },
+    {
+      "event_id": "event-41",
+      "from_revision": 104,
+      "kind": "contract-updated",
+      "refs": [
+        "decision-5",
+        "5148c63967787c7f3d1cf01e678543fd412d43e1984cf5eb4b30e78cf87a4e0f",
+        "3d199da86db95edeb40eb99a01754301f4fd3bce5ffc21c5f97c9a4567b2986f"
+      ],
+      "to_revision": 105
+    },
+    {
+      "event_id": "event-42",
+      "from_revision": 105,
+      "kind": "invalidation-settled",
+      "refs": [
+        "dependencies.context:agents",
+        "decision-5"
+      ],
+      "to_revision": 106
+    },
+    {
+      "event_id": "event-43",
+      "from_revision": 108,
+      "kind": "gate-opened",
+      "refs": [
+        "dynamic-search",
+        "specs/dynamic-search/reviews/code-review-final-1.md"
+      ],
+      "to_revision": 109
+    },
+    {
+      "event_id": "event-44",
+      "from_revision": 111,
+      "kind": "report-processed",
+      "refs": [
+        "specs/dynamic-search/reviews/code-review-final-1.md",
+        "0e9d473cff5019f7826c06ba7c5acf6e4c5c25d2c14f79f0cd957b8011c6fc20"
+      ],
+      "to_revision": 112
+    },
+    {
+      "event_id": "event-45",
+      "from_revision": 112,
+      "kind": "completed",
+      "refs": [],
+      "to_revision": 113
+    }
+  ],
+  "invalidations": [
+    {
+      "decision_id": "decision-5",
+      "reason": "contract-update",
+      "scope": {
+        "id": "dependencies.context:agents",
+        "type": "contract"
+      },
+      "status": "resolved"
+    }
+  ],
+  "lifecycle": "complete",
+  "next_action": {
+    "kind": "report-complete"
+  },
+  "pending_gate": null,
+  "phase": "complete",
+  "processed_reports": [
+    {
+      "disposition": "resolved",
+      "path": "specs/dynamic-search/reviews/requirements-review-1.md",
+      "purpose": "phase-review",
+      "scope": {
+        "id": "requirements",
+        "type": "artifact"
+      },
+      "sha256": "2db8f72c037132e5564cfd37abc2c59b261fd0d6446d9a1db7607ef8b7009675",
+      "verdict": "Approve with changes"
+    },
+    {
+      "disposition": "resolved",
+      "path": "specs/dynamic-search/reviews/requirements-review-2.md",
+      "purpose": "phase-review",
+      "scope": {
+        "id": "requirements",
+        "type": "artifact"
+      },
+      "sha256": "ba0141917a1dee72aeef780a9cc52a21ad36b1a3c60f79b43115c379b5cb5a04",
+      "verdict": "Approve with changes"
+    },
+    {
+      "disposition": "resolved",
+      "path": "specs/dynamic-search/reviews/requirements-review-3.md",
+      "purpose": "phase-review",
+      "scope": {
+        "id": "requirements",
+        "type": "artifact"
+      },
+      "sha256": "ff104160aaa09e7af0970fa2bd4e52e6991373ad4b21e68a212fd550b6b5f2f3",
+      "verdict": "Approve"
+    },
+    {
+      "disposition": "resolved",
+      "path": "specs/dynamic-search/reviews/design-review-1.md",
+      "purpose": "phase-review",
+      "scope": {
+        "id": "design",
+        "type": "artifact"
+      },
+      "sha256": "fba2401f0c1078b86ae2b82e5d55fc83965376f9a96323a19cc6d09ce8962d6d",
+      "verdict": "Approve with changes"
+    },
+    {
+      "disposition": "resolved",
+      "path": "specs/dynamic-search/reviews/design-review-2.md",
+      "purpose": "phase-review",
+      "scope": {
+        "id": "design",
+        "type": "artifact"
+      },
+      "sha256": "042d33309bf3567a35374d6c9a8f609f4610e28c12d38eef9808daa6be7f963d",
+      "verdict": "Approve"
+    },
+    {
+      "disposition": "resolved",
+      "path": "specs/dynamic-search/reviews/code-review-final-1.md",
+      "purpose": "on-completion",
+      "scope": {
+        "id": "dynamic-search",
+        "type": "feature"
+      },
+      "sha256": "0e9d473cff5019f7826c06ba7c5acf6e4c5c25d2c14f79f0cd957b8011c6fc20",
+      "verdict": "Approve"
+    }
+  ],
+  "schema_version": 1,
+  "state_revision": 113,
+  "verification": [
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-1-1.sh"
+      ],
+      "evidence_id": "verification-1",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/dynamic-search/T-1-1-verify-1.log",
+      "output_sha256": "404e94b2c86391ac813844792a888ddefe8fdec5835fbe0a3454d6aa5264ff95",
+      "scope": {
+        "id": "T-1-1",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-2-1.sh"
+      ],
+      "evidence_id": "verification-2",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/dynamic-search/T-2-1-verify-1.log",
+      "output_sha256": "8965e4084408d5f6e371e459c0d6d52b3722b2e44bf50eb53b08bc46b4b06f8e",
+      "scope": {
+        "id": "T-2-1",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-2-2.sh"
+      ],
+      "evidence_id": "verification-3",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/dynamic-search/T-2-2-verify-1.log",
+      "output_sha256": "b30c45cb9da81d6716af29e82ae49e4036e3b40b642c8f172812177bf8b2ab47",
+      "scope": {
+        "id": "T-2-2",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-2-3.sh"
+      ],
+      "evidence_id": "verification-4",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/dynamic-search/T-2-3-verify-1.log",
+      "output_sha256": "5c80b5db0d8fde93717e5c81609e5764ef5ce40d5d1f13bc2c38ba8265f64e2e",
+      "scope": {
+        "id": "T-2-3",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-3-1.sh"
+      ],
+      "evidence_id": "verification-5",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/dynamic-search/T-3-1-verify-1.log",
+      "output_sha256": "9e8be3b7f28fdecae8d59b7dbac011a780517b7de1f82a15749ff4847017072c",
+      "scope": {
+        "id": "T-3-1",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-3-2.sh"
+      ],
+      "evidence_id": "verification-6",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/dynamic-search/T-3-2-verify-1.log",
+      "output_sha256": "17881720815c6e44286ee1d4a1826b33f63b4e588660d1032e3119d243bd2e6c",
+      "scope": {
+        "id": "T-3-2",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-3-3.sh"
+      ],
+      "evidence_id": "verification-7",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/dynamic-search/T-3-3-verify-1.log",
+      "output_sha256": "ce4ac2eadd756a87f96593465c790bc632386e710f541b81906d795e084b1681",
+      "scope": {
+        "id": "T-3-3",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-3-4.sh"
+      ],
+      "evidence_id": "verification-8",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/dynamic-search/T-3-4-verify-1.log",
+      "output_sha256": "db36f2a9a286f35eac16cd54c02a02e2f71a285907e2d0c1c4ec4f105d27e965",
+      "scope": {
+        "id": "T-3-4",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-3-5.sh"
+      ],
+      "evidence_id": "verification-9",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/dynamic-search/T-3-5-verify-1.log",
+      "output_sha256": "a1c47f7ce6bdc8fe1ef22a7fa9c81c86588815a1848bd12ec4bdc74044969e97",
+      "scope": {
+        "id": "T-3-5",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-3-6.sh"
+      ],
+      "evidence_id": "verification-10",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/dynamic-search/T-3-6-verify-1.log",
+      "output_sha256": "72d4b2e5ef94decc141a71bb8449c9fedef3424b8881a3e4ffb6d03ac1ea7e76",
+      "scope": {
+        "id": "T-3-6",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-3-7.sh"
+      ],
+      "evidence_id": "verification-11",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/dynamic-search/T-3-7-verify-1.log",
+      "output_sha256": "342fb72049cb428d0aef441b306257a86f2c73129ff5698bc741248fbc40f668",
+      "scope": {
+        "id": "T-3-7",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-3-8.sh"
+      ],
+      "evidence_id": "verification-12",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/dynamic-search/T-3-8-verify-1.log",
+      "output_sha256": "a97131689b1d589707e8033f61ea11796f26e7327baf83f9b32184e7a9e0e472",
+      "scope": {
+        "id": "T-3-8",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-3-9.sh"
+      ],
+      "evidence_id": "verification-13",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/dynamic-search/T-3-9-verify-1.log",
+      "output_sha256": "a9664b9b3c2aa0152dca7a6a149822a0bb9e217d855ac0600d1a56fe4d8873ef",
+      "scope": {
+        "id": "T-3-9",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-3-10.sh"
+      ],
+      "evidence_id": "verification-14",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/dynamic-search/T-3-10-verify-1.log",
+      "output_sha256": "acb03453b47911c298af9b1865bbcb1e4661e521bcf3418719c97224bdf1984e",
+      "scope": {
+        "id": "T-3-10",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-4-1.sh"
+      ],
+      "evidence_id": "verification-15",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/dynamic-search/T-4-1-verify-1.log",
+      "output_sha256": "6314731cc20fc41c7befca276c5b3e477814a0ee6685603c6736429124295274",
+      "scope": {
+        "id": "T-4-1",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-4-2.sh"
+      ],
+      "evidence_id": "verification-16",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/dynamic-search/T-4-2-verify-1.log",
+      "output_sha256": "581c957385144a4ab7faa9cd8e89aeb636f2a120e333b3d7358440be35633b2e",
+      "scope": {
+        "id": "T-4-2",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-5-1.sh"
+      ],
+      "evidence_id": "verification-17",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/dynamic-search/T-5-1-verify-1.log",
+      "output_sha256": "259771b7953f519e95b489e1cd74fcd6c305057f32b721bca819f76c3064d0f9",
+      "scope": {
+        "id": "T-5-1",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-6-1.sh"
+      ],
+      "evidence_id": "verification-18",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/dynamic-search/T-6-1-verify-1.log",
+      "output_sha256": "73ab4f814b17b2a22622e781de378259ee4b1ae650d8943f609b6b5cfaab8ab8",
+      "scope": {
+        "id": "T-6-1",
+        "type": "task"
+      }
+    }
+  ]
+}
