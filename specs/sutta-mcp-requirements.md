@@ -148,14 +148,16 @@ API trả về 2 field: `type` (string) và `resembling` (boolean).
 
 | Tham số | Kiểu | Bắt buộc | Mô tả |
 |---------|------|----------|-------|
-| `topic` | string | Có | Chủ đề cần tìm, tiếng Anh hoặc tiếng Việt |
-| `language` | string | Không | Ngôn ngữ cho blurb. Mặc định: `en` |
+| `topic` | string | Có | Chủ đề cần tìm: thuật ngữ tiếng Anh/Pali, hoặc một trong các chủ đề tiếng Việt được ánh xạ |
+| `language` | string | Không | Ngôn ngữ của tiêu đề và blurb (khi SC có); ảnh hưởng cả việc khớp tiêu đề. Mặc định: `en` |
+| `match` | `title` / `content` / `all` | Không | Khớp tiêu đề, khớp nội dung (không gồm sutta đã khớp tiêu đề), hay cả hai. Mặc định: `all` |
+| `page` | integer, 1–10000 | Không | Trang kết quả; mỗi trang tối đa 10 kết quả khớp tiêu đề + 10 kết quả khớp nội dung. Mặc định: `1` |
 
-**Output:** Danh sách sutta kèm citation chuẩn, blurb, link SuttaCentral.
+**Output:** Danh sách sutta của một trang, theo thứ tự kinh điển của SC: khớp tiêu đề (citation chuẩn, blurb, link SuttaCentral), rồi khớp nội dung (citation rút gọn, bản văn khớp, link SuttaCentral). Dòng cuối cho biết còn trang sau hay không.
 
-**Nguồn dữ liệu:** Topic index tĩnh (hardcode) trong prototype. Nâng cấp sau bằng dynamic search.
+**Nguồn dữ liệu:** Search API của SuttaCentral, `GET /api/search/instant`, đúng một request mỗi lời gọi (spec `dynamic-search`).
 
-**Lưu ý:** Topic index cần hỗ trợ cả tiếng Anh lẫn tiếng Việt.
+**Lưu ý:** Search của SC không hiểu tiếng Việt. Các chủ đề tiếng Việt thông dụng được ánh xạ sang một thuật ngữ Anh/Pali bằng bảng tĩnh trong `src/index.ts`; chủ đề tiếng Việt khác cần được dịch sang thuật ngữ Anh/Pali trước khi gọi.
 
 ---
 
@@ -256,7 +258,7 @@ Người dùng: "Đức Phật dạy gì về chánh niệm?"
      ↓
 Claude gọi search_topic("chánh niệm")
      ↓
-Trả về: mn10, sn47.1, dn22 + blurb
+Trả về (tìm bằng "satipatthana"): khớp tiêu đề an4.274, mn10, sn43.5 + blurb, rồi các sutta khớp nội dung
      ↓
 Claude gọi get_sutta("mn10", "sujato")
      ↓
@@ -287,13 +289,13 @@ Claude trả lời có trích dẫn + link suttacentral.net/mn10
 
 ## Hướng nâng cấp (sau prototype)
 
-1. **Dynamic search** — thay `TOPIC_INDEX` tĩnh bằng search API của SuttaCentral: `GET /api/search/instant?query=&language=&limit=`.
+1. **Dynamic search** — **đã thực hiện (spec `dynamic-search`).** `search_topic` không còn dùng `TOPIC_INDEX` tĩnh (topic → UID hardcode, đã xóa); mỗi lời gọi phát đúng một `GET /api/search/instant?query=&language=&limit=10`, thêm `offset` khi lật trang nội dung. Bốn phát hiện đo ngày 2026-10-17/18 được giải quyết như sau:
+   - **Truy vấn tiếng Việt gần như không có kết quả** → 14 chủ đề tiếng Việt được ánh xạ sang một thuật ngữ Anh/Pali (bảng `VI_TOPIC_TERMS` trong `src/index.ts`, khớp chính xác sau chuẩn hóa NFC, chữ thường, khoảng trắng); mọi truy vấn khác gửi thẳng. Không giữ danh sách UID tĩnh làm fallback.
+   - **Hit không phải sutta** → loại mọi phần tử có `category` (dictionary), không có `uid`, hoặc có `is_article: true` trước khi in; output không còn `**?**` hay link `suttacentral.net/?`.
+   - **Hit theo bản dịch** → hai nguồn tách bạch: `suttaplex` là khớp tiêu đề (citation đầy đủ kèm blurb), `hits` là khớp nội dung (citation rút gọn kèm dòng `Text: {author} ({lang})`); khử trùng `uid` trong một trang.
+   - **GET và POST lệch `total`** → POST lấy danh sách ngôn ngữ từ body JSON, body không phải danh sách khác rỗng thì bỏ lọc ngôn ngữ; GET mặc định lọc `["en", "pli"]`. Chọn GET. `total` không phải số sutta nên không in ra.
 
-   **Đã đo (2026-10-17, 2026-10-18), cần giải quyết trong requirements:**
-   - **Truy vấn tiếng Việt gần như không có kết quả.** `niết bàn`, `vô ngã` với `language=en`: `total` 0. Với `language=vi`: `total` 20–21 nhưng `hits` rỗng, chỉ có mảng `suttaplex`. Thuật ngữ Pali/Anh thì có (`anatta` + `language=vi`: 145, chủ yếu hit Pali; `nibbana` + `language=en`: 456). Yêu cầu song ngữ của Tool 1 không đạt được nếu chỉ chuyển truy vấn thẳng sang API — cần ánh xạ từ khóa Việt sang thuật ngữ Pali/Anh, hoặc giữ `TOPIC_INDEX` làm fallback cho tiếng Việt.
-   - **Hit không phải sutta.** Hit đầu của `nibbana` là `{"category": "dictionary", "url": "/define/nibbana"}`, không có `uid`. Đưa thẳng vào `formatCitation()` sẽ in `**?**` và link `suttacentral.net/?` (cùng dạng lỗi #10, #11), nên phải lọc.
-   - **Hit theo bản dịch, không theo sutta.** Mỗi hit mang `uid` + `author_uid` + `lang`, nên một sutta có thể xuất hiện nhiều lần; response còn có mảng `suttaplex` riêng. Cần chọn nguồn và cách gộp theo `uid`.
-   - **GET và POST lệch `total`.** Cùng `query=mindfulness`: GET 1461, POST 1472. Chưa rõ nguyên nhân.
+   **Phân trang:** tham số `match` (`title`/`content`/`all`) và `page`. Trang tiêu đề cắt cục bộ từ `suttaplex` (API trả đủ mảng này trong mọi response); trang nội dung dùng `offset` của API. Server không giữ trạng thái giữa các lời gọi, nên hai trang nội dung kề nhau có thể lặp `uid` và kích thước trang thay đổi; dòng cuối output cho biết còn trang sau hay không.
 
 2. **Tiếng Việt** — tích hợp bản dịch tiếng Việt khi có trên SC. **Đã thực hiện phần lấy bản dịch** (spec `non-segmented-translation-guard`, `bilara-lang-param`). Không có fallback tự động sang tiếng Anh: khi bản dịch được yêu cầu không có `translation_text`, `get_sutta` báo rõ và liệt kê các bản dịch khác (cùng lang trước, rồi `en`) để người gọi chọn.
 
