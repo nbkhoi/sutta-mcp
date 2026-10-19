@@ -29,82 +29,67 @@ async function fetchParallels(uid: string) {
   return res.json();
 }
 
-// ─── Topic → UID index (tĩnh, đủ cho prototype) ─────────────────────────────
-// Mở rộng dần khi biết nhu cầu thực tế của cộng đồng
+async function fetchSearch(query: string, language: string, offset: number) {
+  const params = new URLSearchParams({ query, language, limit: String(SEARCH_PAGE_SIZE) });
+  if (offset > 0) params.set("offset", String(offset));
+  const res = await fetch(`${SC_BASE}/search/instant?${params}`);
+  if (!res.ok) throw new Error(`SuttaCentral API error: ${res.status}`);
+  return res.json();
+}
 
-const TOPIC_INDEX: Record<string, string[]> = {
-  // Tứ diệu đế / Four Noble Truths
-  "four noble truths": ["sn56.11", "mn141", "dn22"],
-  "tứ diệu đế": ["sn56.11", "mn141", "dn22"],
-  "dukkha": ["sn56.11", "sn12.15", "mn9"],
-  "khổ": ["sn56.11", "sn12.15", "mn9"],
+// ─── Search: chủ đề → /api/search/instant (spec dynamic-search) ──────────────
 
-  // Bát chánh đạo / Eightfold Path
-  "eightfold path": ["sn45.8", "mn117", "dn22"],
-  "bát chánh đạo": ["sn45.8", "mn117", "dn22"],
-  "noble eightfold path": ["sn45.8", "mn117"],
+// Mỗi trang: tối đa 10 kết quả khớp tiêu đề + 10 kết quả khớp nội dung; cũng là `limit` gửi API.
+const SEARCH_PAGE_SIZE = 10;
 
-  // Vô ngã / Not-self
-  "not-self": ["sn22.59", "mn35", "ud5.5"],
-  "anatta": ["sn22.59", "mn35", "ud5.5"],
-  "vô ngã": ["sn22.59", "mn35"],
+// Chủ đề tiếng Việt → MỘT thuật ngữ tìm kiếm Anh/Pali. SSOT là bảng này; README/AGENTS.md chỉ
+// trỏ về đây. Key: NFC, chữ thường, các từ cách nhau một dấu cách. Thuật ngữ mới phải cho ít
+// nhất 1 kết quả sutta ở trang 1 (match=all) với cả language=en lẫn vi — đo trước khi thêm.
+const VI_TOPIC_TERMS = new Map<string, string>([
+  ["tứ diệu đế", "four noble truths"],
+  ["khổ", "dukkha"],
+  ["bát chánh đạo", "eightfold path"],
+  ["vô ngã", "anatta"],
+  ["chánh niệm", "satipatthana"],
+  ["vô thường", "anicca"],
+  ["từ bi", "metta"],
+  ["duyên khởi", "dependent origination"],
+  ["ngũ uẩn", "khandha"],
+  ["niết bàn", "nibbana"],
+  ["nghiệp", "kamma"],
+  ["thiền", "jhana"],
+  ["tam bảo", "three jewels"],
+  ["quy y", "going for refuge"],
+]);
 
-  // Chánh niệm / Mindfulness
-  "mindfulness": ["mn10", "sn47.1", "dn22"],
-  "satipatthana": ["mn10", "dn22"],
-  "chánh niệm": ["mn10", "sn47.1", "dn22"],
+// `suttaplex` của search mang `difficulty` dạng số; /api/suttaplex mang { name, level }.
+const DIFFICULTY_NAMES = new Map<unknown, string>([
+  [1, "beginner"],
+  [2, "intermediate"],
+  [3, "advanced"],
+]);
 
-  // Vô thường / Impermanence
-  "impermanence": ["sn22.59", "an3.136", "iti47"],
-  "anicca": ["sn22.59", "an3.136"],
-  "vô thường": ["sn22.59", "an3.136"],
+// Khớp tiêu đề: citation đầy đủ qua formatCitation() trên BẢN SAO có difficulty đã đổi sang
+// dạng { name } — formatCitation() giữ nguyên cho input /api/suttaplex.
+function formatTitleMatch(sp: any): string {
+  const citation = formatCitation({ ...sp, difficulty: { name: DIFFICULTY_NAMES.get(sp.difficulty) } });
+  return sp.blurb ? `${citation}\n→ ${sp.blurb}` : citation;
+}
 
-  // Từ bi / Loving-kindness
-  "loving-kindness": ["mn7", "snp1.8", "an11.16"],
-  "metta": ["mn7", "snp1.8", "an11.16"],
-  "từ bi": ["mn7", "snp1.8"],
-
-  // Duyên khởi / Dependent origination
-  "dependent origination": ["sn12.1", "sn12.2", "mn38"],
-  "paticca-samuppada": ["sn12.1", "sn12.2"],
-  "duyên khởi": ["sn12.1", "sn12.2"],
-
-  // Ngũ uẩn / Aggregates
-  "aggregates": ["sn22.59", "mn109", "dn15"],
-  "five aggregates": ["sn22.59", "mn109"],
-  "ngũ uẩn": ["sn22.59", "mn109"],
-
-  // Niết bàn / Nibbana
-  "nibbana": ["ud8.1", "iti43", "sn43.12"],
-  "nirvana": ["ud8.1", "iti43", "sn43.12"],
-  "niết bàn": ["ud8.1", "iti43", "sn43.12"],
-
-  // Nghiệp / Kamma
-  "kamma": ["mn135", "an3.65", "mn57"],
-  "karma": ["mn135", "an3.65"],
-  "nghiệp": ["mn135", "an3.65"],
-
-  // Thiền định / Meditation / Jhana
-  "jhana": ["mn36", "dn2", "an9.36"],
-  "meditation": ["mn36", "mn10", "sn47.1"],
-  "thiền": ["mn36", "dn2"],
-
-  // Ba ngôi báu / Triple Gem
-  "triple gem": ["an3.70", "kp1"],
-  "tam bảo": ["an3.70", "kp1"],
-  "refuge": ["an3.70", "kp1"],
-  "quy y": ["an3.70", "kp1"],
-};
-
-function searchByTopic(query: string): string[] {
-  const q = query.toLowerCase().trim();
-  // Tìm exact match trước
-  if (TOPIC_INDEX[q]) return TOPIC_INDEX[q];
-  // Rồi partial match
-  for (const [key, uids] of Object.entries(TOPIC_INDEX)) {
-    if (key.includes(q) || q.includes(key)) return uids;
+// Khớp nội dung: hit là MỘT bản văn (dịch hoặc gốc), không có blurb/difficulty/parallels —
+// không bịa các dòng đó. `name` rỗng (bản Āgama) → `root_name`; thiếu `author` → bỏ dòng Text.
+function formatContentMatch(hit: any): string {
+  const acronym = (typeof hit.acronym === "string" && hit.acronym) || hit.uid.toUpperCase();
+  const title =
+    (typeof hit.name === "string" && hit.name.trim()) ||
+    (typeof hit.root_name === "string" && hit.root_name.trim()) ||
+    "";
+  const lines = [title ? `**${acronym}** — ${title}` : `**${acronym}**`];
+  if (typeof hit.author === "string" && hit.author !== "") {
+    lines.push(hit.lang ? `Text: ${hit.author} (${hit.lang})` : `Text: ${hit.author}`);
   }
-  return [];
+  lines.push(`URL: https://suttacentral.net/${hit.uid}`);
+  return lines.join("\n");
 }
 
 // ─── Render sutta text từ Bilara response ────────────────────────────────────
@@ -191,41 +176,121 @@ const server = new McpServer({
 // Tool 1: search_topic
 server.tool(
   "search_topic",
-  "Tìm kiếm các sutta liên quan đến một chủ đề Phật pháp. Trả về danh sách UID kèm metadata.",
+  "Tìm sutta theo chủ đề bằng search của SuttaCentral. Kết quả theo thứ tự kinh điển (không theo độ liên quan), mỗi trang tối đa 10 sutta khớp tiêu đề + 10 sutta khớp nội dung, mỗi kết quả có UID và link SuttaCentral. Chủ đề tiếng Việt chỉ hỗ trợ các key có sẵn (được ánh xạ sang thuật ngữ Anh/Pali); chủ đề tiếng Việt khác nên dịch sang thuật ngữ Anh/Pali trước khi gọi.",
   {
     topic: z.string().describe(
-      "Chủ đề cần tìm, ví dụ: 'mindfulness', 'vô ngã', 'four noble truths', 'từ bi'"
+      "Chủ đề cần tìm, ví dụ: 'mindfulness', 'satipatthana', 'four noble truths', 'vô ngã'. Thuật ngữ Anh/Pali được gửi thẳng tới search của SuttaCentral."
     ),
-    language: z.string().default("en").describe("Ngôn ngữ cho blurb: 'en' hoặc 'vi'"),
+    language: z
+      .string()
+      .default("en")
+      .describe(
+        "Ngôn ngữ của tiêu đề và blurb khi SuttaCentral có, ví dụ 'en' hoặc 'vi'. Cũng ảnh hưởng việc khớp tiêu đề: với 'vi', thuật ngữ tiếng Anh thường không khớp tiêu đề nào."
+      ),
+    match: z
+      .enum(["title", "content", "all"])
+      .default("all")
+      .describe(
+        "'title': chỉ sutta có tiêu đề khớp; 'content': chỉ sutta khớp trong nội dung, không gồm sutta đã khớp tiêu đề; 'all' (mặc định): cả hai, khớp tiêu đề trước."
+      ),
+    page: z
+      .number()
+      .int()
+      .min(1)
+      .max(10000)
+      .default(1)
+      .describe(
+        "Trang kết quả, bắt đầu từ 1. Khi output kết thúc bằng 'Còn kết quả', gọi lại với page kế tiếp, giữ nguyên topic, language, match."
+      ),
   },
-  async ({ topic, language }) => {
-    const uids = searchByTopic(topic);
+  async ({ topic, language, match, page }) => {
+    // Key bảng: NFC → chữ thường → trim → gộp khoảng trắng, khớp CHÍNH XÁC. Không khớp: gửi
+    // topic chỉ qua NFC + trim (giữ hoa/thường, khoảng trắng bên trong).
+    const key = topic.normalize("NFC").toLowerCase().trim().replace(/\s+/g, " ");
+    const term = VI_TOPIC_TERMS.get(key);
+    const query = term ?? topic.normalize("NFC").trim();
+    const termLine = term ? [`Thuật ngữ đã dùng để tìm trên SuttaCentral: "${term}"`] : [];
 
-    if (uids.length === 0) {
-      return {
-        content: [
-          {
-            type: "text",
-            text: `Không tìm thấy sutta nào cho chủ đề "${topic}".\n\nCác chủ đề có sẵn: ${Object.keys(TOPIC_INDEX).join(", ")}`,
-          },
-        ],
-      };
+    const noResults = (scError: string[]) => [
+      `Không tìm thấy sutta nào cho chủ đề "${topic}".`,
+      ...termLine,
+      ...scError,
+      "",
+      `Gợi ý: search của SuttaCentral hiểu thuật ngữ tiếng Anh hoặc Pali — thử lại với thuật ngữ tương ứng (ví dụ "satipatthana", "dependent origination").`,
+      ...(match !== "all"
+        ? [`Đang dùng match="${match}" — thử match="all" để xem cả khớp tiêu đề lẫn khớp nội dung.`]
+        : []),
+      `Chủ đề tiếng Việt có sẵn: ${[...VI_TOPIC_TERMS.keys()].join(", ")}`,
+    ];
+
+    if (query === "") {
+      return { content: [{ type: "text", text: noResults([]).join("\n") }] };
     }
 
-    const results: string[] = [`Tìm thấy ${uids.length} sutta cho chủ đề "${topic}":\n`];
+    // Trang tiêu đề cắt cục bộ (không cần offset); trang nội dung dùng offset của API.
+    const offset = match === "title" ? 0 : (page - 1) * SEARCH_PAGE_SIZE;
+    const data = await fetchSearch(query, language, offset);
+    const suttaplex: any[] = Array.isArray(data?.suttaplex) ? data.suttaplex : [];
+    const hits: any[] = Array.isArray(data?.hits) ? data.hits : [];
+    const total = typeof data?.total === "number" ? data.total : 0;
 
-    for (const uid of uids) {
-      try {
-        const sp = await fetchSuttaplex(uid, language);
-        results.push(formatCitation(sp));
-        if (sp?.blurb) results.push(`→ ${sp.blurb}`);
-        results.push("");
-      } catch {
-        results.push(`${uid.toUpperCase()} — (không thể tải metadata)`);
+    // Loại dictionary (`category`), phần tử không có uid, bài viết (`is_article`).
+    const hasCategory = (e: any) => typeof e === "object" && e !== null && "category" in e;
+    const isSutta = (e: any) =>
+      !hasCategory(e) && typeof e?.uid === "string" && e.uid !== "" && e.is_article !== true;
+    // Giữ phần tử đầu tiên của mỗi uid; `seen` truyền vào để khử trùng xuyên nhóm trong trang.
+    const takeNew = (items: any[], seen: Set<string>) =>
+      items.filter((e) => {
+        if (seen.has(e.uid)) return false;
+        seen.add(e.uid);
+        return true;
+      });
+
+    const titles = takeNew(suttaplex.filter(isSutta), new Set());
+    const titlePage =
+      match === "content"
+        ? []
+        : titles.slice((page - 1) * SEARCH_PAGE_SIZE, page * SEARCH_PAGE_SIZE);
+    const contentPage =
+      match === "title"
+        ? []
+        : takeNew(hits.filter(isSutta), new Set(titlePage.map((e) => e.uid)));
+
+    // Còn trang sau: chỉ suy từ response này. h đếm hit không có `category`, TRƯỚC khi lọc bài
+    // viết/uid; h > 0 chặn trường hợp upstream trả total = số suttaplex khi hits rỗng.
+    const h = hits.filter((e) => !hasCategory(e)).length;
+    const moreTitles = page * SEARCH_PAGE_SIZE < titles.length;
+    const moreContent = h > 0 && offset + h < total;
+    const more =
+      match === "title" ? moreTitles : match === "content" ? moreContent : moreTitles || moreContent;
+    const footer = more
+      ? `Còn kết quả: gọi lại search_topic với page=${page + 1} (giữ nguyên topic, language, match).`
+      : "Hết kết quả.";
+
+    const n = titlePage.length + contentPage.length;
+    let lines: string[];
+    if (n === 0 && page === 1) {
+      const scError =
+        typeof data?.error?.message === "string"
+          ? [`SuttaCentral báo lỗi truy vấn: ${data.error.message}`]
+          : [];
+      lines = [...noResults(scError), "", footer];
+    } else if (n === 0) {
+      lines = [`Không có kết quả sutta ở trang ${page} cho chủ đề "${topic}".`, "", footer];
+    } else {
+      lines = [`Tìm thấy ${n} sutta cho chủ đề "${topic}" (trang ${page}):`, ...termLine, ""];
+      if (titlePage.length > 0) {
+        lines.push("Khớp tiêu đề:", "");
+        for (const sp of titlePage) lines.push(formatTitleMatch(sp), "");
       }
+      if (contentPage.length > 0) {
+        lines.push("Khớp nội dung:", "");
+        for (const hit of contentPage) lines.push(formatContentMatch(hit), "");
+      }
+      lines.push(footer);
     }
 
-    return { content: [{ type: "text", text: results.join("\n") }] };
+    return { content: [{ type: "text", text: lines.join("\n") }] };
   }
 );
 
