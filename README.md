@@ -10,7 +10,7 @@ MCP server kết nối Claude với SuttaCentral — giúp trả lời câu hỏ
 
 | Tool | Mô tả |
 |------|-------|
-| `search_topic` | Tìm sutta theo chủ đề (vô ngã, chánh niệm, tứ diệu đế...) |
+| `search_topic` | Tìm sutta theo chủ đề qua search của SuttaCentral; `match` chọn khớp tiêu đề/nội dung/cả hai (`title`/`content`/`all`), `page` lật trang (mỗi trang tối đa 10 + 10 kết quả) |
 | `get_sutta` | Lấy toàn văn sutta theo UID, mỗi đoạn kèm segment ID để dẫn link tới đúng đoạn trên SuttaCentral |
 | `get_sutta_meta` | Metadata: tên, blurb, độ khó, danh sách bản dịch |
 | `get_parallels` | Parallels giữa các truyền thống (Pali, Hán tạng, Sanskrit) |
@@ -65,16 +65,21 @@ Claude sẽ tự động gọi MCP tools, tra cứu SuttaCentral, rồi trả l�
 
 ## Chủ đề có sẵn
 
-Tiếng Anh: `mindfulness`, `four noble truths`, `eightfold path`, `not-self`, `impermanence`,
-`loving-kindness`, `dependent origination`, `aggregates`, `nibbana`, `kamma`, `jhana`, `triple gem`
+Thuật ngữ tiếng Anh hoặc Pali (`mindfulness`, `satipatthana`, `four noble truths`, `anatta`...) được gửi thẳng
+tới search của SuttaCentral. Search đó không hiểu tiếng Việt, nên 14 chủ đề tiếng Việt sau được ánh xạ sang
+một thuật ngữ Anh/Pali trước khi tìm:
 
-Tiếng Việt: `chánh niệm`, `tứ diệu đế`, `bát chánh đạo`, `vô ngã`, `vô thường`,
-`từ bi`, `duyên khởi`, `ngũ uẩn`, `niết bàn`, `nghiệp`, `thiền`, `quy y`
+`tứ diệu đế`, `khổ`, `bát chánh đạo`, `vô ngã`, `chánh niệm`, `vô thường`, `từ bi`,
+`duyên khởi`, `ngũ uẩn`, `niết bàn`, `nghiệp`, `thiền`, `tam bảo`, `quy y`
+
+Chủ đề tiếng Việt khác cần được dịch sang thuật ngữ Anh/Pali trước khi gọi `search_topic`.
+Nguồn chính của danh sách này là bảng `VI_TOPIC_TERMS` trong `src/index.ts`.
 
 ## Mở rộng
 
-Để thêm chủ đề mới, chỉnh `TOPIC_INDEX` trong `src/index.ts`.
-Đây là prototype — bước tiếp theo là tích hợp search API của SuttaCentral (`/api/search/instant`) để search thực sự.
+Để thêm chủ đề tiếng Việt, thêm một cặp `[key, thuật ngữ]` vào `VI_TOPIC_TERMS` trong `src/index.ts`
+(key: chữ thường, dạng NFC; thuật ngữ: một thuật ngữ Anh/Pali). Đo trước khi thêm: thuật ngữ phải cho ít nhất
+1 kết quả sutta ở trang 1 với `match=all`, cả `language=en` lẫn `language=vi`.
 
 ## Lưu ý
 
