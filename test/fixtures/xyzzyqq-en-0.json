@@ -1,0 +1,9 @@
+{
+  "url": "https://suttacentral.net/api/search/instant?query=xyzzyqq&language=en&limit=10",
+  "recorded": "2026-10-20",
+  "body": {
+    "total": 0,
+    "suttaplex": [],
+    "hits": []
+  }
+}

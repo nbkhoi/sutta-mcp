@@ -1,0 +1,18 @@
+{
+  "url": "https://suttacentral.net/api/search/instant?query=foo%3Abar&language=en&limit=10",
+  "recorded": "2026-10-20",
+  "body": {
+    "total": 0,
+    "error": {
+      "type": "unknown_filter",
+      "message": "Unknown filter: \"foo:\"",
+      "suggestions": [
+        "Supported filters are：volpage:, author:, by:, title:, lang:, ref:, in:",
+        "Please check the filter name",
+        "Please check if the spelling is correct"
+      ]
+    },
+    "suttaplex": [],
+    "hits": []
+  }
+}

@@ -1,0 +1,371 @@
+{
+  "url": "https://suttacentral.net/api/search/instant?query=mindfulness&language=en&limit=10",
+  "recorded": "2026-10-20",
+  "body": {
+    "total": 1461,
+    "suttaplex": [
+      {
+        "uid": "an1.575-615",
+        "acronym": "AN 1.575–615",
+        "translated_title": "Mindfulness of the Body ",
+        "original_title": "Kāyagatāsativagga",
+        "blurb": null,
+        "parallel_count": 0,
+        "difficulty": null
+      },
+      {
+        "uid": "an4.154",
+        "acronym": "AN 4.154",
+        "translated_title": "The Power of Mindfulness ",
+        "original_title": "Satibalasutta",
+        "blurb": "The powers of mindfulness, convergence, blamelessness, and inclusiveness.",
+        "parallel_count": 0,
+        "difficulty": null
+      },
+      {
+        "uid": "an4.274",
+        "acronym": "AN 4.274",
+        "translated_title": "Mindfulness Meditation ",
+        "original_title": "Satipaṭṭhānasutta",
+        "blurb": "Develop insight into greed through the four kinds of mindfulness meditation.",
+        "parallel_count": 0,
+        "difficulty": null
+      },
+      {
+        "uid": "an5.122",
+        "acronym": "AN 5.122",
+        "translated_title": "Mindfulness Well Established ",
+        "original_title": "Satisūpaṭṭhitasutta",
+        "blurb": "Five meditations that lead to perfection or non-return.",
+        "parallel_count": 0,
+        "difficulty": null
+      },
+      {
+        "uid": "an6.19",
+        "acronym": "AN 6.19",
+        "translated_title": "Mindfulness of Death (1st) ",
+        "original_title": "Paṭhamamaraṇassatisutta",
+        "blurb": "Many of those who practice mindfulness of death don’t do so urgently enough. Death might come to us at any moment.",
+        "parallel_count": 2,
+        "difficulty": null
+      },
+      {
+        "uid": "an6.20",
+        "acronym": "AN 6.20",
+        "translated_title": "Mindfulness of Death (2nd) ",
+        "original_title": "Dutiyamaraṇassatisutta",
+        "blurb": "A method for recollecting one’s own death that leads to urgency, diligence, and joy.",
+        "parallel_count": 1,
+        "difficulty": null
+      },
+      {
+        "uid": "an8.73",
+        "acronym": "AN 8.73",
+        "translated_title": "Mindfulness of Death (1st) ",
+        "original_title": "Paṭhamamaraṇassatisutta",
+        "blurb": "Various mendicants practice mindfulness of death, but do so inadequately. The Buddha explains how to do so with proper urgency,",
+        "parallel_count": 2,
+        "difficulty": null
+      },
+      {
+        "uid": "an8.74",
+        "acronym": "AN 8.74",
+        "translated_title": "Mindfulness of Death (2nd) ",
+        "original_title": "Dutiyamaraṇassatisutta",
+        "blurb": "A mendicant should reflect each night on the dangers that lie around them, and practice mindfulness of death with urgency to give up the unwholesome.",
+        "parallel_count": 1,
+        "difficulty": null
+      },
+      {
+        "uid": "an8.81",
+        "acronym": "AN 8.81",
+        "translated_title": "Mindfulness and Situational Awareness ",
+        "original_title": "Satisampajaññasutta",
+        "blurb": "Mindfulness and situational awareness are a foundation for developing higher spiritual qualities leading to liberation.",
+        "parallel_count": 18,
+        "difficulty": null
+      },
+      {
+        "uid": "an9.63",
+        "acronym": "AN 9.63",
+        "translated_title": "Weaknesses in Training and Mindfulness Meditation ",
+        "original_title": "Sikkhādubbalyasutta",
+        "blurb": null,
+        "parallel_count": 0,
+        "difficulty": null
+      },
+      {
+        "uid": "dn22",
+        "acronym": "DN 22",
+        "translated_title": "The Longer Discourse on Mindfulness Meditation ",
+        "original_title": "Mahāsatipaṭṭhānasutta",
+        "blurb": "The Buddha details the seventh factor of the noble eightfold path, mindfulness meditation. This discourse is essentially identical to MN 10, with the addition of an extended section on the four noble truths derived from MN 141.",
+        "parallel_count": 27,
+        "difficulty": 3
+      },
+      {
+        "uid": "mn10",
+        "acronym": "MN 10",
+        "translated_title": "The Discourse on Mindfulness Meditation ",
+        "original_title": "Satipaṭṭhānasutta",
+        "blurb": "Here the Buddha details the seventh factor of the noble eightfold path, mindfulness meditation. This collects many of the meditation teachings found throughout the canon, especially the foundational practices focusing on the body, and is regarded as one of the most important meditation discourses.",
+        "parallel_count": 16,
+        "difficulty": 2
+      },
+      {
+        "uid": "mn118",
+        "acronym": "MN 118",
+        "translated_title": "Mindfulness of Breathing ",
+        "original_title": "Ānāpānassatisutta",
+        "blurb": "Surrounded by many well-practiced mendicants, the Buddha teaches mindfulness of breathing in detail, showing how it relates to the four kinds of mindfulness meditation.",
+        "parallel_count": 19,
+        "difficulty": 2
+      },
+      {
+        "uid": "mn119",
+        "acronym": "MN 119",
+        "translated_title": "Mindfulness of the Body ",
+        "original_title": "Kāyagatāsatisutta",
+        "blurb": "This focuses on the first aspect of mindfulness meditation, the observation of the body. This set of practices, simple as they seem, have far-reaching benefits.",
+        "parallel_count": 6,
+        "difficulty": 2
+      },
+      {
+        "uid": "sn43.1",
+        "acronym": "SN 43.1",
+        "translated_title": "Mindfulness of the Body ",
+        "original_title": "Kāyagatāsatisutta",
+        "blurb": null,
+        "parallel_count": 0,
+        "difficulty": null
+      },
+      {
+        "uid": "sn43.5",
+        "acronym": "SN 43.5",
+        "translated_title": "Mindfulness Meditation ",
+        "original_title": "Satipaṭṭhānasutta",
+        "blurb": null,
+        "parallel_count": 0,
+        "difficulty": null
+      },
+      {
+        "uid": "arv13",
+        "acronym": "Arv 13",
+        "translated_title": "The Four Ways of Attending to Mindfulness",
+        "original_title": "Catvāri Smṛty-Upasthānāni",
+        "blurb": null,
+        "parallel_count": 2,
+        "difficulty": null
+      },
+      {
+        "uid": "arv20",
+        "acronym": "Arv 20",
+        "translated_title": "The Sixteen Modes of Mindfulness while Breathing",
+        "original_title": "Ṣoḍaśākārā Ānāpāna-Smṛtiḥ",
+        "blurb": null,
+        "parallel_count": 5,
+        "difficulty": null
+      },
+      {
+        "uid": "ea17.1",
+        "acronym": "EA 17.1",
+        "translated_title": "Mindfulness of Breathing",
+        "original_title": "羅雲",
+        "blurb": null,
+        "parallel_count": 1,
+        "difficulty": null
+      },
+      {
+        "uid": "kv1.9",
+        "acronym": "Kv 1.9",
+        "translated_title": "Of Applications in Mindfulness",
+        "original_title": "Satipaṭṭhānakathā",
+        "blurb": null,
+        "parallel_count": 11,
+        "difficulty": null
+      },
+      {
+        "uid": "ma44",
+        "acronym": "MA 44",
+        "translated_title": "Mindfulness",
+        "original_title": "念",
+        "blurb": null,
+        "parallel_count": 18,
+        "difficulty": null
+      },
+      {
+        "uid": "ma81",
+        "acronym": "MA 81",
+        "translated_title": "The Discourse on Mindfulness of the Body ",
+        "original_title": "念身",
+        "blurb": null,
+        "parallel_count": 6,
+        "difficulty": null
+      },
+      {
+        "uid": "ma98",
+        "acronym": "MA 98",
+        "translated_title": "The Discourse on the Establishments of Mindfulness ",
+        "original_title": "念處",
+        "blurb": null,
+        "parallel_count": 8,
+        "difficulty": null
+      },
+      {
+        "uid": "mil3.1.13",
+        "acronym": "Mil 3.1.13",
+        "translated_title": "The Question on Mindfulness ",
+        "original_title": "Satilakkhaṇapañha",
+        "blurb": null,
+        "parallel_count": 2,
+        "difficulty": null
+      },
+      {
+        "uid": "ps3.8",
+        "acronym": "Ps 3.8",
+        "translated_title": "Treatise on the Four Foundations of Mindfulness",
+        "original_title": "Satipaṭṭhānakathā",
+        "blurb": null,
+        "parallel_count": 0,
+        "difficulty": null
+      },
+      {
+        "uid": "t1548.16",
+        "acronym": "T 1548.16",
+        "translated_title": "The Abodes of Mindfulness ",
+        "original_title": "念處品",
+        "blurb": null,
+        "parallel_count": 0,
+        "difficulty": null
+      },
+      {
+        "uid": "t1670b2.12",
+        "acronym": "T 1670b 2.12",
+        "translated_title": "Mindfulness",
+        "original_title": "2.12 Mindfulness",
+        "blurb": null,
+        "parallel_count": 3,
+        "difficulty": null
+      },
+      {
+        "uid": "t1670b2.59",
+        "acronym": "T 1670b 2.59",
+        "translated_title": "Memory and Mindfulness",
+        "original_title": "2.59 Memory and Mindfulness",
+        "blurb": null,
+        "parallel_count": 2,
+        "difficulty": null
+      },
+      {
+        "uid": "t1670b2.62",
+        "acronym": "T 1670b 2.62",
+        "translated_title": "The Power of Single Mindfulness of the Buddha",
+        "original_title": "2.62 The Power of Single Mindfulness of the Buddha",
+        "blurb": null,
+        "parallel_count": 1,
+        "difficulty": null
+      },
+      {
+        "uid": "uv15",
+        "acronym": "UV 15",
+        "translated_title": "Mindfulness ",
+        "original_title": "Smṛtivarga",
+        "blurb": null,
+        "parallel_count": 132,
+        "difficulty": null
+      },
+      {
+        "uid": "uvs15",
+        "acronym": "UVS 15",
+        "translated_title": "Mindfulness ",
+        "original_title": "Smṛtivarga",
+        "blurb": null,
+        "parallel_count": 86,
+        "difficulty": null
+      },
+      {
+        "uid": "vb7",
+        "acronym": "Vb 7",
+        "translated_title": "Analysis of the Foundations of Mindfulness",
+        "original_title": "Satipaṭṭhānavibhaṅga",
+        "blurb": null,
+        "parallel_count": 2,
+        "difficulty": null
+      }
+    ],
+    "hits": [
+      {
+        "uid": "an1.296-305",
+        "acronym": "AN 1.296–305",
+        "name": "Chapter One",
+        "root_name": "Paṭhamavagga",
+        "author": "Bhikkhu Sujato",
+        "lang": "en",
+        "is_article": false
+      },
+      {
+        "uid": "an1.394-574",
+        "acronym": "AN 1.394–574",
+        "name": "Another Chapter on a Finger-Snap",
+        "root_name": "Aparaaccharāsaṅghātavagga",
+        "author": "Bhikkhu Sujato",
+        "lang": "en",
+        "is_article": false
+      },
+      {
+        "uid": "an1.616-627",
+        "acronym": "AN 1.616–627",
+        "name": "Freedom From Death",
+        "root_name": "Amatavagga",
+        "author": "Bhikkhu Sujato",
+        "lang": "en",
+        "is_article": false
+      },
+      {
+        "uid": "an2.11-20",
+        "acronym": "AN 2.11–20",
+        "name": "Disciplinary Issues",
+        "root_name": "Adhikaraṇavagga",
+        "author": "Bhikkhu Sujato",
+        "lang": "en",
+        "is_article": false
+      },
+      {
+        "uid": "an2.42-51",
+        "acronym": "AN 2.42–51",
+        "name": "Assemblies",
+        "root_name": "Parisavagga",
+        "author": "Bhikkhu Sujato",
+        "lang": "en",
+        "is_article": false
+      },
+      {
+        "uid": "an2.163-179",
+        "acronym": "AN 2.163–179",
+        "name": "Attainment",
+        "root_name": "Samāpattivagga",
+        "author": "Bhikkhu Sujato",
+        "lang": "en",
+        "is_article": false
+      },
+      {
+        "uid": "an3.30",
+        "acronym": "AN 3.30",
+        "name": "Upside-down",
+        "root_name": "Avakujjasutta",
+        "author": "Bhikkhu Sujato",
+        "lang": "en",
+        "is_article": false
+      },
+      {
+        "uid": "an3.33",
+        "acronym": "AN 3.33",
+        "name": "Sāriputta",
+        "root_name": "Sāriputtasutta",
+        "author": "Bhikkhu Bodhi",
+        "lang": "en",
+        "is_article": null
+      }
+    ]
+  }
+}
