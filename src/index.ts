@@ -107,7 +107,7 @@ const server = new McpServer({
 // Tool 1: search_topic
 server.tool(
   "search_topic",
-  "Tìm sutta theo chủ đề bằng search của SuttaCentral. Kết quả theo thứ tự kinh điển (không theo độ liên quan), mỗi trang tối đa 10 sutta khớp tiêu đề + 10 sutta khớp nội dung, mỗi kết quả có UID và link SuttaCentral. Chủ đề tiếng Việt chỉ hỗ trợ các key có sẵn (được ánh xạ sang thuật ngữ Anh/Pali); chủ đề tiếng Việt khác nên dịch sang thuật ngữ Anh/Pali trước khi gọi.",
+  "Tìm sutta theo chủ đề bằng search của SuttaCentral. Kết quả giữ nguyên thứ tự SuttaCentral trả về (không phải thứ tự kinh điển, không theo độ liên quan), mỗi trang tối đa 10 sutta khớp tiêu đề + 10 sutta khớp nội dung, mỗi kết quả có UID và link SuttaCentral. Chủ đề tiếng Việt chỉ hỗ trợ các key có sẵn (được ánh xạ sang thuật ngữ Anh/Pali); chủ đề tiếng Việt khác nên dịch sang thuật ngữ Anh/Pali trước khi gọi.",
   {
     topic: z.string().describe(
       "Chủ đề cần tìm, ví dụ: 'mindfulness', 'satipatthana', 'four noble truths', 'vô ngã'. Thuật ngữ Anh/Pali được gửi thẳng tới search của SuttaCentral."
