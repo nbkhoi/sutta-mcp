@@ -1,0 +1,145 @@
+{
+  "url": "https://suttacentral.net/api/search/instant?query=anatta&language=en&limit=10",
+  "recorded": "2026-10-20",
+  "body": {
+    "total": 145,
+    "suttaplex": [
+      {
+        "uid": "an6.100",
+        "acronym": "AN 6.100",
+        "translated_title": "Not-Self ",
+        "original_title": "Anattasutta",
+        "blurb": "A mendicant on the path cannot see any thing as not-self.",
+        "parallel_count": 0,
+        "difficulty": null
+      },
+      {
+        "uid": "sn22.14",
+        "acronym": "SN 22.14",
+        "translated_title": "Not-Self ",
+        "original_title": "Anattasutta",
+        "blurb": "Because the aggregates are not-self, a noble disciple becomes disillusioned with them.",
+        "parallel_count": 1,
+        "difficulty": null
+      },
+      {
+        "uid": "sn22.143",
+        "acronym": "SN 22.143",
+        "translated_title": "Not-Self ",
+        "original_title": "Anattasutta",
+        "blurb": "Give up desire for what is not-self, i.e. the aggregates.",
+        "parallel_count": 0,
+        "difficulty": null
+      },
+      {
+        "uid": "sn22.68",
+        "acronym": "SN 22.68",
+        "translated_title": "Not-Self ",
+        "original_title": "Anattasutta",
+        "blurb": "One should let go of desire for what is not-self, namely the five aggregates.",
+        "parallel_count": 2,
+        "difficulty": null
+      },
+      {
+        "uid": "sn23.17",
+        "acronym": "SN 23.17",
+        "translated_title": "Not-Self ",
+        "original_title": "Anattasutta",
+        "blurb": "Rādha asks the Buddha about not-self, and the Buddha explains in terms of the five aggregates.",
+        "parallel_count": 0,
+        "difficulty": null
+      },
+      {
+        "uid": "sn46.73",
+        "acronym": "SN 46.73",
+        "translated_title": "Not-Self in Suffering ",
+        "original_title": "Anattasutta",
+        "blurb": null,
+        "parallel_count": 1,
+        "difficulty": null
+      }
+    ],
+    "hits": [
+      {
+        "category": "dictionary"
+      },
+      {
+        "uid": "general-guide-sujato",
+        "acronym": null,
+        "name": "general-guide-sujato",
+        "author": null,
+        "lang": "en",
+        "is_article": true
+      },
+      {
+        "uid": "sn-guide-sujato",
+        "acronym": null,
+        "name": "sn-guide-sujato",
+        "author": null,
+        "lang": "en",
+        "is_article": true
+      },
+      {
+        "uid": "subjects",
+        "acronym": null,
+        "name": "subjects",
+        "author": null,
+        "lang": "en",
+        "is_article": true
+      },
+      {
+        "uid": "terminology",
+        "acronym": null,
+        "name": "terminology",
+        "author": null,
+        "lang": "en",
+        "is_article": true
+      },
+      {
+        "uid": "thi-ap4",
+        "acronym": "Thi Ap 4",
+        "name": "Saṅkamanattā",
+        "root_name": "Saṅkamanatthātherīapadāna",
+        "author": "Jonathan S. Walters",
+        "lang": "en",
+        "is_article": null
+      },
+      {
+        "uid": "an3.136",
+        "acronym": "AN 3.136",
+        "name": "Uppādāsutta",
+        "root_name": "Uppādāsutta",
+        "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+        "lang": "pli",
+        "is_article": false
+      },
+      {
+        "uid": "an7.18",
+        "acronym": "AN 7.18",
+        "name": "Anattānupassīsutta",
+        "root_name": "Anattānupassīsutta",
+        "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+        "lang": "pli",
+        "is_article": false
+      },
+      {
+        "uid": "an7.20",
+        "acronym": "AN 7.20",
+        "name": "Niddasavatthusutta",
+        "root_name": "Niddasavatthusutta",
+        "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+        "lang": "pli",
+        "is_article": false
+      },
+      {
+        "uid": "an10.60",
+        "acronym": "AN 10.60",
+        "name": "Girimānandasutta",
+        "root_name": "Girimānandasutta",
+        "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+        "lang": "pli",
+        "is_article": false
+      }
+    ]
+  }
+}

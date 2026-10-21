@@ -1,0 +1,230 @@
+{
+  "url": "https://suttacentral.net/api/search/instant?query=nibbana&language=en&limit=10",
+  "recorded": "2026-10-20",
+  "body": {
+    "total": 456,
+    "suttaplex": [
+      {
+        "uid": "an4.179",
+        "acronym": "AN 4.179",
+        "translated_title": "Extinguishment ",
+        "original_title": "Nibbānasutta",
+        "blurb": "Why only some people realize Nirvana in this life.",
+        "parallel_count": 0,
+        "difficulty": null
+      },
+      {
+        "uid": "an6.101",
+        "acronym": "AN 6.101",
+        "translated_title": "Extinguished ",
+        "original_title": "Nibbānasutta",
+        "blurb": "A mendicant on the path cannot see extinguishment as suffering.",
+        "parallel_count": 0,
+        "difficulty": null
+      },
+      {
+        "uid": "an7.19",
+        "acronym": "AN 7.19",
+        "translated_title": "Extinguishment ",
+        "original_title": "Nibbānasutta",
+        "blurb": "Seven persons who are worthy of gifts and veneration.",
+        "parallel_count": 1,
+        "difficulty": null
+      },
+      {
+        "uid": "an9.48",
+        "acronym": "AN 9.48",
+        "translated_title": "Extinguishment ",
+        "original_title": "Nibbānasutta",
+        "blurb": null,
+        "parallel_count": 0,
+        "difficulty": null
+      },
+      {
+        "uid": "sn35.147",
+        "acronym": "SN 35.147",
+        "translated_title": "The Impermanent as Conducive to Extinguishment ",
+        "original_title": "Aniccanibbānasappāyasutta",
+        "blurb": "The way suitable for realizing extinguishment is to contemplate the process of sense experience as impermanent.",
+        "parallel_count": 1,
+        "difficulty": null
+      },
+      {
+        "uid": "sn35.148",
+        "acronym": "SN 35.148",
+        "translated_title": "The Suffering as Conducive to Extinguishment ",
+        "original_title": "Dukkhanibbānasappāyasutta",
+        "blurb": "The way suitable for realizing extinguishment is to contemplate the process of sense experience as suffering.",
+        "parallel_count": 1,
+        "difficulty": null
+      },
+      {
+        "uid": "sn35.150",
+        "acronym": "SN 35.150",
+        "translated_title": "A Practice Conducive to Extinguishment ",
+        "original_title": "Nibbānasappāyapaṭipadāsutta",
+        "blurb": "The way suitable for realizing extinguishment is to contemplate the process of sense experience as impermanent, suffering, and not-self.",
+        "parallel_count": 1,
+        "difficulty": null
+      },
+      {
+        "uid": "iti44",
+        "acronym": "Iti 44",
+        "translated_title": "Facets of Quenching ",
+        "original_title": "Nibbānadhātusutta",
+        "blurb": "Two unbinding properties: with fuel remaining and with no fuel remaining.",
+        "parallel_count": 2,
+        "difficulty": null
+      },
+      {
+        "uid": "kv19.6",
+        "acronym": "Kv 19.6",
+        "translated_title": "Of Nibbāna as Morally Good",
+        "original_title": "Kusalakathā",
+        "blurb": null,
+        "parallel_count": 0,
+        "difficulty": null
+      },
+      {
+        "uid": "mil3.4.10",
+        "acronym": "Mil 3.4.10",
+        "translated_title": "The Question on the Happiness of Extinguishment ",
+        "original_title": "Nibbānasukhajānanapañha",
+        "blurb": null,
+        "parallel_count": 1,
+        "difficulty": null
+      },
+      {
+        "uid": "mil3.4.8",
+        "acronym": "Mil 3.4.8",
+        "translated_title": "The Question on Extinguishment and Cessation ",
+        "original_title": "Nirodhanibbānapañha",
+        "blurb": null,
+        "parallel_count": 1,
+        "difficulty": null
+      },
+      {
+        "uid": "mil3.4.9",
+        "acronym": "Mil 3.4.9",
+        "translated_title": "The Question on Who Gains Extinguishment ",
+        "original_title": "Nibbānalabhanapañha",
+        "blurb": null,
+        "parallel_count": 1,
+        "difficulty": null
+      },
+      {
+        "uid": "ud8.1",
+        "acronym": "Ud 8.1",
+        "translated_title": "About Extinguishment (1st) ",
+        "original_title": "Paṭhamanibbānapaṭisaṁyuttasutta",
+        "blurb": "The nature of extinguishment.",
+        "parallel_count": 4,
+        "difficulty": null
+      },
+      {
+        "uid": "ud8.2",
+        "acronym": "Ud 8.2",
+        "translated_title": "About Extinguishment (2nd) ",
+        "original_title": "Dutiyanibbānapaṭisaṁyuttasutta",
+        "blurb": "On seeing extinguishment.",
+        "parallel_count": 6,
+        "difficulty": null
+      },
+      {
+        "uid": "ud8.3",
+        "acronym": "Ud 8.3",
+        "translated_title": "About Extinguishment (3rd) ",
+        "original_title": "Tatiyanibbānapaṭisaṁyuttasutta",
+        "blurb": "The escape from conditions is real.",
+        "parallel_count": 6,
+        "difficulty": null
+      },
+      {
+        "uid": "ud8.4",
+        "acronym": "Ud 8.4",
+        "translated_title": "About Extinguishment (4th) ",
+        "original_title": "Catutthanibbānapaṭisaṁyuttasutta",
+        "blurb": "Extinguishment as independence.",
+        "parallel_count": 9,
+        "difficulty": null
+      }
+    ],
+    "hits": [
+      {
+        "category": "dictionary"
+      },
+      {
+        "uid": "an3.32",
+        "acronym": "AN 3.32",
+        "name": "A Discourse to Ānanda",
+        "root_name": "Ānandasutta",
+        "author": "Suddhāso Bhikkhu",
+        "lang": "en",
+        "is_article": null
+      },
+      {
+        "uid": "an3.35",
+        "acronym": "AN 3.35",
+        "name": "Hatthaka",
+        "root_name": "Hatthakasutta",
+        "author": "Bhikkhu Bodhi",
+        "lang": "en",
+        "is_article": null
+      },
+      {
+        "uid": "an3.36",
+        "acronym": "AN 3.36",
+        "name": "Messengers",
+        "root_name": "Devadūtasutta",
+        "author": "Bhikkhu Bodhi",
+        "lang": "en",
+        "is_article": null
+      },
+      {
+        "uid": "an3.39",
+        "acronym": "AN 3.39",
+        "name": "Delicate",
+        "root_name": "Sukhumālasutta",
+        "author": "Bhikkhu Bodhi",
+        "lang": "en",
+        "is_article": null
+      },
+      {
+        "uid": "an3.55",
+        "acronym": "AN 3.55",
+        "name": "Nibbāna",
+        "root_name": "Nibbutasutta",
+        "author": "Bhikkhu Bodhi",
+        "lang": "en",
+        "is_article": null
+      },
+      {
+        "uid": "an3.57",
+        "acronym": "AN 3.57",
+        "name": "Vaccha",
+        "root_name": "Vacchagottasutta",
+        "author": "Bhikkhu Bodhi",
+        "lang": "en",
+        "is_article": null
+      },
+      {
+        "uid": "an3.60",
+        "acronym": "AN 3.60",
+        "name": "Saṅgārava",
+        "root_name": "Saṅgāravasutta",
+        "author": "Bhikkhu Bodhi",
+        "lang": "en",
+        "is_article": null
+      },
+      {
+        "uid": "an4.1",
+        "acronym": "AN 4.1",
+        "name": "Understood",
+        "root_name": "Anubuddhasutta",
+        "author": "Kovilo Bhikkhu",
+        "lang": "en",
+        "is_article": false
+      }
+    ]
+  }
+}

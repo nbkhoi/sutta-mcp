@@ -1,0 +1,19 @@
+{
+  "url": "https://suttacentral.net/api/search/instant?query=v%C3%B4+ng%C3%A3+t%C6%B0%E1%BB%9Bng&language=vi&limit=10",
+  "recorded": "2026-10-20",
+  "body": {
+    "total": 1,
+    "suttaplex": [
+      {
+        "uid": "sn22.59",
+        "acronym": "SN 22.59",
+        "translated_title": "Năm Vị (Vô ngã tưởng)",
+        "original_title": "Anattalakkhaṇasutta",
+        "blurb": "In the Deer Park at Varanasi the Buddha teaches the famous second discourse, on not-self with regard to the aggregates, to the group of five monks. At the conclusion, they become perfected ones.",
+        "parallel_count": 8,
+        "difficulty": null
+      }
+    ],
+    "hits": []
+  }
+}
