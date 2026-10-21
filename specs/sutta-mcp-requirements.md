@@ -157,7 +157,7 @@ API trả về 2 field: `type` (string) và `resembling` (boolean).
 
 **Nguồn dữ liệu:** Search API của SuttaCentral, `GET /api/search/instant`, đúng một request mỗi lời gọi (spec `dynamic-search`).
 
-**Lưu ý:** Search của SC không hiểu tiếng Việt. Các chủ đề tiếng Việt thông dụng được ánh xạ sang một thuật ngữ Anh/Pali bằng bảng tĩnh trong `src/index.ts`; chủ đề tiếng Việt khác cần được dịch sang thuật ngữ Anh/Pali trước khi gọi.
+**Lưu ý:** Search của SC không hiểu tiếng Việt. Các chủ đề tiếng Việt thông dụng được ánh xạ sang một thuật ngữ Anh/Pali bằng bảng tĩnh trong `src/search.ts`; chủ đề tiếng Việt khác cần được dịch sang thuật ngữ Anh/Pali trước khi gọi.
 
 ---
 
@@ -290,7 +290,7 @@ Claude trả lời có trích dẫn + link suttacentral.net/mn10
 ## Hướng nâng cấp (sau prototype)
 
 1. **Dynamic search** — **đã thực hiện (spec `dynamic-search`).** `search_topic` không còn dùng `TOPIC_INDEX` tĩnh (topic → UID hardcode, đã xóa); mỗi lời gọi phát đúng một `GET /api/search/instant?query=&language=&limit=10`, thêm `offset` khi lật trang nội dung. Bốn phát hiện đo ngày 2026-10-17/18 được giải quyết như sau:
-   - **Truy vấn tiếng Việt gần như không có kết quả** → 14 chủ đề tiếng Việt được ánh xạ sang một thuật ngữ Anh/Pali (bảng `VI_TOPIC_TERMS` trong `src/index.ts`, khớp chính xác sau chuẩn hóa NFC, chữ thường, khoảng trắng); mọi truy vấn khác gửi thẳng. Không giữ danh sách UID tĩnh làm fallback.
+   - **Truy vấn tiếng Việt gần như không có kết quả** → 14 chủ đề tiếng Việt được ánh xạ sang một thuật ngữ Anh/Pali (bảng `VI_TOPIC_TERMS` trong `src/search.ts`, khớp chính xác sau chuẩn hóa NFC, chữ thường, khoảng trắng); mọi truy vấn khác gửi thẳng. Không giữ danh sách UID tĩnh làm fallback.
    - **Hit không phải sutta** → loại mọi phần tử có `category` (dictionary), không có `uid`, hoặc có `is_article: true` trước khi in; output không còn `**?**` hay link `suttacentral.net/?`.
    - **Hit theo bản dịch** → hai nguồn tách bạch: `suttaplex` là khớp tiêu đề (citation đầy đủ kèm blurb), `hits` là khớp nội dung (citation rút gọn kèm dòng `Text: {author} ({lang})`); khử trùng `uid` trong một trang.
    - **GET và POST lệch `total`** → POST lấy danh sách ngôn ngữ từ body JSON, body không phải danh sách khác rỗng thì bỏ lọc ngôn ngữ; GET mặc định lọc `["en", "pli"]`. Chọn GET. `total` không phải số sutta nên không in ra.
