@@ -14,13 +14,14 @@ Content from SuttaCentral must NOT be used for AI training. This server fetches 
 npm run build    # tsc → dist/
 npm run dev      # tsx src/index.ts (hot-reload dev mode)
 npm start        # node dist/index.js (production)
+npm test         # node:test via tsx — offline unit tests for search_topic (test/)
 ```
 
-No test runner or linter is configured yet.
+No linter is configured yet.
 
 ## Architecture
 
-Single-file server: `src/index.ts` (~585 lines). Everything lives here.
+Two source files. `src/index.ts` (~435 lines) holds the SuttaCentral API helpers, the MCP server with every tool's zod schema and handler, and `main()`. `src/search.ts` (~210 lines) holds the pure logic of `search_topic` — the `VI_TOPIC_TERMS` table, topic and response normalization, filtering, paging and formatting — plus `formatCitation()`, which `get_sutta` and `get_sutta_meta` import from it. `src/search.ts` has no imports and no I/O. Unit tests live in `test/` and read recorded, trimmed `/api/search/instant` responses from `test/fixtures/`; they never call the network. Fixtures are small snapshots, not a corpus: re-record one only when a code change needs a new response shape.
 
 **Three layers:**
 
@@ -41,7 +42,7 @@ Single-file server: `src/index.ts` (~585 lines). Everything lives here.
 
 ## Extending the Vietnamese Topic Mapping
 
-To support another Vietnamese topic, add a `[key, term]` pair to `VI_TOPIC_TERMS` in `src/index.ts`. The key is lowercase NFC Vietnamese with single spaces; the term is one English or Pali search term. Measure before adding: the term must return at least one sutta on page 1 with `match=all` for both `language=en` and `language=vi`. English and Pali topics need no entry — they go to the search API directly.
+To support another Vietnamese topic, add a `[key, term]` pair to `VI_TOPIC_TERMS` in `src/search.ts`. The key is lowercase NFC Vietnamese with single spaces; the term is one English or Pali search term. Measure before adding: the term must return at least one sutta on page 1 with `match=all` for both `language=en` and `language=vi`. English and Pali topics need no entry — they go to the search API directly.
 
 ## SuttaCentral Domain Concepts
 
