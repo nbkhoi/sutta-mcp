@@ -23,6 +23,8 @@ git clone https://github.com/nbkhoi/sutta-mcp.git
 cd sutta-mcp
 npm install
 npm run build
+# Chạy unit test offline (không cần mạng):
+npm test
 ```
 
 ## Chạy thử (dev mode)
@@ -73,11 +75,11 @@ một thuật ngữ Anh/Pali trước khi tìm:
 `duyên khởi`, `ngũ uẩn`, `niết bàn`, `nghiệp`, `thiền`, `tam bảo`, `quy y`
 
 Chủ đề tiếng Việt khác cần được dịch sang thuật ngữ Anh/Pali trước khi gọi `search_topic`.
-Nguồn chính của danh sách này là bảng `VI_TOPIC_TERMS` trong `src/index.ts`.
+Nguồn chính của danh sách này là bảng `VI_TOPIC_TERMS` trong `src/search.ts`.
 
 ## Mở rộng
 
-Để thêm chủ đề tiếng Việt, thêm một cặp `[key, thuật ngữ]` vào `VI_TOPIC_TERMS` trong `src/index.ts`
+Để thêm chủ đề tiếng Việt, thêm một cặp `[key, thuật ngữ]` vào `VI_TOPIC_TERMS` trong `src/search.ts`
 (key: chữ thường, dạng NFC; thuật ngữ: một thuật ngữ Anh/Pali). Đo trước khi thêm: thuật ngữ phải cho ít nhất
 1 kết quả sutta ở trang 1 với `match=all`, cả `language=en` lẫn `language=vi`.
 
