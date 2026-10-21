@@ -153,7 +153,7 @@ API trả về 2 field: `type` (string) và `resembling` (boolean).
 | `match` | `title` / `content` / `all` | Không | Khớp tiêu đề, khớp nội dung (không gồm sutta đã khớp tiêu đề), hay cả hai. Mặc định: `all` |
 | `page` | integer, 1–10000 | Không | Trang kết quả; mỗi trang tối đa 10 kết quả khớp tiêu đề + 10 kết quả khớp nội dung. Mặc định: `1` |
 
-**Output:** Danh sách sutta của một trang, theo thứ tự kinh điển của SC: khớp tiêu đề (citation chuẩn, blurb, link SuttaCentral), rồi khớp nội dung (citation rút gọn, bản văn khớp, link SuttaCentral). Dòng cuối cho biết còn trang sau hay không.
+**Output:** Danh sách sutta của một trang, giữ nguyên thứ tự SC trả về (không phải thứ tự kinh điển, không theo độ liên quan): khớp tiêu đề (citation chuẩn, blurb, link SuttaCentral), rồi khớp nội dung (citation rút gọn, bản văn khớp, link SuttaCentral). Dòng cuối cho biết còn trang sau hay không.
 
 **Nguồn dữ liệu:** Search API của SuttaCentral, `GET /api/search/instant`, đúng một request mỗi lời gọi (spec `dynamic-search`).
 
@@ -372,9 +372,9 @@ Lỗi và cải tiến tìm thấy khi chạy thử end-to-end trên `5459d5a` (
 | Issue | Tool | Tóm tắt | Liên quan |
 |---|---|---|---|
 | [#16](https://github.com/nbkhoi/sutta-mcp/issues/16) (bug) | `get_parallels` | Vòng lặp `Object.values(data)` bỏ mất anchor nguồn (`dn22`, `dn22#18.1`, …) nên parallels toàn bài và từng đoạn bị trộn thành một danh sách, trông như trùng lặp hoặc mâu thuẫn. Cần nhóm theo anchor, giữ đủ 27 mục của DN 22. | mục 3 |
-| [#17](https://github.com/nbkhoi/sutta-mcp/issues/17) (bug) | `search_topic` | Mô tả tool ghi "theo thứ tự kinh điển", nhưng upstream sắp theo chuỗi UID (`an11.15` trước `an7.62`). Tối thiểu sửa mô tả (và `AGENTS.md`); tùy chọn sắp lại khớp tiêu đề theo thứ tự kinh điển, không tốn thêm request. | mục 1 |
+| [#17](https://github.com/nbkhoi/sutta-mcp/issues/17) (bug) — **đã sửa mô tả** | `search_topic` | Mô tả tool ghi "theo thứ tự kinh điển", nhưng upstream sắp gần theo chuỗi UID (`an11.15` trước `an7.62`). Mô tả tool, `AGENTS.md` và Tool 1 nay ghi "giữ nguyên thứ tự SC trả về". Chưa làm: sắp lại khớp tiêu đề theo thứ tự kinh điển (không tốn thêm request, cần bảng thứ tự division). | mục 1 |
 | [#18](https://github.com/nbkhoi/sutta-mcp/issues/18) (bug) | `search_topic` | Một số thuật ngữ trong `VI_TOPIC_TERMS` bỏ sót kinh tiêu biểu: `vô ngã` → `anatta` không có SN 22.59 (`not-self` có); `tam bảo`, `quy y` có 0 khớp tiêu đề. Đề xuất đổi thuật ngữ và thêm "kinh tham chiếu" cho mỗi key làm tiêu chí chấp nhận. | mục 1 |
 | [#19](https://github.com/nbkhoi/sutta-mcp/issues/19) (enhancement) | `get_sutta_meta`, `search_topic` | Với `language=vi`, SC trả tiêu đề tiếng Việt nhưng blurb tiếng Anh; output không nói rõ. Cần gắn nhãn blurb tiếng Anh. | mục 2 |
 | [#20](https://github.com/nbkhoi/sutta-mcp/issues/20) (enhancement) | `get_sutta_meta`, `formatCitation()` | Bản dịch legacy trông như trùng (cùng `author_uid`); `Difficulty: unknown` in khi SC không có difficulty; tiêu đề upstream có khoảng trắng cuối. | — |
 
-**Thứ tự đề xuất:** #17, #18 và phần `search_topic` của #19, #20 đổi output của `search_topic`, nên làm sau spec `search-unit-tests` (đang thực hiện: tách logic thuần của `search_topic` ra `src/search.ts` và thêm `npm test` offline), để mỗi thay đổi có test đi kèm. #16 độc lập với `search_topic`.
+**Thứ tự đề xuất:** #17, #18 và phần `search_topic` của #19, #20 đổi output của `search_topic`, nên làm sau spec `search-unit-tests` (đã xong: logic thuần của `search_topic` nằm trong `src/search.ts`, có `npm test` offline), để mỗi thay đổi có test đi kèm. #16 độc lập với `search_topic`.
