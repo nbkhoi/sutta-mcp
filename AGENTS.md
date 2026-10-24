@@ -21,14 +21,13 @@ No linter is configured yet.
 
 ## Architecture
 
-Two source files. `src/index.ts` (~435 lines) holds the SuttaCentral API helpers, the MCP server with every tool's zod schema and handler, and `main()`. `src/search.ts` (~210 lines) holds the pure logic of `search_topic` — the `VI_TOPIC_TERMS` table, topic and response normalization, filtering, paging and formatting — plus `formatCitation()`, which `get_sutta` and `get_sutta_meta` import from it. `src/search.ts` has no imports and no I/O. Unit tests live in `test/` and read recorded, trimmed `/api/search/instant` responses from `test/fixtures/`; they never call the network. Fixtures are small snapshots, not a corpus: re-record one only when a code change needs a new response shape.
+Two source files. `src/index.ts` (~445 lines) holds the SuttaCentral API helpers, the MCP server with every tool's zod schema and handler, and `main()`. `src/search.ts` (~165 lines) holds the pure logic of `search_topic` — building the `/api/search/instant` request URL from the caller's parameters and rendering the response body as `text` or `json`, with no filtering, deduplication, reordering or paging logic — plus `formatCitation()`, which `get_sutta` and `get_sutta_meta` import from it. `src/search.ts` has no imports and no I/O. Unit tests live in `test/` and read recorded, trimmed `/api/search/instant` responses from `test/fixtures/`; they never call the network. Fixtures are small snapshots, not a corpus: re-record one only when a code change needs a new response shape.
 
-**Three layers:**
+**Two layers:**
 
-1. **SuttaCentral API helpers** — `fetchSuttaplex()`, `fetchBilaraText()`, `fetchParallels()`, `fetchSearch()` wrapping `https://suttacentral.net/api`.
-2. **Vietnamese topic mapping** — `VI_TOPIC_TERMS` is a static `Map` from 14 Vietnamese topic keys to one English/Pali search term each, because SuttaCentral's search API (`/api/search/instant`) does not handle Vietnamese queries. A topic matches a key only exactly, after NFC, lowercasing, trimming and collapsing whitespace; every other topic is sent to the search API unchanged (NFC + trim).
-3. **MCP tool definitions** — five tools registered via `server.tool()`:
-   - `search_topic` — one `/api/search/instant` request per call; title matches (`suttaplex`) then content matches (`hits`), each in the order the API returns (not canonical, not by relevance), non-sutta entries filtered out, selected by `match` (`title`/`content`/`all`) and paged by `page` (up to 10 + 10 results per page)
+1. **SuttaCentral API helpers** — `fetchSuttaplex()`, `fetchBilaraText()`, `fetchParallels()` wrapping `https://suttacentral.net/api`. The `search_topic` handler fetches the URL built by `buildSearchUrl()` in `src/search.ts` directly.
+2. **MCP tool definitions** — five tools registered via `server.tool()`:
+   - `search_topic` — thin wrapper of `GET /api/search/instant`: the API's own parameters (`query`, `language`, `limit`, `offset`, `selectedLanguages`, `restrict`, `matchpartial`) plus `format` (`text`/`json`); one request per call carrying only the parameters the caller passed; `text` prints every `suttaplex` and `hits` entry in the order the API returns, unfiltered, with `total`, `fuzzy_dictionary` and `error`; `json` returns the response body verbatim
    - `get_sutta` — full sutta text via Bilara API, each segment prefixed with its segment ID plus a `Deep link:` header (with `max_segments` truncation)
    - `get_sutta_meta` — metadata only (blurb, difficulty, translations list)
    - `get_parallels` — cross-tradition parallel texts for a given sutta
@@ -38,11 +37,7 @@ Two source files. `src/index.ts` (~435 lines) holds the SuttaCentral API helpers
 - `GET /api/suttaplex/{uid}?language={lang}` — metadata
 - `GET /api/bilarasuttas/{uid}/{translator}?lang={lang}` — segmented text; `lang` defaults to `en` upstream, so non-English translations are retried once with `?lang=`
 - `GET /api/parallels/{uid}` — parallels
-- `GET /api/search/instant?query={q}&language={lang}&limit=10` (plus `offset` for content pages) — search; GET only, not cached
-
-## Extending the Vietnamese Topic Mapping
-
-To support another Vietnamese topic, add a `[key, term]` pair to `VI_TOPIC_TERMS` in `src/search.ts`. The key is lowercase NFC Vietnamese with single spaces; the term is one English or Pali search term. Measure before adding: the term must return at least one sutta on page 1 with `match=all` for both `language=en` and `language=vi`. English and Pali topics need no entry — they go to the search API directly.
+- `GET /api/search/instant?query={q}` plus whichever of `language`, `limit`, `offset`, `selectedLanguages` (JSON string), `restrict`, `matchpartial` the caller passed — search; GET only, not cached
 
 ## SuttaCentral Domain Concepts
 
