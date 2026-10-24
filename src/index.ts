@@ -2,7 +2,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import { SEARCH_PAGE_SIZE, formatCitation, formatNoResults, formatSearchResult, resolveTopic, searchOffset } from "./search.js";
+import { buildSearchUrl, formatCitation, renderSearch } from "./search.js";
 
 // ─── SuttaCentral API helpers ────────────────────────────────────────────────
 
@@ -26,14 +26,6 @@ async function fetchBilaraText(uid: string, translator = "sujato", lang?: string
 async function fetchParallels(uid: string) {
   const url = `${SC_BASE}/parallels/${uid}`;
   const res = await fetch(url);
-  if (!res.ok) throw new Error(`SuttaCentral API error: ${res.status}`);
-  return res.json();
-}
-
-async function fetchSearch(query: string, language: string, offset: number) {
-  const params = new URLSearchParams({ query, language, limit: String(SEARCH_PAGE_SIZE) });
-  if (offset > 0) params.set("offset", String(offset));
-  const res = await fetch(`${SC_BASE}/search/instant?${params}`);
   if (!res.ok) throw new Error(`SuttaCentral API error: ${res.status}`);
   return res.json();
 }
@@ -107,42 +99,60 @@ const server = new McpServer({
 // Tool 1: search_topic
 server.tool(
   "search_topic",
-  "Tìm sutta theo chủ đề bằng search của SuttaCentral. Kết quả giữ nguyên thứ tự SuttaCentral trả về (không phải thứ tự kinh điển, không theo độ liên quan), mỗi trang tối đa 10 sutta khớp tiêu đề + 10 sutta khớp nội dung, mỗi kết quả có UID và link SuttaCentral. Chủ đề tiếng Việt chỉ hỗ trợ các key có sẵn (được ánh xạ sang thuật ngữ Anh/Pali); chủ đề tiếng Việt khác nên dịch sang thuật ngữ Anh/Pali trước khi gọi.",
+  "Wrapper mỏng của search SuttaCentral (GET https://suttacentral.net/api/search/instant): mỗi lời gọi gửi đúng một request, chỉ với các tham số caller truyền, và trả nguyên kết quả theo thứ tự SuttaCentral, không lọc, không khử trùng, không sắp lại. Body có hai mảng. `suttaplex` là khớp tiêu đề: với truy vấn thường, API trả nguyên mảng ở mọi trang; với truy vấn bắt đầu bằng `title:`, `suttaplex` theo `limit`/`offset` như `hits`; với truy vấn là một uid (ví dụ `mn10`), `suttaplex` chỉ có sutta đó. Vì vậy khớp tiêu đề lặp lại ở mọi `offset`, trừ khi truy vấn bắt đầu bằng `title:`. `hits` là khớp nội dung, gồm cả mục dictionary, bài viết và mỗi bản dịch một mục, phân trang bằng `limit`/`offset`. API bỏ khỏi `hits` các sutta đã có trong `suttaplex`, nên một trang có thể có ít hơn `limit` hit trong khi vẫn còn kết quả. `total` là số đếm xấp xỉ của SuttaCentral: nó phụ thuộc `limit`, bị trừ đi các hit bị bỏ ở trang hiện tại, và khi `total` tính ra bằng 0 thì rơi về số khớp tiêu đề. Vì vậy `total` không phải tín hiệu tin được để biết còn trang sau. Muốn biết còn kết quả hay không: gọi lại với `offset` lớn hơn và xem có mục mới không. Tìm bằng tiếng Việt: truyền `language` = `vi` để khớp tiêu đề tiếng Việt, và `selectedLanguages` có `vi` để có bản dịch tiếng Việt trong `hits`.",
   {
-    topic: z.string().describe(
-      "Chủ đề cần tìm, ví dụ: 'mindfulness', 'satipatthana', 'four noble truths', 'vô ngã'. Thuật ngữ Anh/Pali được gửi thẳng tới search của SuttaCentral."
-    ),
+    query: z
+      .string()
+      .describe(
+        "Chuỗi tìm kiếm, gửi nguyên văn: không chuẩn hóa, không trim, không đổi hoa/thường. Nhận cả lệnh lọc của SuttaCentral, ví dụ 'title:mindfulness', 'list authors'. Ví dụ: 'mindfulness', 'satipatthana', 'niệm xứ' (kèm language='vi')."
+      ),
     language: z
       .string()
-      .default("en")
+      .optional()
       .describe(
-        "Ngôn ngữ của tiêu đề và blurb khi SuttaCentral có, ví dụ 'en' hoặc 'vi'. Cũng ảnh hưởng việc khớp tiêu đề: với 'vi', thuật ngữ tiếng Anh thường không khớp tiêu đề nào."
+        "Mã ngôn ngữ gửi tới API, ví dụ 'en', 'vi'. Quyết định ngôn ngữ của tiêu đề được khớp và trả về. Bỏ trống thì không gửi, và kết quả khác với 'en'. Tìm bằng tiếng Việt: truyền 'vi' để khớp tiêu đề tiếng Việt."
       ),
-    match: z
-      .enum(["title", "content", "all"])
-      .default("all")
-      .describe(
-        "'title': chỉ sutta có tiêu đề khớp; 'content': chỉ sutta khớp trong nội dung, không gồm sutta đã khớp tiêu đề; 'all' (mặc định): cả hai, khớp tiêu đề trước."
-      ),
-    page: z
+    limit: z
       .number()
       .int()
-      .min(1)
-      .max(10000)
-      .default(1)
+      .min(0)
+      .optional()
+      .describe("Số hit tối đa của trang `hits`, gửi nguyên tới API. Bỏ trống: API dùng mặc định 10."),
+    offset: z
+      .number()
+      .int()
+      .min(0)
+      .optional()
+      .describe("Vị trí bắt đầu của trang `hits`, gửi nguyên tới API. Bỏ trống: API dùng mặc định 0."),
+    selectedLanguages: z
+      .array(z.string())
+      .optional()
       .describe(
-        "Trang kết quả, bắt đầu từ 1. Khi output kết thúc bằng 'Còn kết quả', gọi lại với page kế tiếp, giữ nguyên topic, language, match."
+        'Ngôn ngữ của các bản văn trong `hits`, gửi tới API dạng chuỗi JSON. Bỏ trống: API dùng mặc định ["en","pli"]. Muốn có bản dịch tiếng Việt trong `hits`, truyền mảng có "vi", ví dụ ["vi","pli"].'
+      ),
+    restrict: z
+      .string()
+      .optional()
+      .describe(
+        "Giới hạn loại kết quả, gửi nguyên tới API. 'all' coi như không giới hạn. 'dictionaries' làm API trả body null. Bỏ trống: không gửi."
+      ),
+    matchpartial: z
+      .boolean()
+      .optional()
+      .describe("Bật khớp một phần, gửi tới API dạng 'true'/'false'. Bỏ trống: API mặc định tắt."),
+    format: z
+      .enum(["text", "json"])
+      .default("text")
+      .describe(
+        "'text' (mặc định): dòng nguồn kèm URL request, rồi mọi phần tử của `suttaplex` và `hits` theo thứ tự API (mỗi mục kèm link SuttaCentral khi có), `total`, `fuzzy_dictionary`, và `error` nếu có. 'json': item thứ nhất là body response nguyên văn, item thứ hai là dòng nguồn kèm URL request."
       ),
   },
-  async ({ topic, language, match, page }) => {
-    // Logic thuần nằm ở src/search.ts (spec search-unit-tests); handler chỉ gọi API và nối.
-    const { term, query } = resolveTopic(topic);
-    if (query === "") {
-      return { content: [{ type: "text", text: formatNoResults(topic, match, term) }] };
-    }
-    const data = await fetchSearch(query, language, searchOffset(match, page));
-    const text = formatSearchResult({ topic, match, page }, term, data);
-    return { content: [{ type: "text", text }] };
+  async ({ format, ...params }) => {
+    // Wrapper mỏng (spec search-api-passthrough): một URL, dùng nguyên cho fetch và cho output.
+    const url = buildSearchUrl(params);
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`SuttaCentral API error: ${res.status}`);
+    return { content: renderSearch(url, await res.text(), format) };
   }
 );
 

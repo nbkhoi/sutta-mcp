@@ -1,63 +1,155 @@
-// Logic thuần của tool search_topic (spec search-unit-tests): chuẩn hóa topic và response,
-// lọc, phân trang, format. Module không import gì, không I/O, không giữ trạng thái ngoài các
-// hằng khai báo ở đây. src/index.ts gọi API rồi đưa body vào; test/ import thẳng module này.
+// Logic thuần của tool search_topic (spec search-api-passthrough): dựng URL request của
+// GET /api/search/instant và dựng output từ body response. Không lọc, không khử trùng, không
+// đổi thứ tự. Module không import gì, không I/O, không giữ trạng thái. src/index.ts gọi API;
+// test/ import thẳng module này.
 
-// ─── Search: chủ đề → /api/search/instant (spec dynamic-search) ──────────────
+// ─── search_topic: wrapper mỏng của /api/search/instant ─────────────────────
 
-// Mỗi trang: tối đa 10 kết quả khớp tiêu đề + 10 kết quả khớp nội dung; cũng là `limit` gửi API.
-export const SEARCH_PAGE_SIZE = 10;
+// Tham số API của tool, cùng tên với API. Tham số vắng thì không gửi.
+export type SearchParams = {
+  query: string;
+  language?: string;
+  limit?: number;
+  offset?: number;
+  selectedLanguages?: string[];
+  restrict?: string;
+  matchpartial?: boolean;
+};
+export type SearchFormat = "text" | "json";
+export type TextContent = { type: "text"; text: string };
 
-// Chủ đề tiếng Việt → MỘT thuật ngữ tìm kiếm Anh/Pali. SSOT là bảng này; README/AGENTS.md chỉ
-// trỏ về đây. Key: NFC, chữ thường, các từ cách nhau một dấu cách. Thuật ngữ mới phải cho ít
-// nhất 1 kết quả sutta ở trang 1 (match=all) với cả language=en lẫn vi — đo trước khi thêm.
-const VI_TOPIC_TERMS = new Map<string, string>([
-  ["tứ diệu đế", "four noble truths"],
-  ["khổ", "dukkha"],
-  ["bát chánh đạo", "eightfold path"],
-  ["vô ngã", "anatta"],
-  ["chánh niệm", "satipatthana"],
-  ["vô thường", "anicca"],
-  ["từ bi", "metta"],
-  ["duyên khởi", "dependent origination"],
-  ["ngũ uẩn", "khandha"],
-  ["niết bàn", "nibbana"],
-  ["nghiệp", "kamma"],
-  ["thiền", "jhana"],
-  ["tam bảo", "three jewels"],
-  ["quy y", "going for refuge"],
-]);
-
-// `suttaplex` của search mang `difficulty` dạng số; /api/suttaplex mang { name, level }.
-const DIFFICULTY_NAMES = new Map<unknown, string>([
-  [1, "beginner"],
-  [2, "intermediate"],
-  [3, "advanced"],
-]);
-
-// Khớp tiêu đề: citation đầy đủ qua formatCitation() trên BẢN SAO có difficulty đã đổi sang
-// dạng { name } — formatCitation() giữ nguyên cho input /api/suttaplex.
-export function formatTitleMatch(sp: any): string {
-  const citation = formatCitation({ ...sp, difficulty: { name: DIFFICULTY_NAMES.get(sp.difficulty) } });
-  return sp.blurb ? `${citation}\n→ ${sp.blurb}` : citation;
+// URL request duy nhất của một lời gọi. Handler truyền nguyên chuỗi này cho fetch và cho
+// renderSearch(); không nơi nào khác dựng hay sửa URL search.
+export function buildSearchUrl(p: SearchParams): string {
+  const q = new URLSearchParams({ query: p.query });
+  if (p.language !== undefined) q.set("language", p.language);
+  if (p.limit !== undefined) q.set("limit", String(p.limit));
+  if (p.offset !== undefined) q.set("offset", String(p.offset));
+  if (p.selectedLanguages !== undefined) q.set("selectedLanguages", JSON.stringify(p.selectedLanguages));
+  if (p.restrict !== undefined) q.set("restrict", p.restrict);
+  if (p.matchpartial !== undefined) q.set("matchpartial", String(p.matchpartial));
+  return `https://suttacentral.net/api/search/instant?${q}`;
 }
 
-// Khớp nội dung: hit là MỘT bản văn (dịch hoặc gốc), không có blurb/difficulty/parallels —
-// không bịa các dòng đó. `name` rỗng (bản Āgama) → `root_name`; thiếu `author` → bỏ dòng Text.
-export function formatContentMatch(hit: any): string {
-  const acronym = (typeof hit.acronym === "string" && hit.acronym) || hit.uid.toUpperCase();
-  const title =
-    (typeof hit.name === "string" && hit.name.trim()) ||
-    (typeof hit.root_name === "string" && hit.root_name.trim()) ||
-    "";
-  const lines = [title ? `**${acronym}** — ${title}` : `**${acronym}**`];
-  if (typeof hit.author === "string" && hit.author !== "") {
-    lines.push(hit.lang ? `Text: ${hit.author} (${hit.lang})` : `Text: ${hit.author}`);
+// `raw`: body response đọc bằng res.text(). json: body nguyên văn rồi dòng nguồn. text: body
+// phải parse được JSON, nếu không JSON.parse ném lỗi và SDK dựng isError.
+export function renderSearch(url: string, raw: string, format: SearchFormat): TextContent[] {
+  if (format === "json") return [{ type: "text", text: raw }, { type: "text", text: sourceLine(url) }];
+  return [{ type: "text", text: formatSearchText(url, JSON.parse(raw)) }];
+}
+
+function sourceLine(url: string): string {
+  return `Nguồn: SuttaCentral — ${url}`;
+}
+
+// Chuỗi khác rỗng thì trả nguyên văn; mọi giá trị khác coi như vắng.
+function str(v: unknown): string | undefined {
+  return typeof v === "string" && v !== "" ? v : undefined;
+}
+
+// Giá trị thô của API: chuỗi in nguyên văn, kiểu khác in dạng JSON.
+function rawValue(v: unknown): string {
+  return typeof v === "string" ? v : JSON.stringify(v);
+}
+
+function formatSearchText(url: string, body: unknown): string {
+  const blocks = [sourceLine(url)];
+  if (body === null) {
+    blocks.push("SuttaCentral trả body `null` cho request này.");
+    return blocks.join("\n\n");
   }
-  lines.push(`URL: https://suttacentral.net/${hit.uid}`);
+  if (typeof body !== "object" || Array.isArray(body)) {
+    blocks.push(`SuttaCentral trả body không phải object JSON: ${JSON.stringify(body)}`);
+    return blocks.join("\n\n");
+  }
+  const b = body as Record<string, unknown>;
+  blocks.push(...arraySection(b, "suttaplex", "Khớp tiêu đề (suttaplex)", formatSuttaplexItem));
+  blocks.push(...arraySection(b, "hits", "Khớp nội dung (hits)", formatHit));
+  blocks.push(
+    Object.hasOwn(b, "total")
+      ? `total (số đếm xấp xỉ do SuttaCentral báo, không phải số sutta): ${rawValue(b.total)}`
+      : "total: body không có key `total`"
+  );
+  blocks.push(fuzzySection(b));
+  if (Object.hasOwn(b, "error")) blocks.push(formatError(b.error));
+  return blocks.join("\n\n");
+}
+
+// Tiêu đề kèm `length` của mảng, rồi mỗi phần tử một khối, đúng thứ tự API.
+function arraySection(
+  b: Record<string, unknown>,
+  key: string,
+  title: string,
+  item: (label: string, e: any) => string
+): string[] {
+  if (!Object.hasOwn(b, key)) return [`${title}: body không có key \`${key}\``];
+  const arr = b[key];
+  if (!Array.isArray(arr)) return [`${title}: \`${key}\` không phải mảng: ${JSON.stringify(arr)}`];
+  return [`${title}: ${arr.length}`, ...arr.map((e, i) => item(`${key}[${i}]`, e))];
+}
+
+function heading(label: string, acronym: string | undefined, title: string | undefined): string {
+  return [label, acronym && `**${acronym}**`, title && `— ${title}`].filter(Boolean).join(" ");
+}
+
+function formatSuttaplexItem(label: string, sp: any): string {
+  const uid = str(sp?.uid);
+  const lines = [heading(label, str(sp?.acronym) ?? uid, str(sp?.translated_title) ?? str(sp?.original_title))];
+  if (uid) lines.push(`UID: ${uid}`, `URL: https://suttacentral.net/${uid}`);
+  if (sp?.difficulty !== undefined && sp?.difficulty !== null) lines.push(`Difficulty: ${rawValue(sp.difficulty)}`);
+  const blurb = str(sp?.blurb);
+  if (blurb) lines.push(`Blurb: ${blurb}`);
   return lines.join("\n");
 }
 
-// ─── Citation dùng chung: get_sutta, get_sutta_meta (import từ đây) và khớp tiêu đề ───────
+function formatHit(label: string, hit: any): string {
+  const lines = [heading(label, str(hit?.acronym), str(hit?.name) ?? str(hit?.root_name))];
+  const url = str(hit?.url);
+  if (url?.startsWith("/")) lines.push(`URL: https://suttacentral.net${url}`);
+  const uid = str(hit?.uid);
+  if (uid) lines.push(`UID: ${uid}`);
+  const author = str(hit?.author);
+  const authorUid = str(hit?.author_uid);
+  if (author) lines.push(authorUid ? `Tác giả: ${author} (${authorUid})` : `Tác giả: ${author}`);
+  else if (authorUid) lines.push(`Tác giả: ${authorUid}`);
+  const lang = str(hit?.lang);
+  if (lang) lines.push(`Ngôn ngữ: ${lang}`);
+  const category = str(hit?.category);
+  if (category) lines.push(`Category: ${category}`);
+  if (hit?.is_article === true) lines.push("Bài viết (is_article)");
+  const highlight = hit?.highlight?.content;
+  if (Array.isArray(highlight)) {
+    for (const h of highlight) if (typeof h === "string") lines.push(`Highlight: ${h}`);
+  }
+  return lines.join("\n");
+}
+
+// Dạng phần tử chưa quan sát được: mỗi phần tử là JSON một dòng, liền sau tiêu đề.
+function fuzzySection(b: Record<string, unknown>): string {
+  const title = "fuzzy_dictionary";
+  if (!Object.hasOwn(b, "fuzzy_dictionary")) return `${title}: body không có key \`fuzzy_dictionary\``;
+  const arr = b.fuzzy_dictionary;
+  if (!Array.isArray(arr)) return `${title}: \`fuzzy_dictionary\` không phải mảng: ${JSON.stringify(arr)}`;
+  return [`${title}: ${arr.length}`, ...arr.map((e) => JSON.stringify(e))].join("\n");
+}
+
+function formatError(error: any): string {
+  const lines = ["Lỗi truy vấn do SuttaCentral báo (error):"];
+  if (typeof error !== "object" || error === null) {
+    lines.push(rawValue(error));
+    return lines.join("\n");
+  }
+  const type = str(error.type);
+  if (type) lines.push(`type: ${type}`);
+  const message = str(error.message);
+  if (message) lines.push(`message: ${message}`);
+  if (Array.isArray(error.suggestions)) {
+    for (const s of error.suggestions) if (typeof s === "string") lines.push(`suggestion: ${s}`);
+  }
+  return lines.join("\n");
+}
+
+// ─── Citation dùng chung: get_sutta, get_sutta_meta (import từ đây) ──────────
 
 export function formatCitation(suttaplex: any): string {
   const uid = suttaplex?.uid ?? "?";
@@ -72,141 +164,4 @@ export function formatCitation(suttaplex: any): string {
     `Difficulty: ${difficulty} | Parallels: ${parallels}`,
     `URL: ${url}`,
   ].join("\n");
-}
-
-// ─── search_topic: từ topic và body response tới text output ─────────────────
-
-export type SearchMatch = "title" | "content" | "all";
-export type SearchInput = { topic: string; match: SearchMatch; page: number };
-// `term`: thuật ngữ của VI_TOPIC_TERMS khi key khớp. `query`: chuỗi gửi API; "" thì không gọi API.
-export type ResolvedTopic = { term: string | undefined; query: string };
-// Body của /api/search/instant sau khi chuẩn hóa kiểu (dynamic-search FR-12).
-export type SearchResponse = {
-  suttaplex: any[];
-  hits: any[];
-  total: number;
-  errorMessage: string | undefined;
-};
-// `titleCount`: số phần tử khớp tiêu đề sau lọc và khử trùng, trên mọi trang (cho FR-18).
-export type SearchPage = { titleCount: number; titlePage: any[]; contentPage: any[] };
-
-export function resolveTopic(topic: string): ResolvedTopic {
-  // Key bảng: NFC → chữ thường → trim → gộp khoảng trắng, khớp CHÍNH XÁC. Không khớp: gửi
-  // topic chỉ qua NFC + trim (giữ hoa/thường, khoảng trắng bên trong).
-  const key = topic.normalize("NFC").toLowerCase().trim().replace(/\s+/g, " ");
-  const term = VI_TOPIC_TERMS.get(key);
-  return { term, query: term ?? topic.normalize("NFC").trim() };
-}
-
-// Trang tiêu đề cắt cục bộ (không cần offset); trang nội dung dùng offset của API.
-export function searchOffset(match: SearchMatch, page: number): number {
-  return match === "title" ? 0 : (page - 1) * SEARCH_PAGE_SIZE;
-}
-
-export function normalizeSearchResponse(data: any): SearchResponse {
-  return {
-    suttaplex: Array.isArray(data?.suttaplex) ? data.suttaplex : [],
-    hits: Array.isArray(data?.hits) ? data.hits : [],
-    total: typeof data?.total === "number" ? data.total : 0,
-    errorMessage: typeof data?.error?.message === "string" ? data.error.message : undefined,
-  };
-}
-
-// Loại dictionary (`category`), phần tử không có uid, bài viết (`is_article`).
-function hasCategory(e: any): boolean {
-  return typeof e === "object" && e !== null && "category" in e;
-}
-
-export function isSutta(e: any): boolean {
-  return !hasCategory(e) && typeof e?.uid === "string" && e.uid !== "" && e.is_article !== true;
-}
-
-// Giữ phần tử đầu tiên của mỗi uid; `seen` truyền vào để khử trùng xuyên nhóm trong trang.
-function takeNew(items: any[], seen: Set<string>): any[] {
-  return items.filter((e) => {
-    if (seen.has(e.uid)) return false;
-    seen.add(e.uid);
-    return true;
-  });
-}
-
-export function selectPage(res: SearchResponse, match: SearchMatch, page: number): SearchPage {
-  const titles = takeNew(res.suttaplex.filter(isSutta), new Set());
-  const titlePage =
-    match === "content"
-      ? []
-      : titles.slice((page - 1) * SEARCH_PAGE_SIZE, page * SEARCH_PAGE_SIZE);
-  const contentPage =
-    match === "title"
-      ? []
-      : takeNew(res.hits.filter(isSutta), new Set(titlePage.map((e) => e.uid)));
-  return { titleCount: titles.length, titlePage, contentPage };
-}
-
-// Còn trang sau: chỉ suy từ response này. h đếm hit không có `category`, TRƯỚC khi lọc bài
-// viết/uid; h > 0 chặn trường hợp upstream trả total = số suttaplex khi hits rỗng.
-export function hasMore(res: SearchResponse, match: SearchMatch, page: number, titleCount: number): boolean {
-  const offset = searchOffset(match, page);
-  const h = res.hits.filter((e) => !hasCategory(e)).length;
-  const moreTitles = page * SEARCH_PAGE_SIZE < titleCount;
-  const moreContent = h > 0 && offset + h < res.total;
-  return match === "title" ? moreTitles : match === "content" ? moreContent : moreTitles || moreContent;
-}
-
-function formatFooter(more: boolean, page: number): string {
-  return more
-    ? `Còn kết quả: gọi lại search_topic với page=${page + 1} (giữ nguyên topic, language, match).`
-    : "Hết kết quả.";
-}
-
-function termLines(term: string | undefined): string[] {
-  return term ? [`Thuật ngữ đã dùng để tìm trên SuttaCentral: "${term}"`] : [];
-}
-
-// Câu không có kết quả (FR-11): `topic` rỗng (không gọi API, không footer) hoặc trang 1 rỗng.
-// `errorMessage`: lỗi truy vấn SC báo trong body, nếu có.
-export function formatNoResults(
-  topic: string,
-  match: SearchMatch,
-  term: string | undefined,
-  errorMessage?: string
-): string {
-  return [
-    `Không tìm thấy sutta nào cho chủ đề "${topic}".`,
-    ...termLines(term),
-    ...(errorMessage !== undefined ? [`SuttaCentral báo lỗi truy vấn: ${errorMessage}`] : []),
-    "",
-    `Gợi ý: search của SuttaCentral hiểu thuật ngữ tiếng Anh hoặc Pali — thử lại với thuật ngữ tương ứng (ví dụ "satipatthana", "dependent origination").`,
-    ...(match !== "all"
-      ? [`Đang dùng match="${match}" — thử match="all" để xem cả khớp tiêu đề lẫn khớp nội dung.`]
-      : []),
-    `Chủ đề tiếng Việt có sẵn: ${[...VI_TOPIC_TERMS.keys()].join(", ")}`,
-  ].join("\n");
-}
-
-// Text output của một trang từ body response thô (`data` là JSON đã parse, chưa kiểm kiểu).
-export function formatSearchResult(input: SearchInput, term: string | undefined, data: any): string {
-  const { topic, match, page } = input;
-  const res = normalizeSearchResponse(data);
-  const { titleCount, titlePage, contentPage } = selectPage(res, match, page);
-  const footer = formatFooter(hasMore(res, match, page, titleCount), page);
-
-  const n = titlePage.length + contentPage.length;
-  if (n === 0 && page === 1) {
-    return [formatNoResults(topic, match, term, res.errorMessage), "", footer].join("\n");
-  }
-  if (n === 0) {
-    return [`Không có kết quả sutta ở trang ${page} cho chủ đề "${topic}".`, "", footer].join("\n");
-  }
-  const lines = [`Tìm thấy ${n} sutta cho chủ đề "${topic}" (trang ${page}):`, ...termLines(term), ""];
-  if (titlePage.length > 0) {
-    lines.push("Khớp tiêu đề:", "");
-    for (const sp of titlePage) lines.push(formatTitleMatch(sp), "");
-  }
-  if (contentPage.length > 0) {
-    lines.push("Khớp nội dung:", "");
-    for (const hit of contentPage) lines.push(formatContentMatch(hit), "");
-  }
-  lines.push(footer);
-  return lines.join("\n");
 }

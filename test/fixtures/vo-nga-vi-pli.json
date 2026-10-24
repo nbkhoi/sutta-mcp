@@ -1,0 +1,298 @@
+{
+  "url": "https://suttacentral.net/api/search/instant?query=v%C3%B4+ng%C3%A3&language=vi&selectedLanguages=%5B%22vi%22%2C%22pli%22%5D",
+  "recorded": "2026-10-24",
+  "params": {
+    "query": "vô ngã",
+    "language": "vi",
+    "selectedLanguages": [
+      "vi",
+      "pli"
+    ]
+  },
+  "body": {
+    "total": 185,
+    "hits": [
+      {
+        "url": "/an1.378-393/vi/minh_chau",
+        "acronym": "AN 1.378–393",
+        "name": "Thật Sự Là Vậy",
+        "root_name": "Pasādakaradhammavagga",
+        "uid": "an1.378-393",
+        "author": "Thích Minh Châu",
+        "author_uid": "minh_chau",
+        "lang": "vi",
+        "is_article": null
+      },
+      {
+        "url": "/an1.394-574/vi/minh_chau",
+        "acronym": "AN 1.394–574",
+        "name": "Thật Sự Là Vậy",
+        "root_name": "Aparaaccharāsaṅghātavagga",
+        "uid": "an1.394-574",
+        "author": "Thích Minh Châu",
+        "author_uid": "minh_chau",
+        "lang": "vi",
+        "is_article": null
+      },
+      {
+        "url": "/an3.136/vi/minh_chau",
+        "acronym": "AN 3.136",
+        "name": "Xuất Hiện",
+        "root_name": "Uppādāsutta",
+        "uid": "an3.136",
+        "author": "Thích Minh Châu",
+        "author_uid": "minh_chau",
+        "lang": "vi",
+        "is_article": null
+      },
+      {
+        "url": "/an4.49/vi/minh_chau",
+        "acronym": "AN 4.49",
+        "name": "Tưởng Ðiên Ðảo",
+        "root_name": "Vipallāsasutta",
+        "uid": "an4.49",
+        "author": "Thích Minh Châu",
+        "author_uid": "minh_chau",
+        "lang": "vi",
+        "is_article": null
+      },
+      {
+        "url": "/an4.124/vi/minh_chau",
+        "acronym": "AN 4.124",
+        "name": "Các Hạng Người Sai Khác",
+        "root_name": "Dutiyanānākaraṇasutta",
+        "uid": "an4.124",
+        "author": "Thích Minh Châu",
+        "author_uid": "minh_chau",
+        "lang": "vi",
+        "is_article": null
+      },
+      {
+        "url": "/an4.126/vi/minh_chau",
+        "acronym": "AN 4.126",
+        "name": "Từ",
+        "root_name": "Dutiyamettāsutta",
+        "uid": "an4.126",
+        "author": "Thích Minh Châu",
+        "author_uid": "minh_chau",
+        "lang": "vi",
+        "is_article": null
+      },
+      {
+        "url": "/an5.62/vi/minh_chau",
+        "acronym": "AN 5.62",
+        "name": "Các Tưởng",
+        "root_name": "Dutiyasaññāsutta",
+        "uid": "an5.62",
+        "author": "Thích Minh Châu",
+        "author_uid": "minh_chau",
+        "lang": "vi",
+        "is_article": null
+      },
+      {
+        "url": "/an5.72/vi/minh_chau",
+        "acronym": "AN 5.72",
+        "name": "Tâm Giải Thoát Quả",
+        "root_name": "Dutiyacetovimuttiphalasutta",
+        "uid": "an5.72",
+        "author": "Thích Minh Châu",
+        "author_uid": "minh_chau",
+        "lang": "vi",
+        "is_article": null
+      },
+      {
+        "url": "/an5.308-1152/vi/minh_chau",
+        "acronym": "AN 5.308–1152",
+        "name": "",
+        "root_name": "~ ",
+        "uid": "an5.308-1152",
+        "author": "Thích Minh Châu",
+        "author_uid": "minh_chau",
+        "lang": "vi",
+        "is_article": null
+      },
+      {
+        "url": "/an6.35/vi/minh_chau",
+        "acronym": "AN 6.35",
+        "name": "Minh Phần",
+        "root_name": "Vijjābhāgiyasutta",
+        "uid": "an6.35",
+        "author": "Thích Minh Châu",
+        "author_uid": "minh_chau",
+        "lang": "vi",
+        "is_article": null
+      }
+    ],
+    "suttaplex": [
+      {
+        "uid": "an6.100",
+        "acronym": "AN 6.100",
+        "translated_title": "Vô Ngã",
+        "original_title": "Anattasutta",
+        "difficulty": null,
+        "blurb": "A mendicant on the path cannot see any thing as not-self."
+      },
+      {
+        "uid": "an7.17",
+        "acronym": "AN 7.17",
+        "translated_title": "Khổ, Vô Ngã, Tịch Tịnh",
+        "original_title": "Dukkhānupassīsutta",
+        "difficulty": null,
+        "blurb": "Seven persons who are worthy of gifts and veneration."
+      },
+      {
+        "uid": "an7.18",
+        "acronym": "AN 7.18",
+        "translated_title": "Khổ, Vô Ngã, Tịch Tịnh",
+        "original_title": "Anattānupassīsutta",
+        "difficulty": null,
+        "blurb": "Seven persons who are worthy of gifts and veneration."
+      },
+      {
+        "uid": "an7.19",
+        "acronym": "AN 7.19",
+        "translated_title": "Khổ, Vô Ngã, Tịch Tịnh",
+        "original_title": "Nibbānasutta",
+        "difficulty": null,
+        "blurb": "Seven persons who are worthy of gifts and veneration."
+      },
+      {
+        "uid": "sn22.11",
+        "acronym": "SN 22.11",
+        "translated_title": "Ba Thời Là Vô Ngã",
+        "original_title": "Kālattayaanattasutta",
+        "difficulty": null,
+        "blurb": "The aggregates are not-self in the past and future as in the present."
+      },
+      {
+        "uid": "sn22.14",
+        "acronym": "SN 22.14",
+        "translated_title": "Vô Ngã",
+        "original_title": "Anattasutta",
+        "difficulty": null,
+        "blurb": "Because the aggregates are not-self, a noble disciple becomes disillusioned with them."
+      },
+      {
+        "uid": "sn22.143",
+        "acronym": "SN 22.143",
+        "translated_title": "Vô Ngã: Anatta",
+        "original_title": "Anattasutta",
+        "difficulty": null,
+        "blurb": "Give up desire for what is not-self, i.e. the aggregates."
+      },
+      {
+        "uid": "sn22.144",
+        "acronym": "SN 22.144",
+        "translated_title": "Vô Ngã: Anatta",
+        "original_title": "Dutiyaanattasutta",
+        "difficulty": null,
+        "blurb": "Give up lust for what is not-self, i.e. the aggregates."
+      },
+      {
+        "uid": "sn22.145",
+        "acronym": "SN 22.145",
+        "translated_title": "Vô Ngã: Anatta",
+        "original_title": "Tatiyaanattasutta",
+        "difficulty": null,
+        "blurb": "Give up desire and lust for what is not-self, i.e. the aggregates."
+      },
+      {
+        "uid": "sn22.149",
+        "acronym": "SN 22.149",
+        "translated_title": "Thấy Vô Ngã: Anattānupassī",
+        "original_title": "Anattānupassīsutta",
+        "difficulty": null,
+        "blurb": "One gone forth should dwell contemplating not-self in the aggregates."
+      },
+      {
+        "uid": "sn22.17",
+        "acronym": "SN 22.17",
+        "translated_title": "Cái Gì Vô Ngã",
+        "original_title": "Yadanattāsutta",
+        "difficulty": null,
+        "blurb": "One should truly understand the five aggregates as not-self."
+      },
+      {
+        "uid": "sn22.20",
+        "acronym": "SN 22.20",
+        "translated_title": "Có Nhân Là Vô Ngã",
+        "original_title": "Sahetuanattasutta",
+        "difficulty": null,
+        "blurb": "Since the causes of the aggregates are not-self, how can the aggregates be self?"
+      },
+      {
+        "uid": "sn22.59",
+        "acronym": "SN 22.59",
+        "translated_title": "Năm Vị (Vô ngã tưởng)",
+        "original_title": "Anattalakkhaṇasutta",
+        "difficulty": null,
+        "blurb": "In the Deer Park at Varanasi the Buddha teaches the famous second discourse, on not-self with regard to the aggregates, to the group of five monks. At the conclusion, they become perfected ones."
+      },
+      {
+        "uid": "sn22.68",
+        "acronym": "SN 22.68",
+        "translated_title": "Vô Ngã",
+        "original_title": "Anattasutta",
+        "difficulty": null,
+        "blurb": "One should let go of desire for what is not-self, namely the five aggregates."
+      },
+      {
+        "uid": "sn23.17",
+        "acronym": "SN 23.17",
+        "translated_title": "Vô Ngã",
+        "original_title": "Anattasutta",
+        "difficulty": null,
+        "blurb": "Rādha asks the Buddha about not-self, and the Buddha explains in terms of the five aggregates."
+      },
+      {
+        "uid": "sn23.18",
+        "acronym": "SN 23.18",
+        "translated_title": "Vô Ngã Tánh",
+        "original_title": "Anattadhammasutta",
+        "difficulty": null,
+        "blurb": "Rādha asks the Buddha about what is of selfless nature, and the Buddha explains in terms of the five aggregates."
+      },
+      {
+        "uid": "sn35.12",
+        "acronym": "SN 35.12",
+        "translated_title": "Vô Ngã (4) Ngoại",
+        "original_title": "Bāhirānattātītānāgatasutta",
+        "difficulty": null,
+        "blurb": "In the past, future, and present, the six exterior sense fields are not-self. When a noble disciple truly sees them like this, they become disillusioned and liberated."
+      },
+      {
+        "uid": "sn35.3",
+        "acronym": "SN 35.3",
+        "translated_title": "Vô Ngã (1) Nội",
+        "original_title": "Ajjhattānattasutta",
+        "difficulty": null,
+        "blurb": "The six interior sense fields are not-self. When a noble disciple truly sees them like this, they become disillusioned and liberated."
+      },
+      {
+        "uid": "sn35.6",
+        "acronym": "SN 35.6",
+        "translated_title": "Vô Ngã (2) Ngoại",
+        "original_title": "Bāhirānattasutta",
+        "difficulty": null,
+        "blurb": "The six exterior sense fields are not-self. When a noble disciple truly sees them like this, they become disillusioned and liberated."
+      },
+      {
+        "uid": "sn35.9",
+        "acronym": "SN 35.9",
+        "translated_title": "Vô Ngã (3) Nội",
+        "original_title": "Ajjhattānattātītānāgatasutta",
+        "difficulty": null,
+        "blurb": "In the past, future, and present, the six interior sense fields are not-self. When a noble disciple truly sees them like this, they become disillusioned and liberated."
+      },
+      {
+        "uid": "sn46.73",
+        "acronym": "SN 46.73",
+        "translated_title": "Vô Ngã",
+        "original_title": "Anattasutta",
+        "difficulty": null,
+        "blurb": null
+      }
+    ],
+    "fuzzy_dictionary": []
+  }
+}
