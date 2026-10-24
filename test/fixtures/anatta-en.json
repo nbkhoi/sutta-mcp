@@ -1,0 +1,163 @@
+{
+  "url": "https://suttacentral.net/api/search/instant?query=anatta&language=en",
+  "recorded": "2026-10-24",
+  "params": {
+    "query": "anatta",
+    "language": "en"
+  },
+  "body": {
+    "total": 145,
+    "hits": [
+      {
+        "url": "/define/anatta",
+        "category": "dictionary"
+      },
+      {
+        "url": "/general-guide-sujato",
+        "acronym": null,
+        "name": "general-guide-sujato",
+        "uid": "general-guide-sujato",
+        "author": null,
+        "author_uid": null,
+        "lang": "en",
+        "is_article": true
+      },
+      {
+        "url": "/sn-guide-sujato",
+        "acronym": null,
+        "name": "sn-guide-sujato",
+        "uid": "sn-guide-sujato",
+        "author": null,
+        "author_uid": null,
+        "lang": "en",
+        "is_article": true
+      },
+      {
+        "url": "/subjects",
+        "acronym": null,
+        "name": "subjects",
+        "uid": "subjects",
+        "author": null,
+        "author_uid": null,
+        "lang": "en",
+        "is_article": true
+      },
+      {
+        "url": "/terminology",
+        "acronym": null,
+        "name": "terminology",
+        "uid": "terminology",
+        "author": null,
+        "author_uid": null,
+        "lang": "en",
+        "is_article": true
+      },
+      {
+        "url": "/thi-ap4/en/walters",
+        "acronym": "Thi Ap 4",
+        "name": "Saṅkamanattā",
+        "root_name": "Saṅkamanatthātherīapadāna",
+        "uid": "thi-ap4",
+        "author": "Jonathan S. Walters",
+        "author_uid": "walters",
+        "lang": "en",
+        "is_article": null
+      },
+      {
+        "url": "/an3.136/pli/ms",
+        "acronym": "AN 3.136",
+        "name": "Uppādāsutta",
+        "root_name": "Uppādāsutta",
+        "uid": "an3.136",
+        "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+        "author_uid": "ms",
+        "lang": "pli",
+        "is_article": false
+      },
+      {
+        "url": "/an7.18/pli/ms",
+        "acronym": "AN 7.18",
+        "name": "Anattānupassīsutta",
+        "root_name": "Anattānupassīsutta",
+        "uid": "an7.18",
+        "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+        "author_uid": "ms",
+        "lang": "pli",
+        "is_article": false
+      },
+      {
+        "url": "/an7.20/pli/ms",
+        "acronym": "AN 7.20",
+        "name": "Niddasavatthusutta",
+        "root_name": "Niddasavatthusutta",
+        "uid": "an7.20",
+        "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+        "author_uid": "ms",
+        "lang": "pli",
+        "is_article": false
+      },
+      {
+        "url": "/an10.60/pli/ms",
+        "acronym": "AN 10.60",
+        "name": "Girimānandasutta",
+        "root_name": "Girimānandasutta",
+        "uid": "an10.60",
+        "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+        "author_uid": "ms",
+        "lang": "pli",
+        "is_article": false
+      }
+    ],
+    "suttaplex": [
+      {
+        "uid": "an6.100",
+        "acronym": "AN 6.100",
+        "translated_title": "Not-Self ",
+        "original_title": "Anattasutta",
+        "difficulty": null,
+        "blurb": "A mendicant on the path cannot see any thing as not-self."
+      },
+      {
+        "uid": "sn22.14",
+        "acronym": "SN 22.14",
+        "translated_title": "Not-Self ",
+        "original_title": "Anattasutta",
+        "difficulty": null,
+        "blurb": "Because the aggregates are not-self, a noble disciple becomes disillusioned with them."
+      },
+      {
+        "uid": "sn22.143",
+        "acronym": "SN 22.143",
+        "translated_title": "Not-Self ",
+        "original_title": "Anattasutta",
+        "difficulty": null,
+        "blurb": "Give up desire for what is not-self, i.e. the aggregates."
+      },
+      {
+        "uid": "sn22.68",
+        "acronym": "SN 22.68",
+        "translated_title": "Not-Self ",
+        "original_title": "Anattasutta",
+        "difficulty": null,
+        "blurb": "One should let go of desire for what is not-self, namely the five aggregates."
+      },
+      {
+        "uid": "sn23.17",
+        "acronym": "SN 23.17",
+        "translated_title": "Not-Self ",
+        "original_title": "Anattasutta",
+        "difficulty": null,
+        "blurb": "Rādha asks the Buddha about not-self, and the Buddha explains in terms of the five aggregates."
+      },
+      {
+        "uid": "sn46.73",
+        "acronym": "SN 46.73",
+        "translated_title": "Not-Self in Suffering ",
+        "original_title": "Anattasutta",
+        "difficulty": null,
+        "blurb": null
+      }
+    ],
+    "fuzzy_dictionary": []
+  }
+}

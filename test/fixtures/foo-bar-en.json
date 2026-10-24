@@ -1,8 +1,15 @@
 {
-  "url": "https://suttacentral.net/api/search/instant?query=foo%3Abar&language=en&limit=10",
-  "recorded": "2026-10-20",
+  "url": "https://suttacentral.net/api/search/instant?query=foo%3Abar&language=en",
+  "recorded": "2026-10-24",
+  "params": {
+    "query": "foo:bar",
+    "language": "en"
+  },
   "body": {
     "total": 0,
+    "hits": [],
+    "suttaplex": [],
+    "fuzzy_dictionary": [],
     "error": {
       "type": "unknown_filter",
       "message": "Unknown filter: \"foo:\"",
@@ -11,8 +18,6 @@
         "Please check the filter name",
         "Please check if the spelling is correct"
       ]
-    },
-    "suttaplex": [],
-    "hits": []
+    }
   }
 }
