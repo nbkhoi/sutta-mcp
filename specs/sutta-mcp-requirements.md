@@ -142,22 +142,26 @@ API trả về 2 field: `type` (string) và `resembling` (boolean).
 
 ### Tool 1: `search_topic`
 
-**Mục đích:** Tìm các sutta liên quan đến một chủ đề Phật pháp. Entry point chính của người dùng.
+**Mục đích:** Tìm sutta theo chủ đề Phật pháp bằng search của SuttaCentral. Entry point chính của người dùng. Tool là wrapper mỏng của API: cùng tham số, một request mỗi lời gọi, không có logic tự chế (spec `search-api-passthrough`).
 
-**Input:**
+**Input:** tham số cùng tên và cùng nghĩa với tham số của `GET /api/search/instant`, cộng `format`. Tham số không truyền thì không gửi; API dùng mặc định của chính nó.
 
 | Tham số | Kiểu | Bắt buộc | Mô tả |
 |---------|------|----------|-------|
-| `topic` | string | Có | Chủ đề cần tìm: thuật ngữ tiếng Anh/Pali, hoặc một trong các chủ đề tiếng Việt được ánh xạ |
-| `language` | string | Không | Ngôn ngữ của tiêu đề và blurb (khi SC có); ảnh hưởng cả việc khớp tiêu đề. Mặc định: `en` |
-| `match` | `title` / `content` / `all` | Không | Khớp tiêu đề, khớp nội dung (không gồm sutta đã khớp tiêu đề), hay cả hai. Mặc định: `all` |
-| `page` | integer, 1–10000 | Không | Trang kết quả; mỗi trang tối đa 10 kết quả khớp tiêu đề + 10 kết quả khớp nội dung. Mặc định: `1` |
+| `query` | string | Có | Chuỗi tìm kiếm, gửi nguyên văn, kể cả lệnh lọc của SC như `title:` |
+| `language` | string | Không | Ngôn ngữ của tiêu đề được khớp và trả về, ví dụ `en`, `vi`. Tool không có mặc định |
+| `limit` | integer ≥ 0 | Không | Số hit tối đa của trang `hits`. Mặc định phía API: 10 |
+| `offset` | integer ≥ 0 | Không | Vị trí bắt đầu của trang `hits`. Mặc định phía API: 0 |
+| `selectedLanguages` | mảng string | Không | Ngôn ngữ của bản văn trong `hits`, gửi dạng chuỗi JSON. Mặc định phía API: `["en","pli"]` |
+| `restrict` | string | Không | Giới hạn loại kết quả; `dictionaries` làm API trả body `null` |
+| `matchpartial` | boolean | Không | Khớp một phần, gửi `true`/`false`. Mặc định phía API: tắt |
+| `format` | `text` / `json` | Không | Dạng output, không gửi tới API. Mặc định: `text` |
 
-**Output:** Danh sách sutta của một trang, giữ nguyên thứ tự SC trả về (không phải thứ tự kinh điển, không theo độ liên quan): khớp tiêu đề (citation chuẩn, blurb, link SuttaCentral), rồi khớp nội dung (citation rút gọn, bản văn khớp, link SuttaCentral). Dòng cuối cho biết còn trang sau hay không.
+**Output:** `text`: dòng nguồn kèm URL request, rồi mọi phần tử của `suttaplex` (khớp tiêu đề) và `hits` (khớp nội dung, gồm cả mục dictionary, bài viết, mỗi bản dịch một mục) theo đúng thứ tự SC trả về, mỗi mục kèm link SuttaCentral khi có; sau đó `total`, `fuzzy_dictionary`, và `error` khi SC báo lỗi truy vấn. Không lọc, không khử trùng, không sắp lại. `json`: body response nguyên văn, kèm một dòng nguồn.
 
-**Nguồn dữ liệu:** Search API của SuttaCentral, `GET /api/search/instant`, đúng một request mỗi lời gọi (spec `dynamic-search`).
+**Nguồn dữ liệu:** Search API của SuttaCentral, `GET /api/search/instant`, đúng một request mỗi lời gọi.
 
-**Lưu ý:** Search của SC không hiểu tiếng Việt. Các chủ đề tiếng Việt thông dụng được ánh xạ sang một thuật ngữ Anh/Pali bằng bảng tĩnh trong `src/search.ts`; chủ đề tiếng Việt khác cần được dịch sang thuật ngữ Anh/Pali trước khi gọi.
+**Lưu ý:** Tìm bằng tiếng Việt: truyền `language` = `vi` để khớp tiêu đề tiếng Việt, và `selectedLanguages` có `vi` để có bản dịch tiếng Việt trong `hits`. `total` là số đếm xấp xỉ của SC, không phải tín hiệu còn trang sau; muốn biết còn kết quả thì gọi lại với `offset` lớn hơn và xem có mục mới không.
 
 ---
 
@@ -256,9 +260,9 @@ Vinaya Pitaka:
 ```
 Người dùng: "Đức Phật dạy gì về chánh niệm?"
      ↓
-Claude gọi search_topic("chánh niệm")
+Claude gọi search_topic({"query": "niệm xứ", "language": "vi"})
      ↓
-Trả về (tìm bằng "satipatthana"): khớp tiêu đề an4.274, mn10, sn43.5 + blurb, rồi các sutta khớp nội dung
+Trả về: các sutta khớp tiêu đề tiếng Việt, trong đó mn10 (Kinh Niệm xứ), dn22, sn43.5, ma98, mỗi mục kèm link SuttaCentral
      ↓
 Claude gọi get_sutta("mn10", "sujato")
      ↓
@@ -289,13 +293,9 @@ Claude trả lời có trích dẫn + link suttacentral.net/mn10
 
 ## Hướng nâng cấp (sau prototype)
 
-1. **Dynamic search** — **đã thực hiện (spec `dynamic-search`).** `search_topic` không còn dùng `TOPIC_INDEX` tĩnh (topic → UID hardcode, đã xóa); mỗi lời gọi phát đúng một `GET /api/search/instant?query=&language=&limit=10`, thêm `offset` khi lật trang nội dung. Bốn phát hiện đo ngày 2026-10-17/18 được giải quyết như sau:
-   - **Truy vấn tiếng Việt gần như không có kết quả** → 14 chủ đề tiếng Việt được ánh xạ sang một thuật ngữ Anh/Pali (bảng `VI_TOPIC_TERMS` trong `src/search.ts`, khớp chính xác sau chuẩn hóa NFC, chữ thường, khoảng trắng); mọi truy vấn khác gửi thẳng. Không giữ danh sách UID tĩnh làm fallback.
-   - **Hit không phải sutta** → loại mọi phần tử có `category` (dictionary), không có `uid`, hoặc có `is_article: true` trước khi in; output không còn `**?**` hay link `suttacentral.net/?`.
-   - **Hit theo bản dịch** → hai nguồn tách bạch: `suttaplex` là khớp tiêu đề (citation đầy đủ kèm blurb), `hits` là khớp nội dung (citation rút gọn kèm dòng `Text: {author} ({lang})`); khử trùng `uid` trong một trang.
-   - **GET và POST lệch `total`** → POST lấy danh sách ngôn ngữ từ body JSON, body không phải danh sách khác rỗng thì bỏ lọc ngôn ngữ; GET mặc định lọc `["en", "pli"]`. Chọn GET. `total` không phải số sutta nên không in ra.
-
-   **Phân trang:** tham số `match` (`title`/`content`/`all`) và `page`. Trang tiêu đề cắt cục bộ từ `suttaplex` (API trả đủ mảng này trong mọi response); trang nội dung dùng `offset` của API. Server không giữ trạng thái giữa các lời gọi, nên hai trang nội dung kề nhau có thể lặp `uid` và kích thước trang thay đổi; dòng cuối output cho biết còn trang sau hay không.
+1. **Dynamic search** — **đã thực hiện (spec `dynamic-search`), rồi thay bằng wrapper mỏng (spec `search-api-passthrough`).** Spec `dynamic-search` bỏ `TOPIC_INDEX` tĩnh (topic → UID hardcode) và cho `search_topic` gọi `GET /api/search/instant`. Phần logic tự chế của spec đó đã bị spec `search-api-passthrough` (`specs/search-api-passthrough/`) thay thế: bảng ánh xạ tiếng Việt `VI_TOPIC_TERMS` (đã bỏ), tham số `match`/`page`, lọc phần tử không phải sutta, khử trùng `uid`, cắt trang cục bộ và dòng "còn trang sau".
+   - **Lý do (đo 2026-10-23):** search của SC khớp được tiêu đề tiếng Việt khi nhận `language=vi` (`vô ngã` → 21 khớp tiêu đề, trong đó SN 22.59), và trả bản dịch tiếng Việt trong `hits` khi nhận `selectedLanguages` có `vi` (`["vi","pli"]` → 10 hit ở trang đầu, ví dụ `an1.378-393` của Thích Minh Châu; `total` 185). Trước đó `hits` rỗng chỉ vì tool không gửi `selectedLanguages`, nên API dùng mặc định `["en","pli"]`.
+   - **Hiện trạng:** `search_topic` nhận đúng tham số của API (`query`, `language`, `limit`, `offset`, `selectedLanguages`, `restrict`, `matchpartial`) cộng `format` (`text`/`json`), gửi đúng một GET chỉ với các tham số caller truyền, và in mọi thứ API trả về theo thứ tự SC, không lọc. Phân trang bằng `limit`/`offset` của API; tool không suy luận trang sau.
 
 2. **Tiếng Việt** — tích hợp bản dịch tiếng Việt khi có trên SC. **Đã thực hiện phần lấy bản dịch** (spec `non-segmented-translation-guard`, `bilara-lang-param`). Không có fallback tự động sang tiếng Anh: khi bản dịch được yêu cầu không có `translation_text`, `get_sutta` báo rõ và liệt kê các bản dịch khác (cùng lang trước, rồi `en`) để người gọi chọn.
 
@@ -373,8 +373,8 @@ Lỗi và cải tiến tìm thấy khi chạy thử end-to-end trên `5459d5a` (
 |---|---|---|---|
 | [#16](https://github.com/nbkhoi/sutta-mcp/issues/16) (bug) | `get_parallels` | Vòng lặp `Object.values(data)` bỏ mất anchor nguồn (`dn22`, `dn22#18.1`, …) nên parallels toàn bài và từng đoạn bị trộn thành một danh sách, trông như trùng lặp hoặc mâu thuẫn. Cần nhóm theo anchor, giữ đủ 27 mục của DN 22. | mục 3 |
 | [#17](https://github.com/nbkhoi/sutta-mcp/issues/17) (bug) — **đã đóng** | `search_topic` | Mô tả tool ghi "theo thứ tự kinh điển", nhưng upstream sắp gần theo chuỗi UID (`an11.15` trước `an7.62`). Mô tả tool, `AGENTS.md` và Tool 1 nay ghi "giữ nguyên thứ tự SC trả về" (PR #23). Không sắp lại theo thứ tự kinh điển: kết quả tìm kiếm dùng để tìm kinh liên quan, không để đọc theo thứ tự. | mục 1 |
-| [#18](https://github.com/nbkhoi/sutta-mcp/issues/18) (bug) | `search_topic` | Một số thuật ngữ trong `VI_TOPIC_TERMS` bỏ sót kinh tiêu biểu: `vô ngã` → `anatta` không có SN 22.59 (`not-self` có); `tam bảo`, `quy y` có 0 khớp tiêu đề. Đề xuất đổi thuật ngữ và thêm "kinh tham chiếu" cho mỗi key làm tiêu chí chấp nhận. | mục 1 |
-| [#19](https://github.com/nbkhoi/sutta-mcp/issues/19) (enhancement) | `get_sutta_meta`, `search_topic` | Với `language=vi`, SC trả tiêu đề tiếng Việt nhưng blurb tiếng Anh; output không nói rõ. Cần gắn nhãn blurb tiếng Anh. | mục 2 |
-| [#20](https://github.com/nbkhoi/sutta-mcp/issues/20) (enhancement) | `get_sutta_meta`, `formatCitation()` | Bản dịch legacy trông như trùng (cùng `author_uid`); `Difficulty: unknown` in khi SC không có difficulty; tiêu đề upstream có khoảng trắng cuối. | — |
+| [#18](https://github.com/nbkhoi/sutta-mcp/issues/18) (bug) — **không còn áp dụng** | `search_topic` | Thuật ngữ trong `VI_TOPIC_TERMS` bỏ sót kinh tiêu biểu (`vô ngã` → `anatta` không có SN 22.59). Không còn áp dụng: `VI_TOPIC_TERMS` đã bỏ (spec `search-api-passthrough`), và `vô ngã` với `language=vi` khớp thẳng SN 22.59 (đo 2026-10-23). | mục 1 |
+| [#19](https://github.com/nbkhoi/sutta-mcp/issues/19) (enhancement) | `get_sutta_meta`, `search_topic` | Với `language=vi`, SC trả tiêu đề tiếng Việt nhưng blurb tiếng Anh; output không nói rõ. Cần gắn nhãn blurb tiếng Anh. Phần `search_topic` cần kiểm lại trên output mới của spec `search-api-passthrough`. | mục 2 |
+| [#20](https://github.com/nbkhoi/sutta-mcp/issues/20) (enhancement) | `get_sutta_meta`, `formatCitation()` | Bản dịch legacy trông như trùng (cùng `author_uid`); `Difficulty: unknown` in khi SC không có difficulty; tiêu đề upstream có khoảng trắng cuối. Phần `search_topic` cần kiểm lại trên output mới của spec `search-api-passthrough`, vì `search_topic` không còn dùng `formatCitation()`. | — |
 
-**Thứ tự đề xuất:** #18 và phần `search_topic` của #19, #20 đổi output của `search_topic`, nên làm sau spec `search-unit-tests` (đã xong: logic thuần của `search_topic` nằm trong `src/search.ts`, có `npm test` offline), để mỗi thay đổi có test đi kèm. #16 độc lập với `search_topic`.
+**Thứ tự đề xuất:** #18 không còn áp dụng. Phần `search_topic` của #19, #20 cần kiểm lại trên output của spec `search-api-passthrough` trước khi làm; mỗi thay đổi output của `search_topic` đi kèm unit test trong `npm test`. #16 độc lập với `search_topic`.
