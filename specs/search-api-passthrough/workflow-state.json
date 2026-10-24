@@ -1,0 +1,1218 @@
+{
+  "contract_sha256": "2588902afc6e4752c0485ea8ef1da0f5554ea40bb29beb363ab13823711c7bac",
+  "contract_status": "active",
+  "contract_updates": [
+    {
+      "affected_gates": [
+        {
+          "id": "dependencies.context:agents",
+          "type": "contract"
+        }
+      ],
+      "decision_id": "decision-6",
+      "new_sha256": "2588902afc6e4752c0485ea8ef1da0f5554ea40bb29beb363ab13823711c7bac",
+      "old_sha256": "6b5ee442e13adeed080f851990e58cbf419dea3b60fb23f0166fd67b4c7cef5a",
+      "status": "applied"
+    }
+  ],
+  "decisions": [
+    {
+      "choice": "reopen",
+      "contract_sha256": "6b5ee442e13adeed080f851990e58cbf419dea3b60fb23f0166fd67b4c7cef5a",
+      "decision_id": "decision-1",
+      "evidence": [
+        {
+          "path": "specs/search-api-passthrough/reviews/requirements-review-1.md",
+          "sha256": "3ac8c67353dcb99c5de0f65d1f21e6bf081958750be0334b871c2e8df1ed9a06"
+        }
+      ],
+      "kind": "reopen",
+      "scope": {
+        "id": "requirements",
+        "type": "artifact"
+      }
+    },
+    {
+      "choice": "reopen",
+      "contract_sha256": "6b5ee442e13adeed080f851990e58cbf419dea3b60fb23f0166fd67b4c7cef5a",
+      "decision_id": "decision-2",
+      "evidence": [
+        {
+          "path": "specs/search-api-passthrough/reviews/design-review-1.md",
+          "sha256": "a1253ccf02da078032ecf7e508b8ddcb31d235fba85f3abeacb6f3850bb128cc"
+        }
+      ],
+      "kind": "reopen",
+      "scope": {
+        "id": "design",
+        "type": "artifact"
+      }
+    },
+    {
+      "choice": "continue",
+      "contract_sha256": "6b5ee442e13adeed080f851990e58cbf419dea3b60fb23f0166fd67b4c7cef5a",
+      "decision_id": "decision-3",
+      "evidence": [],
+      "kind": "phase-pause",
+      "scope": {
+        "id": "design",
+        "type": "phase"
+      }
+    },
+    {
+      "choice": "reopen",
+      "contract_sha256": "6b5ee442e13adeed080f851990e58cbf419dea3b60fb23f0166fd67b4c7cef5a",
+      "decision_id": "decision-4",
+      "evidence": [
+        {
+          "path": ".claude/spec-evidence/search-api-passthrough/T-2-1.log",
+          "sha256": "032f48af9ec8dc3979e66457f9d091ec70750a0ba39200a8db8c55d83d0349be"
+        }
+      ],
+      "kind": "reopen",
+      "scope": {
+        "id": "tasks",
+        "type": "artifact"
+      }
+    },
+    {
+      "choice": "reopen",
+      "contract_sha256": "6b5ee442e13adeed080f851990e58cbf419dea3b60fb23f0166fd67b4c7cef5a",
+      "decision_id": "decision-5",
+      "evidence": [
+        {
+          "path": ".claude/spec-evidence/search-api-passthrough/T-2-2.log",
+          "sha256": "d49aab93126456eaaf326c7b13ca14b56cb1f501cebbc44e7de8bf7489633646"
+        }
+      ],
+      "kind": "reopen",
+      "scope": {
+        "id": "tasks",
+        "type": "artifact"
+      }
+    },
+    {
+      "choice": "apply:2588902afc6e4752c0485ea8ef1da0f5554ea40bb29beb363ab13823711c7bac",
+      "contract_sha256": "6b5ee442e13adeed080f851990e58cbf419dea3b60fb23f0166fd67b4c7cef5a",
+      "decision_id": "decision-6",
+      "evidence": [
+        {
+          "path": ".claude/spec-evidence/search-api-passthrough/contract-update-preview.json",
+          "sha256": "efa3001d3aa4dc90aad5cdadefa514c7680c068fda15f0100f9ef17de0439426"
+        }
+      ],
+      "kind": "contract-update",
+      "scope": {
+        "id": "2588902afc6e4752c0485ea8ef1da0f5554ea40bb29beb363ab13823711c7bac",
+        "type": "contract"
+      }
+    }
+  ],
+  "git": {
+    "baseline": {
+      "base_commit": "d972fa6da37f95e993f2f935e9b8eebe35c959de",
+      "head_commit": "d972fa6da37f95e993f2f935e9b8eebe35c959de",
+      "scope": {
+        "id": "T-4-1",
+        "type": "task"
+      },
+      "worktree_status_sha256": "8a8038540cc616e97b530741f1e06ddfe91a95aeacd1ed50faac5d2097e50d4f"
+    },
+    "evidence": [
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-1",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/search-api-passthrough/T-1-1-baseline.status",
+        "output_sha256": "6217ef5b0c4fbceec33a8a8fd0dc87ad42e3508d2a002f667f17a1bf35292d8e"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "d972fa6da37f95e993f2f935e9b8eebe35c959de"
+        ],
+        "evidence_id": "git-2",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/search-api-passthrough/T-1-1-diff-2.bin",
+        "output_sha256": "e230561e0d3c453e6dfe79122fa67b17da46c54cc6273cc97640d8d0e4a5b655"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-3",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/search-api-passthrough/T-1-2-baseline.status",
+        "output_sha256": "a037e05c93e2da2d7edba08311118da5bb015d084e8842c6dd724d834cd13273"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "d972fa6da37f95e993f2f935e9b8eebe35c959de"
+        ],
+        "evidence_id": "git-4",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/search-api-passthrough/T-1-2-diff-4.bin",
+        "output_sha256": "7dd2e4c89501a1bb586f71a417289792cc3e2ae54a0bdedd4c50b54a91d1871a"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-5",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/search-api-passthrough/T-1-3-baseline.status",
+        "output_sha256": "7e9764890ef97408668dab602f3acadcc7b9ee2c81faf9bc838b88c720e1390c"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "d972fa6da37f95e993f2f935e9b8eebe35c959de"
+        ],
+        "evidence_id": "git-6",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/search-api-passthrough/T-1-3-diff-6.bin",
+        "output_sha256": "e574e0636def1fa073b5cf878745d8ce562ab90ae3201afd6394cc1d2221037f"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-7",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/search-api-passthrough/T-2-1-baseline.status",
+        "output_sha256": "be76cbacee045b2e6cacbb503ffb04c420a8f0daa23a471626987ed1a7d68c1a"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "d972fa6da37f95e993f2f935e9b8eebe35c959de"
+        ],
+        "evidence_id": "git-8",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/search-api-passthrough/T-2-1-diff-8.bin",
+        "output_sha256": "41dcc3ef7b19777ee23627c0f3c1af2b29502a3af4e449960dca2c1439d3b037"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-9",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/search-api-passthrough/T-2-2-baseline.status",
+        "output_sha256": "be76cbacee045b2e6cacbb503ffb04c420a8f0daa23a471626987ed1a7d68c1a"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "d972fa6da37f95e993f2f935e9b8eebe35c959de"
+        ],
+        "evidence_id": "git-10",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/search-api-passthrough/T-2-2-diff-10.bin",
+        "output_sha256": "a264642811918b100a54879f150ca94592b31eb910c17943f56bd4395eefd5db"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-11",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/search-api-passthrough/T-2-3-baseline.status",
+        "output_sha256": "be76cbacee045b2e6cacbb503ffb04c420a8f0daa23a471626987ed1a7d68c1a"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "d972fa6da37f95e993f2f935e9b8eebe35c959de"
+        ],
+        "evidence_id": "git-12",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/search-api-passthrough/T-2-3-diff-12.bin",
+        "output_sha256": "0466d93976a960a9cc73a44c91187291423d2d9d9fc8f0a2480667fb33c57b0e"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-13",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/search-api-passthrough/T-2-4-baseline.status",
+        "output_sha256": "be76cbacee045b2e6cacbb503ffb04c420a8f0daa23a471626987ed1a7d68c1a"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "d972fa6da37f95e993f2f935e9b8eebe35c959de"
+        ],
+        "evidence_id": "git-14",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/search-api-passthrough/T-2-4-diff-14.bin",
+        "output_sha256": "a2351081ce5e4d05f55a2c85b0191d9252f65d65b115defbaba6709adbb6e935"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-15",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/search-api-passthrough/T-2-5-baseline.status",
+        "output_sha256": "be76cbacee045b2e6cacbb503ffb04c420a8f0daa23a471626987ed1a7d68c1a"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "d972fa6da37f95e993f2f935e9b8eebe35c959de"
+        ],
+        "evidence_id": "git-16",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/search-api-passthrough/T-2-5-diff-16.bin",
+        "output_sha256": "7b07cc546e6b211aaf156e8c6e978214456bda591f66be8c004ef908030ddbd6"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-17",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/search-api-passthrough/T-2-6-baseline.status",
+        "output_sha256": "be76cbacee045b2e6cacbb503ffb04c420a8f0daa23a471626987ed1a7d68c1a"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "d972fa6da37f95e993f2f935e9b8eebe35c959de"
+        ],
+        "evidence_id": "git-18",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/search-api-passthrough/T-2-6-diff-18.bin",
+        "output_sha256": "51366dbe36246daf3f0cf8f74499706fb7cf38ee2cdbbb232f402d8e84472cde"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-19",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/search-api-passthrough/T-3-1-baseline.status",
+        "output_sha256": "be76cbacee045b2e6cacbb503ffb04c420a8f0daa23a471626987ed1a7d68c1a"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "d972fa6da37f95e993f2f935e9b8eebe35c959de"
+        ],
+        "evidence_id": "git-20",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/search-api-passthrough/T-3-1-diff-20.bin",
+        "output_sha256": "4ce36daf5b9169fd59018c53a23c3cfc74e359cbbada43fd70ed9c4531117f67"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-21",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/search-api-passthrough/T-3-2-baseline.status",
+        "output_sha256": "73b6cb831e80d77ad3f3c13a5408a353ee25e86e54c96d3c79d8e3661f6b3005"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "d972fa6da37f95e993f2f935e9b8eebe35c959de"
+        ],
+        "evidence_id": "git-22",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/search-api-passthrough/T-3-2-diff-22.bin",
+        "output_sha256": "16f6b59ce5b7d50c2ab0007d2405489ce0f4b1b5dae5035c59fd06b385f7211d"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-23",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/search-api-passthrough/T-3-3-baseline.status",
+        "output_sha256": "8a8038540cc616e97b530741f1e06ddfe91a95aeacd1ed50faac5d2097e50d4f"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "d972fa6da37f95e993f2f935e9b8eebe35c959de"
+        ],
+        "evidence_id": "git-24",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/search-api-passthrough/T-3-3-diff-24.bin",
+        "output_sha256": "53947a39818bdf7f39094954f42bc18b6ba4b28ea021f633e9c200cd87274175"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-25",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/search-api-passthrough/T-4-1-baseline.status",
+        "output_sha256": "8a8038540cc616e97b530741f1e06ddfe91a95aeacd1ed50faac5d2097e50d4f"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "d972fa6da37f95e993f2f935e9b8eebe35c959de"
+        ],
+        "evidence_id": "git-26",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/search-api-passthrough/T-4-1-diff-26.bin",
+        "output_sha256": "2d7b0b58a3a9e7359f1e1e7ccc5b3c0f651bcf1863f0a4f99697889e602c51f3"
+      }
+    ]
+  },
+  "history": [
+    {
+      "event_id": "event-1",
+      "from_revision": 0,
+      "kind": "created",
+      "refs": [],
+      "to_revision": 1
+    },
+    {
+      "event_id": "event-2",
+      "from_revision": 1,
+      "kind": "contract-activated",
+      "refs": [
+        "6b5ee442e13adeed080f851990e58cbf419dea3b60fb23f0166fd67b4c7cef5a"
+      ],
+      "to_revision": 2
+    },
+    {
+      "event_id": "event-3",
+      "from_revision": 3,
+      "kind": "gate-opened",
+      "refs": [
+        "requirements",
+        "specs/search-api-passthrough/reviews/requirements-review-1.md"
+      ],
+      "to_revision": 4
+    },
+    {
+      "event_id": "event-4",
+      "from_revision": 6,
+      "kind": "report-processed",
+      "refs": [
+        "specs/search-api-passthrough/reviews/requirements-review-1.md",
+        "3ac8c67353dcb99c5de0f65d1f21e6bf081958750be0334b871c2e8df1ed9a06"
+      ],
+      "to_revision": 7
+    },
+    {
+      "event_id": "event-5",
+      "from_revision": 7,
+      "kind": "reopened",
+      "refs": [
+        "decision-1"
+      ],
+      "to_revision": 8
+    },
+    {
+      "event_id": "event-6",
+      "from_revision": 8,
+      "kind": "gate-opened",
+      "refs": [
+        "requirements",
+        "specs/search-api-passthrough/reviews/requirements-review-2.md"
+      ],
+      "to_revision": 9
+    },
+    {
+      "event_id": "event-7",
+      "from_revision": 11,
+      "kind": "report-processed",
+      "refs": [
+        "specs/search-api-passthrough/reviews/requirements-review-2.md",
+        "686c4a4bb522e95882e5957302597c5e77cd7a3c54962ca25fe364f1eabf0439"
+      ],
+      "to_revision": 12
+    },
+    {
+      "event_id": "event-8",
+      "from_revision": 12,
+      "kind": "gate-opened",
+      "refs": [
+        "requirements",
+        "specs/search-api-passthrough/reviews/requirements-review-3.md"
+      ],
+      "to_revision": 13
+    },
+    {
+      "event_id": "event-9",
+      "from_revision": 15,
+      "kind": "report-processed",
+      "refs": [
+        "specs/search-api-passthrough/reviews/requirements-review-3.md",
+        "867ddc09f228aa33c3b28ebef3e58b094223e9ab7b40d1bc8aff3c53a617e1e5"
+      ],
+      "to_revision": 16
+    },
+    {
+      "event_id": "event-10",
+      "from_revision": 16,
+      "kind": "gate-opened",
+      "refs": [
+        "requirements",
+        "specs/search-api-passthrough/reviews/requirements-review-4.md"
+      ],
+      "to_revision": 17
+    },
+    {
+      "event_id": "event-11",
+      "from_revision": 19,
+      "kind": "report-processed",
+      "refs": [
+        "specs/search-api-passthrough/reviews/requirements-review-4.md",
+        "69ab8d2f18a85ec0c66f8e9c0404ec1deb89174d63f91042fc9dfa73c604ceac"
+      ],
+      "to_revision": 20
+    },
+    {
+      "event_id": "event-12",
+      "from_revision": 20,
+      "kind": "gate-opened",
+      "refs": [
+        "requirements",
+        "specs/search-api-passthrough/reviews/requirements-review-5.md"
+      ],
+      "to_revision": 21
+    },
+    {
+      "event_id": "event-13",
+      "from_revision": 23,
+      "kind": "report-processed",
+      "refs": [
+        "specs/search-api-passthrough/reviews/requirements-review-5.md",
+        "1f31ef765b4634134cc37140563fa9c17de791857d34ea30fed3a472c85f127c"
+      ],
+      "to_revision": 24
+    },
+    {
+      "event_id": "event-14",
+      "from_revision": 24,
+      "kind": "reopen-advanced",
+      "refs": [
+        "requirements",
+        "design"
+      ],
+      "to_revision": 25
+    },
+    {
+      "event_id": "event-15",
+      "from_revision": 25,
+      "kind": "phase-advanced",
+      "refs": [
+        "requirements",
+        "design"
+      ],
+      "to_revision": 26
+    },
+    {
+      "event_id": "event-16",
+      "from_revision": 27,
+      "kind": "gate-opened",
+      "refs": [
+        "design",
+        "specs/search-api-passthrough/reviews/design-review-1.md"
+      ],
+      "to_revision": 28
+    },
+    {
+      "event_id": "event-17",
+      "from_revision": 30,
+      "kind": "report-processed",
+      "refs": [
+        "specs/search-api-passthrough/reviews/design-review-1.md",
+        "a1253ccf02da078032ecf7e508b8ddcb31d235fba85f3abeacb6f3850bb128cc"
+      ],
+      "to_revision": 31
+    },
+    {
+      "event_id": "event-18",
+      "from_revision": 31,
+      "kind": "reopened",
+      "refs": [
+        "decision-2"
+      ],
+      "to_revision": 32
+    },
+    {
+      "event_id": "event-19",
+      "from_revision": 32,
+      "kind": "gate-opened",
+      "refs": [
+        "design",
+        "specs/search-api-passthrough/reviews/design-review-2.md"
+      ],
+      "to_revision": 33
+    },
+    {
+      "event_id": "event-20",
+      "from_revision": 35,
+      "kind": "report-processed",
+      "refs": [
+        "specs/search-api-passthrough/reviews/design-review-2.md",
+        "828f93cc3a8f14a178372075ffa731aeea12cccdc9ad519180a05f34f59ce492"
+      ],
+      "to_revision": 36
+    },
+    {
+      "event_id": "event-21",
+      "from_revision": 36,
+      "kind": "reopen-advanced",
+      "refs": [
+        "design",
+        "tasks"
+      ],
+      "to_revision": 37
+    },
+    {
+      "event_id": "event-22",
+      "from_revision": 37,
+      "kind": "gate-opened",
+      "refs": [
+        "phase-pause:design"
+      ],
+      "to_revision": 38
+    },
+    {
+      "event_id": "event-23",
+      "from_revision": 38,
+      "kind": "decision-recorded",
+      "refs": [
+        "decision-3",
+        "design"
+      ],
+      "to_revision": 39
+    },
+    {
+      "event_id": "event-24",
+      "from_revision": 40,
+      "kind": "review-skipped",
+      "refs": [
+        "tasks",
+        "specs_review:design"
+      ],
+      "to_revision": 41
+    },
+    {
+      "event_id": "event-25",
+      "from_revision": 40,
+      "kind": "phase-advanced",
+      "refs": [
+        "tasks",
+        "build"
+      ],
+      "to_revision": 41
+    },
+    {
+      "event_id": "event-26",
+      "from_revision": 44,
+      "kind": "task-advanced",
+      "refs": [
+        "T-1-1",
+        "T-1-2"
+      ],
+      "to_revision": 45
+    },
+    {
+      "event_id": "event-27",
+      "from_revision": 48,
+      "kind": "task-advanced",
+      "refs": [
+        "T-1-2",
+        "T-1-3"
+      ],
+      "to_revision": 49
+    },
+    {
+      "event_id": "event-28",
+      "from_revision": 52,
+      "kind": "task-advanced",
+      "refs": [
+        "T-1-3",
+        "T-2-1"
+      ],
+      "to_revision": 53
+    },
+    {
+      "event_id": "event-29",
+      "from_revision": 54,
+      "kind": "reopened",
+      "refs": [
+        "decision-4"
+      ],
+      "to_revision": 55
+    },
+    {
+      "event_id": "event-30",
+      "from_revision": 55,
+      "kind": "reopen-advanced",
+      "refs": [
+        "tasks",
+        "T-2-1"
+      ],
+      "to_revision": 56
+    },
+    {
+      "event_id": "event-31",
+      "from_revision": 58,
+      "kind": "task-advanced",
+      "refs": [
+        "T-2-1",
+        "T-2-2"
+      ],
+      "to_revision": 59
+    },
+    {
+      "event_id": "event-32",
+      "from_revision": 60,
+      "kind": "reopened",
+      "refs": [
+        "decision-5"
+      ],
+      "to_revision": 61
+    },
+    {
+      "event_id": "event-33",
+      "from_revision": 61,
+      "kind": "reopen-advanced",
+      "refs": [
+        "tasks",
+        "T-2-2"
+      ],
+      "to_revision": 62
+    },
+    {
+      "event_id": "event-34",
+      "from_revision": 64,
+      "kind": "task-advanced",
+      "refs": [
+        "T-2-2",
+        "T-2-3"
+      ],
+      "to_revision": 65
+    },
+    {
+      "event_id": "event-35",
+      "from_revision": 68,
+      "kind": "task-advanced",
+      "refs": [
+        "T-2-3",
+        "T-2-4"
+      ],
+      "to_revision": 69
+    },
+    {
+      "event_id": "event-36",
+      "from_revision": 72,
+      "kind": "task-advanced",
+      "refs": [
+        "T-2-4",
+        "T-2-5"
+      ],
+      "to_revision": 73
+    },
+    {
+      "event_id": "event-37",
+      "from_revision": 76,
+      "kind": "task-advanced",
+      "refs": [
+        "T-2-5",
+        "T-2-6"
+      ],
+      "to_revision": 77
+    },
+    {
+      "event_id": "event-38",
+      "from_revision": 80,
+      "kind": "task-advanced",
+      "refs": [
+        "T-2-6",
+        "T-3-1"
+      ],
+      "to_revision": 81
+    },
+    {
+      "event_id": "event-39",
+      "from_revision": 85,
+      "kind": "task-advanced",
+      "refs": [
+        "T-3-1",
+        "T-3-2"
+      ],
+      "to_revision": 86
+    },
+    {
+      "event_id": "event-40",
+      "from_revision": 89,
+      "kind": "task-advanced",
+      "refs": [
+        "T-3-2",
+        "T-3-3"
+      ],
+      "to_revision": 90
+    },
+    {
+      "event_id": "event-41",
+      "from_revision": 93,
+      "kind": "task-advanced",
+      "refs": [
+        "T-3-3",
+        "T-4-1"
+      ],
+      "to_revision": 94
+    },
+    {
+      "event_id": "event-42",
+      "from_revision": 95,
+      "kind": "decision-recorded",
+      "refs": [
+        "decision-6",
+        ".claude/spec-evidence/search-api-passthrough/contract-update-preview.json",
+        "efa3001d3aa4dc90aad5cdadefa514c7680c068fda15f0100f9ef17de0439426"
+      ],
+      "to_revision": 96
+    },
+    {
+      "event_id": "event-43",
+      "from_revision": 96,
+      "kind": "contract-updated",
+      "refs": [
+        "decision-6",
+        "6b5ee442e13adeed080f851990e58cbf419dea3b60fb23f0166fd67b4c7cef5a",
+        "2588902afc6e4752c0485ea8ef1da0f5554ea40bb29beb363ab13823711c7bac"
+      ],
+      "to_revision": 97
+    },
+    {
+      "event_id": "event-44",
+      "from_revision": 97,
+      "kind": "invalidation-settled",
+      "refs": [
+        "dependencies.context:agents",
+        "decision-6"
+      ],
+      "to_revision": 98
+    },
+    {
+      "event_id": "event-45",
+      "from_revision": 100,
+      "kind": "gate-opened",
+      "refs": [
+        "search-api-passthrough",
+        "specs/search-api-passthrough/reviews/code-review-final-1.md"
+      ],
+      "to_revision": 101
+    },
+    {
+      "event_id": "event-46",
+      "from_revision": 103,
+      "kind": "report-processed",
+      "refs": [
+        "specs/search-api-passthrough/reviews/code-review-final-1.md",
+        "ced307347950a0372453672d39ab0849a5bc6a73e6a3f3299df74f72569f823c"
+      ],
+      "to_revision": 104
+    },
+    {
+      "event_id": "event-47",
+      "from_revision": 104,
+      "kind": "completed",
+      "refs": [],
+      "to_revision": 105
+    }
+  ],
+  "invalidations": [
+    {
+      "decision_id": "decision-6",
+      "reason": "contract-update",
+      "scope": {
+        "id": "dependencies.context:agents",
+        "type": "contract"
+      },
+      "status": "resolved"
+    }
+  ],
+  "lifecycle": "complete",
+  "next_action": {
+    "kind": "report-complete"
+  },
+  "pending_gate": null,
+  "phase": "complete",
+  "processed_reports": [
+    {
+      "disposition": "resolved",
+      "path": "specs/search-api-passthrough/reviews/requirements-review-1.md",
+      "purpose": "phase-review",
+      "scope": {
+        "id": "requirements",
+        "type": "artifact"
+      },
+      "sha256": "3ac8c67353dcb99c5de0f65d1f21e6bf081958750be0334b871c2e8df1ed9a06",
+      "verdict": "Approve with changes"
+    },
+    {
+      "disposition": "resolved",
+      "path": "specs/search-api-passthrough/reviews/requirements-review-2.md",
+      "purpose": "phase-review",
+      "scope": {
+        "id": "requirements",
+        "type": "artifact"
+      },
+      "sha256": "686c4a4bb522e95882e5957302597c5e77cd7a3c54962ca25fe364f1eabf0439",
+      "verdict": "Approve with changes"
+    },
+    {
+      "disposition": "resolved",
+      "path": "specs/search-api-passthrough/reviews/requirements-review-3.md",
+      "purpose": "phase-review",
+      "scope": {
+        "id": "requirements",
+        "type": "artifact"
+      },
+      "sha256": "867ddc09f228aa33c3b28ebef3e58b094223e9ab7b40d1bc8aff3c53a617e1e5",
+      "verdict": "Approve with changes"
+    },
+    {
+      "disposition": "resolved",
+      "path": "specs/search-api-passthrough/reviews/requirements-review-4.md",
+      "purpose": "phase-review",
+      "scope": {
+        "id": "requirements",
+        "type": "artifact"
+      },
+      "sha256": "69ab8d2f18a85ec0c66f8e9c0404ec1deb89174d63f91042fc9dfa73c604ceac",
+      "verdict": "Approve with changes"
+    },
+    {
+      "disposition": "resolved",
+      "path": "specs/search-api-passthrough/reviews/requirements-review-5.md",
+      "purpose": "phase-review",
+      "scope": {
+        "id": "requirements",
+        "type": "artifact"
+      },
+      "sha256": "1f31ef765b4634134cc37140563fa9c17de791857d34ea30fed3a472c85f127c",
+      "verdict": "Approve"
+    },
+    {
+      "disposition": "resolved",
+      "path": "specs/search-api-passthrough/reviews/design-review-1.md",
+      "purpose": "phase-review",
+      "scope": {
+        "id": "design",
+        "type": "artifact"
+      },
+      "sha256": "a1253ccf02da078032ecf7e508b8ddcb31d235fba85f3abeacb6f3850bb128cc",
+      "verdict": "Approve with changes"
+    },
+    {
+      "disposition": "resolved",
+      "path": "specs/search-api-passthrough/reviews/design-review-2.md",
+      "purpose": "phase-review",
+      "scope": {
+        "id": "design",
+        "type": "artifact"
+      },
+      "sha256": "828f93cc3a8f14a178372075ffa731aeea12cccdc9ad519180a05f34f59ce492",
+      "verdict": "Approve"
+    },
+    {
+      "disposition": "resolved",
+      "path": "specs/search-api-passthrough/reviews/code-review-final-1.md",
+      "purpose": "on-completion",
+      "scope": {
+        "id": "search-api-passthrough",
+        "type": "feature"
+      },
+      "sha256": "ced307347950a0372453672d39ab0849a5bc6a73e6a3f3299df74f72569f823c",
+      "verdict": "Approve"
+    }
+  ],
+  "schema_version": 1,
+  "state_revision": 105,
+  "verification": [
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-1-1.sh"
+      ],
+      "evidence_id": "verification-1",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/search-api-passthrough/T-1-1-verify-1.log",
+      "output_sha256": "8121ed54cf1b8cd18a64df572388d51f0f61e7e0fccdeda83dc70c44b2bc88d6",
+      "scope": {
+        "id": "T-1-1",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-1-2.sh"
+      ],
+      "evidence_id": "verification-2",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/search-api-passthrough/T-1-2-verify-1.log",
+      "output_sha256": "ac299c9bfce2b0f0f6ca396d8636103c37a25667ff0814079f691c8cf0ac48de",
+      "scope": {
+        "id": "T-1-2",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-1-3.sh"
+      ],
+      "evidence_id": "verification-3",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/search-api-passthrough/T-1-3-verify-1.log",
+      "output_sha256": "903068d3acba9b7e13e49e54d270acc114728278b193051b57483a11d6a00c05",
+      "scope": {
+        "id": "T-1-3",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-2-1.sh"
+      ],
+      "evidence_id": "verification-4",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/search-api-passthrough/T-2-1-verify-1.log",
+      "output_sha256": "d640089418a35490f88385bceb77e531991a0ac2a7de704952c06bc2537e6731",
+      "scope": {
+        "id": "T-2-1",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-2-2.sh"
+      ],
+      "evidence_id": "verification-5",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/search-api-passthrough/T-2-2-verify-1.log",
+      "output_sha256": "d640089418a35490f88385bceb77e531991a0ac2a7de704952c06bc2537e6731",
+      "scope": {
+        "id": "T-2-2",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-2-3.sh"
+      ],
+      "evidence_id": "verification-6",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/search-api-passthrough/T-2-3-verify-1.log",
+      "output_sha256": "d640089418a35490f88385bceb77e531991a0ac2a7de704952c06bc2537e6731",
+      "scope": {
+        "id": "T-2-3",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-2-4.sh"
+      ],
+      "evidence_id": "verification-7",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/search-api-passthrough/T-2-4-verify-1.log",
+      "output_sha256": "d640089418a35490f88385bceb77e531991a0ac2a7de704952c06bc2537e6731",
+      "scope": {
+        "id": "T-2-4",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-2-5.sh"
+      ],
+      "evidence_id": "verification-8",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/search-api-passthrough/T-2-5-verify-1.log",
+      "output_sha256": "d640089418a35490f88385bceb77e531991a0ac2a7de704952c06bc2537e6731",
+      "scope": {
+        "id": "T-2-5",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-2-6.sh"
+      ],
+      "evidence_id": "verification-9",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/search-api-passthrough/T-2-6-verify-1.log",
+      "output_sha256": "d640089418a35490f88385bceb77e531991a0ac2a7de704952c06bc2537e6731",
+      "scope": {
+        "id": "T-2-6",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-3-1.sh"
+      ],
+      "evidence_id": "verification-10",
+      "exit_code": 1,
+      "output_path": ".claude/spec-evidence/search-api-passthrough/T-3-1-verify-1.log",
+      "output_sha256": "be58ead7600f38ad972b74aa658525cfa14e0cc038f8d0c1f36bd3141651568c",
+      "scope": {
+        "id": "T-3-1",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-3-1.sh"
+      ],
+      "evidence_id": "verification-11",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/search-api-passthrough/T-3-1-verify-2.log",
+      "output_sha256": "a789ceace657ab8e5c4ffaee220e05d1fabc60d0091e4e69a25a91639f567bf6",
+      "scope": {
+        "id": "T-3-1",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-3-2.sh"
+      ],
+      "evidence_id": "verification-12",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/search-api-passthrough/T-3-2-verify-1.log",
+      "output_sha256": "fc461dc97568e21530e0dfe05963f9fd164c3574602e359873d127874902ffdf",
+      "scope": {
+        "id": "T-3-2",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-3-3.sh"
+      ],
+      "evidence_id": "verification-13",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/search-api-passthrough/T-3-3-verify-1.log",
+      "output_sha256": "301030da3871da87b538844ec0cbbb88a59c73f307a53975a17d8ca69f308c29",
+      "scope": {
+        "id": "T-3-3",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-4-1.sh"
+      ],
+      "evidence_id": "verification-14",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/search-api-passthrough/T-4-1-verify-1.log",
+      "output_sha256": "2303a07563384eb1b7c01d2172283266669c4900521a514572a1bf4a67d3ffde",
+      "scope": {
+        "id": "T-4-1",
+        "type": "task"
+      }
+    }
+  ]
+}
