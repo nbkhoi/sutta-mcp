@@ -2,92 +2,14 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import { buildSearchUrl, formatCitation, renderSearch } from "./search.js";
-
-// ─── SuttaCentral API helpers ────────────────────────────────────────────────
-
-const SC_BASE = "https://suttacentral.net/api";
-
-async function fetchSuttaplex(uid: string, language = "en") {
-  const url = `${SC_BASE}/suttaplex/${uid}?language=${language}`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`SuttaCentral API error: ${res.status}`);
-  const data = await res.json();
-  return Array.isArray(data) ? data[0] : data;
-}
-
-async function fetchBilaraText(uid: string, translator = "sujato", lang?: string) {
-  const url = `${SC_BASE}/bilarasuttas/${uid}/${translator}${lang ? `?lang=${lang}` : ""}`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`SuttaCentral API error: ${res.status}`);
-  return res.json();
-}
-
-async function fetchParallels(uid: string) {
-  const url = `${SC_BASE}/parallels/${uid}`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`SuttaCentral API error: ${res.status}`);
-  return res.json();
-}
-
-// ─── Render sutta text từ Bilara response ────────────────────────────────────
-
-// Non-empty tuple mã hóa FR-1: source="translation" thì có ít nhất một dòng sau lọc.
-// Rào chắn MỘT PHẦN — thân hàm là normative nguyên văn, xem N1 trong
-// specs/non-segmented-translation-guard/design.md
-// Segment.id là key nguyên văn của bilara (segment ID) — spec segment-id-in-get-sutta.
-type Segment = { id: string; text: string };
-type ExtractedText =
-  | { source: "translation"; lines: [Segment, ...Segment[]] }
-  | { source: "root"; lines: Segment[] };
-
-function extractText(bilaraData: any): ExtractedText {
-  const collect = (segments: any): Segment[] => {
-    const out: Segment[] = [];
-    for (const [id, text] of Object.entries(segments ?? {})) {
-      // .trim() ở CẢ điều kiện lẫn giá trị đẩy vào — khớp src/index.ts:120-121.
-      // Bỏ .trim() ở vế push vẫn compile và đổi mọi dòng của đường FR-6.
-      // id là key nguyên văn, ghép cặp ngay lúc đọc — không suy từ uid request.
-      if (typeof text === "string" && text.trim()) out.push({ id, text: text.trim() });
-    }
-    return out;
-  };
-  // Cast duy nhất được phép trong hàm này. Nghĩa vụ chứng minh: a.length > 0 ⟹ có phần tử
-  // tại index 0; a luôn là mảng dựng bằng push trong collect(), không bao giờ sparse.
-  const asNonEmpty = (a: Segment[]): [Segment, ...Segment[]] | undefined =>
-    a.length > 0 ? (a as [Segment, ...Segment[]]) : undefined;
-
-  const translated = asNonEmpty(collect(bilaraData?.translation_text));
-  if (translated) return { source: "translation", lines: translated };
-  return { source: "root", lines: collect(bilaraData?.root_text) };
-}
-
-function formatUnavailable(citation: string, translations: any[], translator: string): string {
-  const requested = translations.find((t: any) => t.author_uid === translator);
-  const translatorName = requested?.author ?? translator;
-  const requestedLang = requested?.lang;
-  const rank = (t: any) =>
-    requestedLang && t.lang === requestedLang ? 0 : t.lang === "en" ? 1 : 2;
-
-  const alternatives = translations
-    .filter((t: any) => t.author_uid !== translator && t.segmented === true && t.is_root !== true)
-    .sort((a: any, b: any) => rank(a) - rank(b))
-    .map((t: any) => `  • ${t.lang_name} — ${t.author} (${t.author_uid})`);
-
-  return [
-    "─".repeat(60),
-    citation,
-    "─".repeat(60),
-    "",
-    `API SuttaCentral không trả về nội dung bản dịch nào cho kinh này với dịch giả ${translatorName} (${translator}).`,
-    "",
-    "Server cố ý không thay bằng văn bản gốc Pali, để không gán nhầm văn bản cho dịch giả được yêu cầu.",
-    "",
-    ...(alternatives.length > 0
-      ? ["**Các bản dịch khác của kinh này, có thể lấy được (không bảo đảm):**", ...alternatives]
-      : ["  (không tìm thấy bản dịch nào khác cho kinh này)"]),
-  ].join("\n");
-}
+import {
+  buildBilarasuttasUrl,
+  buildMenuUrl,
+  buildParallelsUrl,
+  buildSuttaplexUrl,
+  renderBody,
+} from "./passthrough.js";
+import { buildSearchUrl, renderSearch } from "./search.js";
 
 // ─── MCP Server ──────────────────────────────────────────────────────────────
 
@@ -96,10 +18,10 @@ const server = new McpServer({
   version: "0.1.0",
 });
 
-// Tool 1: search_topic
+// Tool 1: search_instant
 server.tool(
-  "search_topic",
-  "Wrapper mỏng của search SuttaCentral (GET https://suttacentral.net/api/search/instant): mỗi lời gọi gửi đúng một request, chỉ với các tham số caller truyền, và trả nguyên kết quả theo thứ tự SuttaCentral, không lọc, không khử trùng, không sắp lại. Body có hai mảng. `suttaplex` là khớp tiêu đề: với truy vấn thường, API trả nguyên mảng ở mọi trang; với truy vấn bắt đầu bằng `title:`, `suttaplex` theo `limit`/`offset` như `hits`; với truy vấn là một uid (ví dụ `mn10`), `suttaplex` chỉ có sutta đó. Vì vậy khớp tiêu đề lặp lại ở mọi `offset`, trừ khi truy vấn bắt đầu bằng `title:`. `hits` là khớp nội dung, gồm cả mục dictionary, bài viết và mỗi bản dịch một mục, phân trang bằng `limit`/`offset`. API bỏ khỏi `hits` các sutta đã có trong `suttaplex`, nên một trang có thể có ít hơn `limit` hit trong khi vẫn còn kết quả. `total` là số đếm xấp xỉ của SuttaCentral: nó phụ thuộc `limit`, bị trừ đi các hit bị bỏ ở trang hiện tại, và khi `total` tính ra bằng 0 thì rơi về số khớp tiêu đề. Vì vậy `total` không phải tín hiệu tin được để biết còn trang sau. Muốn biết còn kết quả hay không: gọi lại với `offset` lớn hơn và xem có mục mới không. Tìm bằng tiếng Việt: truyền `language` = `vi` để khớp tiêu đề tiếng Việt, và `selectedLanguages` có `vi` để có bản dịch tiếng Việt trong `hits`.",
+  "search_instant",
+  "Wrapper mỏng của search SuttaCentral (GET https://suttacentral.net/api/search/instant): mỗi lời gọi gửi đúng một request, chỉ với các tham số caller truyền, và trả nguyên kết quả theo thứ tự SuttaCentral, không lọc, không khử trùng, không sắp lại. Body có hai mảng. `suttaplex` là khớp tiêu đề: với truy vấn thường, API trả nguyên mảng ở mọi trang; với truy vấn bắt đầu bằng `title:`, `suttaplex` theo `limit`/`offset` như `hits`; với truy vấn là một uid (ví dụ `mn10`), `suttaplex` chỉ có sutta đó. Vì vậy khớp tiêu đề lặp lại ở mọi `offset`, trừ khi truy vấn bắt đầu bằng `title:`. `hits` là khớp nội dung, gồm cả mục dictionary, bài viết và mỗi bản dịch một mục, phân trang bằng `limit`/`offset`. API bỏ khỏi `hits` các sutta đã có trong `suttaplex`, nên một trang có thể có ít hơn `limit` hit trong khi vẫn còn kết quả. `total` là số đếm xấp xỉ của SuttaCentral: nó phụ thuộc `limit`, bị trừ đi các hit bị bỏ ở trang hiện tại, và khi `total` tính ra bằng 0 thì rơi về số khớp tiêu đề. Vì vậy `total` không phải tín hiệu tin được để biết còn trang sau. Muốn biết còn kết quả hay không: gọi lại với `offset` lớn hơn và xem có mục mới không. Tìm bằng tiếng Việt: truyền `language` = `vi` để khớp tiêu đề tiếng Việt, và `selectedLanguages` có `vi` để có bản dịch tiếng Việt trong `hits`. Output có thể rất lớn, vì tool không lọc và `json` trả nguyên body: ví dụ `mindfulness` với `language` = `en` cho body 140,685 B, phần lớn là `translations` của các mục `suttaplex`; `limit`/`offset` chỉ phân trang `hits`, còn với truy vấn thường thì `suttaplex` (khớp tiêu đề) được trả nguyên mảng; muốn thu hẹp, dùng truy vấn bắt đầu bằng `title:` (khi đó `suttaplex` theo `limit`/`offset`) hoặc một truy vấn cụ thể hơn.",
   {
     query: z
       .string()
@@ -156,279 +78,131 @@ server.tool(
   }
 );
 
-// Tool 2: get_sutta
+// ─── Bốn tool passthrough (spec tools-api-passthrough) ──────────────────────
+// Mỗi handler: dựng URL đúng một lần vào một biến, fetch đúng biến đó, kiểm `ok`, rồi trả
+// renderBody() với cùng biến. Không retry, không fallback, không request nào khác.
+
+// Tham số `format` chung của bốn tool. Không gửi tới API.
+const formatParam = z
+  .enum(["text", "json"])
+  .default("text")
+  .describe(
+    "'text' (mặc định): dòng nguồn kèm URL request, rồi body theo đúng thứ tự SuttaCentral: mỗi giá trị một dòng `key: giá trị`, phần tử mảng có nhãn `[i]`; object ghi số key và mảng ghi số phần tử, rồi in các con ở các dòng sau, thụt thêm hai dấu cách. Chuỗi in nguyên văn, chuỗi rỗng in `\"\"`; số, boolean và null in dạng JSON. 'json': item thứ nhất là body response nguyên văn, item thứ hai là dòng nguồn kèm URL request."
+  );
+
+// Tool 2: get_bilarasuttas
 server.tool(
-  "get_sutta",
-  "Lấy toàn văn một sutta theo UID. Dùng sau khi đã tìm được UID từ search_topic hoặc biết trước.",
+  "get_bilarasuttas",
+  'Wrapper mỏng của GET https://suttacentral.net/api/bilarasuttas/{uid}/{author_uid}?lang={lang} (không có `author_uid` thì là GET https://suttacentral.net/api/bilarasuttas/{uid}): mỗi lời gọi gửi đúng một request, chỉ với các tham số caller truyền, và trả nguyên body theo thứ tự SuttaCentral, không lọc, không cắt. Body là object gồm các map `comment_text`, `html_text`, `root_text`, `translation_text`, `variant_text`, `reference_text` (map nào SuttaCentral không có thì không có key) và mảng `keys_order`. Key của mỗi map là segment ID (ví dụ `mn10:1.1`); `keys_order` là thứ tự đọc. Bỏ `author_uid` thì body chỉ có văn bản gốc: không có `translation_text` và `comment_text`; `author_uid` không có bản dịch của sutta này cũng cho đúng body đó. Bản dịch không phải tiếng Anh cần `lang` của bản dịch đó, lấy từ `translations[].lang` của `get_suttaplex`, ví dụ `dhp1-20` với `author_uid` = `phantuananh` và `lang` = `vi`. `lang` không khớp bản dịch của `author_uid` thì body không có `translation_text`, ví dụ `mn10` với `sujato` và `lang` = `vi`. Không tìm thấy (uid sai, kể cả sai hoa/thường như `MN10`, hoặc uid của một bộ như `dn`): SuttaCentral trả HTTP 200 với body `{"msg": "Not Found"}`. Kích thước: output có thể rất lớn, vì tool không lọc, không cắt. Kích thước theo chính sutta, và không có tham số nào thu nhỏ: `dn22` với `sujato` khoảng 158 KB, `dn16` với `sujato` khoảng 633 KB. Bỏ `author_uid` thì body không có `translation_text` và `comment_text` (`dn16`: khoảng 345 KB), nhưng đó là đổi nội dung, không phải thu hẹp.',
   {
-    uid: z.string().describe("UID của sutta, ví dụ: 'mn10', 'sn56.11', 'dn22'"),
-    translator: z
+    uid: z
       .string()
-      .default("sujato")
+      .min(1)
       .describe(
-        "ID dịch giả: 'sujato' (mặc định, tiếng Anh), 'brahmali' (Vinaya). Không phải dịch giả nào có trong metadata cũng lấy được toàn văn qua API — kể cả khi metadata ghi segmented=true. Dùng get_sutta_meta để xem danh sách bản dịch của một kinh; nếu dịch giả được yêu cầu không lấy được, tool sẽ báo rõ và gợi ý dịch giả khác."
+        "UID của sutta, ví dụ 'mn10', 'sn56.11', 'dhp1-20'. Gửi nguyên văn như một path segment: không trim, không đổi hoa/thường."
       ),
-    max_segments: z
-      .number()
-      .default(50)
-      .describe("Giới hạn số đoạn văn trả về, tránh quá dài. Mặc định 50."),
+    author_uid: z
+      .string()
+      .min(1)
+      .optional()
+      .describe(
+        "ID dịch giả, ví dụ 'sujato' (tiếng Anh) hoặc 'phantuananh' (tiếng Việt, cần lang 'vi'); lấy từ `translations[].author_uid` của `get_suttaplex`. Gửi như path segment thứ hai. Bỏ trống thì không gửi segment này, và body chỉ có văn bản gốc."
+      ),
+    lang: z
+      .string()
+      .optional()
+      .describe(
+        "Ngôn ngữ của bản dịch, gửi dạng query `lang`, ví dụ 'vi'. Bỏ trống thì không gửi, và API dùng mặc định `en`. Phải khớp `translations[].lang` của bản dịch trong `get_suttaplex`; không khớp thì body không có `translation_text`. Không thu nhỏ output."
+      ),
+    format: formatParam,
   },
-  async ({ uid, translator, max_segments }) => {
-    // Lấy metadata song song với text
-    const [suttaplex, bilaraData] = await Promise.all([
-      fetchSuttaplex(uid),
-      fetchBilaraText(uid, translator),
-    ]);
-
-    // UID không tồn tại: SC trả HTTP 200, suttaplex có `uid` rỗng — cùng tín hiệu `!sp?.uid` của
-    // tool metadata. Không xét body bilara: `{"msg":"Not Found"}` cũng gặp ở UID nhánh (mn, dhp).
-    if (!suttaplex?.uid) {
-      return {
-        content: [{ type: "text", text: `Không tìm thấy sutta với UID: ${uid}` }],
-      };
-    }
-
-    const citation = formatCitation(suttaplex);
-    let extracted = extractText(bilaraData);
-    // Lang thực sự phục vụ bản dịch, cho dòng Deep link (spec segment-id-in-get-sutta): lời gọi
-    // đầu không truyền lang nên là 'en' theo mặc định upstream; thành retryLang khi retry.
-    let servedLang = "en";
-
-    // Retry-on-miss (spec bilara-lang-param): upstream mặc định lang='en' khi thiếu query
-    // param (views.py:1058), nên bản dịch khác tiếng Anh cần gọi lại kèm ?lang=. Lang lấy từ
-    // suttaplex đã fetch sẵn — entry ĐẦU TIÊN theo thứ tự API của translator có lang khác
-    // 'en' (luật tie-break, xem specs/bilara-lang-param/design.md) — và chỉ gọi lại một lần.
-    if (extracted.source === "root") {
-      const retryLang = (suttaplex?.translations ?? []).find(
-        (t: any) => t.author_uid === translator && t.lang && t.lang !== "en"
-      )?.lang;
-      if (retryLang) {
-        extracted = extractText(await fetchBilaraText(uid, translator, retryLang));
-        servedLang = retryLang;
-      }
-    }
-
-    if (extracted.source !== "translation") {
-      return {
-        content: [
-          {
-            type: "text",
-            text: formatUnavailable(citation, suttaplex?.translations ?? [], translator),
-          },
-        ],
-      };
-    }
-
-    const translatorName =
-      (suttaplex?.translations ?? []).find((t: any) => t.author_uid === translator)
-        ?.author ?? translator;
-    const lines = extracted.lines;
-    const truncated = lines.slice(0, max_segments);
-    const isTruncated = lines.length > max_segments;
-
-    const output = [
-      "─".repeat(60),
-      citation,
-      `Translator: ${translatorName} (${translator})`,
-      `Deep link: https://suttacentral.net/${uid}/${servedLang}/${translator}#<segment_id> (thay <segment_id> bằng ID trong ngoặc vuông ở đầu mỗi đoạn)`,
-      "─".repeat(60),
-      "",
-      truncated.map((s) => `[${s.id}] ${s.text}`).join("\n"),
-      "",
-      isTruncated
-        ? `[... văn bản bị cắt sau ${max_segments} đoạn. Tổng: ${lines.length} đoạn. Tăng max_segments để xem thêm.]`
-        : `[Hết văn bản — ${lines.length} đoạn]`,
-    ].join("\n");
-
-    return { content: [{ type: "text", text: output }] };
+  async ({ format, ...params }) => {
+    const url = buildBilarasuttasUrl(params);
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`SuttaCentral API error: ${res.status}`);
+    return { content: renderBody(url, await res.text(), format) };
   }
 );
 
-// Tool 3: get_sutta_meta
+// Tool 3: get_suttaplex
 server.tool(
-  "get_sutta_meta",
-  "Lấy metadata của một sutta: tên, blurb, độ khó, số parallels, danh sách bản dịch có sẵn, link.",
+  "get_suttaplex",
+  "Wrapper mỏng của GET https://suttacentral.net/api/suttaplex/{uid}?language={language}: mỗi lời gọi gửi đúng một request, chỉ với các tham số caller truyền, và trả nguyên body theo thứ tự SuttaCentral, không lọc, không cắt. Body luôn là mảng. Với uid của một sutta, mảng có một phần tử là metadata của sutta (`acronym`, `uid`, `blurb`, `difficulty`, `original_title`, `translated_title`, `translations`, `parallel_count`, `previous`, `next`, …). `translations` liệt kê mọi bản dịch, kể cả văn bản gốc (`is_root`); `author_uid` và `lang` của mỗi mục dùng làm tham số của `get_bilarasuttas`. Với uid của division hay vagga, mảng có mọi sutta bên dưới, là cây được duỗi theo thứ tự trước (ví dụ `mn`: 171 phần tử), nên output rất lớn. `language` đổi các field phụ thuộc ngôn ngữ: `translated_title`, tên trong `previous`/`next`, `translations[].title` và `priority_author_uid` (`mn10` với `vi`: `null`); `blurb` có thể vẫn là tiếng Anh, và số mục `translations` không đổi. Không tìm thấy: SuttaCentral trả HTTP 200 với mảng một phần tử có `uid` là `null` và `translations` rỗng. Kích thước: output có thể rất lớn, vì tool không lọc, không cắt. Muốn thu hẹp, truyền uid của một sutta (ví dụ `mn10`, khoảng 13 KB) thay vì uid của division (`mn`: 171 phần tử, khoảng 1.3 MB).",
   {
-    uid: z.string().describe("UID của sutta, ví dụ: 'mn10', 'dn1'"),
-    language: z.string().default("en").describe("Ngôn ngữ cho blurb và tiêu đề dịch"),
+    uid: z
+      .string()
+      .min(1)
+      .describe(
+        "UID của sutta (ví dụ 'mn10', 'dn22'), hoặc của division hay vagga (ví dụ 'mn': mọi sutta bên dưới, output rất lớn). Gửi nguyên văn như một path segment: không trim, không đổi hoa/thường."
+      ),
+    language: z
+      .string()
+      .optional()
+      .describe(
+        "Ngôn ngữ của các field phụ thuộc ngôn ngữ, gửi dạng query `language`, ví dụ 'vi'. Bỏ trống thì không gửi, và API dùng mặc định `en`. Đổi `translated_title`, `previous`/`next` `name`, `translations[].title` và `priority_author_uid` (`mn10` với 'vi': `null`); `blurb` có thể vẫn là tiếng Anh."
+      ),
+    format: formatParam,
   },
-  async ({ uid, language }) => {
-    const sp = await fetchSuttaplex(uid, language);
-
-    if (!sp?.uid) {
-      return {
-        content: [{ type: "text", text: `Không tìm thấy sutta với UID: ${uid}` }],
-      };
-    }
-
-    const translations = (sp.translations ?? [])
-      .filter((t: any) => !t.is_root)
-      .map((t: any) => `  • ${t.lang_name} — ${t.author} (${t.author_uid})`)
-      .join("\n");
-
-    const output = [
-      formatCitation(sp),
-      "",
-      sp.blurb ? `**Tóm tắt:** ${sp.blurb}` : "",
-      "",
-      `**Ngôn ngữ gốc:** ${sp.root_lang_name} (${sp.root_lang})`,
-      `**Loại:** ${sp.type}`,
-      "",
-      `**Bản dịch có sẵn:**`,
-      translations || "  (không có)",
-    ]
-      .filter((l) => l !== "")
-      .join("\n");
-
-    return { content: [{ type: "text", text: output }] };
+  async ({ format, ...params }) => {
+    const url = buildSuttaplexUrl(params);
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`SuttaCentral API error: ${res.status}`);
+    return { content: renderBody(url, await res.text(), format) };
   }
 );
 
 // Tool 4: get_parallels
 server.tool(
   "get_parallels",
-  "Lấy danh sách parallels của một sutta — các kinh tương đương trong các truyền thống khác (Hán tạng, Sanskrit...).",
+  "Wrapper mỏng của GET https://suttacentral.net/api/parallels/{uid}?language={language}: mỗi lời gọi gửi đúng một request, chỉ với các tham số caller truyền, và trả nguyên body theo thứ tự SuttaCentral, không lọc, không cắt. Body là object. Mỗi key là anchor của sutta nguồn, có thể kèm `#segment` (ví dụ `mn10`, `mn10#44.1`), theo thứ tự SuttaCentral sắp. Giá trị là mảng parallel `{enumber, to, type, remark, resembling}`; target nằm trong `to` (`to.uid`, `to.acronym`, `to.translated_title`, `to.translations`, …). `type` là loại parallel, ví dụ `full`, `mention`; `resembling` là `true` khi parallel chỉ tương đồng một phần. `language` đổi `to.translated_title` và `to.translations[].title`. Không tìm thấy: SuttaCentral trả HTTP 200 với body `{}`; uid của division (ví dụ `mn`) cũng trả `{}`. Kích thước: output có thể rất lớn, vì tool không lọc, không cắt. Kích thước theo chính sutta, và không có tham số nào thu nhỏ: `dn16` có 43 anchor, 162 parallel, khoảng 321 KB; `dn22` khoảng 78 KB.",
   {
-    uid: z.string().describe("UID của sutta gốc, ví dụ: 'mn10'"),
+    uid: z
+      .string()
+      .min(1)
+      .describe(
+        "UID của sutta nguồn, ví dụ 'mn10', 'dn22'. Gửi nguyên văn như một path segment: không trim, không đổi hoa/thường."
+      ),
+    language: z
+      .string()
+      .optional()
+      .describe(
+        "Ngôn ngữ của tiêu đề target, gửi dạng query `language`, ví dụ 'vi'. Bỏ trống thì không gửi, và API dùng mặc định `en`. Đổi `to.translated_title` và `to.translations[].title`; không phải cách thu nhỏ output."
+      ),
+    format: formatParam,
   },
-  async ({ uid }) => {
-    const data = await fetchParallels(uid);
-
-    if (!data || Object.keys(data).length === 0) {
-      return {
-        content: [{ type: "text", text: `Không tìm thấy parallels cho ${uid.toUpperCase()}.` }],
-      };
-    }
-
-    const lines: string[] = [`**Parallels của ${uid.toUpperCase()}:**\n`];
-    let count = 0;
-
-    // Response có dạng { <anchor nguồn>: [ { to: { to, uid, acronym... }, type, resembling } ] }
-    // — key là anchor của chính sutta nguồn, target thật nằm trong entry.to
-    for (const entries of Object.values(data as Record<string, any[]>)) {
-      if (!Array.isArray(entries)) continue;
-      for (const entry of entries) {
-        const type = entry?.type ?? "full";
-        const resembling = entry?.resembling === true;
-        let icon: string;
-        if (type === "full") {
-          icon = resembling ? "≈" : "≡";
-        } else if (type === "mention") {
-          icon = "→";
-        } else if (type === "retelling") {
-          icon = "↺";
-        } else {
-          icon = "≈";
-        }
-        const label = resembling ? "resembling" : type;
-        // to.to giữ anchor segment (vd "dn22#17.1") nhưng với văn bản chưa host trên SC
-        // nó suy biến thành mã ngôn ngữ ("lzh") — khi đó to.uid mới là UID thật
-        const toUid = entry?.to?.uid;
-        const toAnchor = entry?.to?.to;
-        const target =
-          toAnchor && toUid && String(toAnchor).includes(String(toUid))
-            ? toAnchor
-            : toUid ?? toAnchor ?? "?";
-        lines.push(`${icon} ${String(target).toUpperCase()} (${label})`);
-        count++;
-      }
-    }
-
-    lines.push(`\n${count} parallels tổng cộng.`);
-    lines.push(`\nTra cứu chi tiết tại: https://suttacentral.net/${uid}`);
-
-    return { content: [{ type: "text", text: lines.join("\n") }] };
+  async ({ format, ...params }) => {
+    const url = buildParallelsUrl(params);
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`SuttaCentral API error: ${res.status}`);
+    return { content: renderBody(url, await res.text(), format) };
   }
 );
 
-// ─── Division data (hardcode — gần như bất biến) ─────────────────────────────
-
-interface Division {
-  uid: string;
-  name: string;
-  tradition: string;
-  language: string;
-}
-
-const DIVISIONS: Record<string, Division[]> = {
-  sutta: [
-    { uid: "dn", name: "Dīgha Nikāya", tradition: "Theravada", language: "Pali" },
-    { uid: "mn", name: "Majjhima Nikāya", tradition: "Theravada", language: "Pali" },
-    { uid: "sn", name: "Saṃyutta Nikāya", tradition: "Theravada", language: "Pali" },
-    { uid: "an", name: "Aṅguttara Nikāya", tradition: "Theravada", language: "Pali" },
-    { uid: "kn", name: "Khuddaka Nikāya", tradition: "Theravada", language: "Pali" },
-    { uid: "da", name: "Dīrghāgama 長阿含經", tradition: "Dharmaguptaka", language: "Chinese" },
-    { uid: "ma", name: "Madhyamāgama 中阿含經", tradition: "Sarvāstivāda", language: "Chinese" },
-    { uid: "sa", name: "Saṃyuktāgama 雜阿含經", tradition: "Sarvāstivāda", language: "Chinese" },
-    { uid: "sa-2", name: "Saṃyuktāgama 2 別譯雜阿含經", tradition: "Unknown", language: "Chinese" },
-    { uid: "ea", name: "Ekottarikāgama 增壹阿含經", tradition: "Mahāsāṃghika", language: "Chinese" },
-    { uid: "ea-2", name: "Ekottarikāgama 2", tradition: "Unknown", language: "Chinese" },
-  ],
-  vinaya: [
-    { uid: "pli-tv-vi", name: "Theravāda Vinayapiṭaka", tradition: "Theravada", language: "Pali" },
-    { uid: "lzh-mg-vi", name: "Mahāsaṅghika Vinaya", tradition: "Mahāsaṅghika", language: "Chinese" },
-    { uid: "san-mg-vi", name: "Mahāsaṅghika Vinaya", tradition: "Mahāsaṅghika", language: "Sanskrit" },
-    { uid: "san-lo-vi", name: "Lokuttaravāda Vinaya", tradition: "Lokuttaravāda", language: "Sanskrit" },
-    { uid: "lzh-mi-vi", name: "Mahīśāsaka Vinaya", tradition: "Mahīśāsaka", language: "Chinese" },
-    { uid: "lzh-dg-vi", name: "Dharmaguptaka Vinaya", tradition: "Dharmaguptaka", language: "Chinese" },
-    { uid: "pgd-dg-vi", name: "Dharmaguptaka Vinaya", tradition: "Dharmaguptaka", language: "Gāndhārī" },
-    { uid: "lzh-sarv-vi", name: "Sarvāstivāda Vinaya", tradition: "Sarvāstivāda", language: "Chinese" },
-    { uid: "san-sarv-vi", name: "Sarvāstivāda Vinaya", tradition: "Sarvāstivāda", language: "Sanskrit" },
-    { uid: "lzh-mu-vi", name: "Mūlasarvāstivāda Vinaya", tradition: "Mūlasarvāstivāda", language: "Chinese" },
-    { uid: "san-mu-vi", name: "Mūlasarvāstivāda Vinaya", tradition: "Mūlasarvāstivāda", language: "Sanskrit" },
-    { uid: "xct-mu-vi", name: "Mūlasarvāstivāda Vinaya", tradition: "Mūlasarvāstivāda", language: "Tibetan" },
-  ],
-  abhidhamma: [
-    { uid: "ds", name: "Dhammasaṅgaṇī", tradition: "Theravada", language: "Pali" },
-    { uid: "vb", name: "Vibhaṅga", tradition: "Theravada", language: "Pali" },
-    { uid: "dt", name: "Dhātukathā", tradition: "Theravada", language: "Pali" },
-    { uid: "pp", name: "Puggalapaññatti", tradition: "Theravada", language: "Pali" },
-    { uid: "kv", name: "Kathāvatthu", tradition: "Theravada", language: "Pali" },
-    { uid: "ya", name: "Yamaka", tradition: "Theravada", language: "Pali" },
-    { uid: "patthana", name: "Paṭṭhāna", tradition: "Theravada", language: "Pali" },
-  ],
-};
-
-const PITAKA_LABELS: Record<string, string> = {
-  sutta: "Sutta Pitaka (Kinh tạng)",
-  vinaya: "Vinaya Pitaka (Luật tạng)",
-  abhidhamma: "Abhidhamma Pitaka (Luận tạng)",
-};
-
-function formatDivisions(pitakas: string[]): string {
-  const sections: string[] = [];
-
-  for (const p of pitakas) {
-    const divs = DIVISIONS[p];
-    if (!divs) continue;
-    const label = PITAKA_LABELS[p] ?? p;
-    const lines = divs.map(
-      (d) => `  • ${d.uid.padEnd(12)} — ${d.name} (${d.language}, ${d.tradition})`
-    );
-    sections.push(`**${label}:**\n${lines.join("\n")}`);
-  }
-
-  return sections.join("\n\n");
-}
-
-// Tool 5: list_divisions
+// Tool 5: get_menu
 server.tool(
-  "list_divisions",
-  "Liệt kê các divisions (bộ kinh) trên SuttaCentral, có thể lọc theo pitaka (tạng). Dữ liệu hardcode, không gọi API.",
+  "get_menu",
+  "Wrapper mỏng của GET https://suttacentral.net/api/menu/{submenu_id}?language={language} (không có `submenu_id` thì là GET https://suttacentral.net/api/menu): mỗi lời gọi gửi đúng một request, chỉ với các tham số caller truyền, và trả nguyên body theo thứ tự SuttaCentral, không lọc, không cắt. Body là mảng node (`uid`, `root_name`, `translated_name`, `blurb`, `node_type`, …). Mỗi lần gọi trả một cấp con: node con có `has_children` nhưng không có `children`; gọi tiếp với `uid` của node con để xuống cấp sau. Không có `submenu_id` thì trả mọi node gốc, gồm ba tạng `sutta`, `vinaya`, `abhidhamma` (chỉ ba node này có `children` khác rỗng) và nhiều node rời có `children` rỗng. Muốn duyệt theo tạng thì truyền `submenu_id` là `sutta`, `vinaya` hoặc `abhidhamma`, rồi gọi tiếp với uid con, ví dụ `long` cho `dn`, `da`, `da-ot`. `language` đổi `translated_name` (ví dụ `sutta` với `vi`: `Kinh tạng`) và `yellow_brick_road`/`yellow_brick_road_count`. Không tìm thấy: SuttaCentral trả HTTP 200 với mảng một node có `uid` là `null` và `children` rỗng. Kích thước: output có thể rất lớn, vì tool không lọc, không cắt. Muốn thu hẹp, truyền `submenu_id` thay vì gọi không tham số (`/api/menu`: 464 node, khoảng 168 KB; `/api/menu/sutta` khoảng 3 KB).",
   {
-    pitaka: z
-      .enum(["sutta", "vinaya", "abhidhamma"])
+    submenu_id: z
+      .string()
+      .min(1)
       .optional()
-      .describe("Lọc theo tạng. Bỏ trống → trả về tất cả."),
+      .describe(
+        "uid của node cần mở, ví dụ 'sutta', 'vinaya', 'abhidhamma', 'long', 'dn'. Gửi nguyên văn như một path segment. Bỏ trống thì gọi /api/menu: mọi node gốc, output lớn."
+      ),
+    language: z
+      .string()
+      .optional()
+      .describe(
+        "Ngôn ngữ của tên node, gửi dạng query `language`, ví dụ 'vi'. Bỏ trống thì không gửi, và API dùng mặc định `en`. Đổi `translated_name`, `yellow_brick_road` và `yellow_brick_road_count`."
+      ),
+    format: formatParam,
   },
-  async ({ pitaka }) => {
-    const pitakas = pitaka ? [pitaka] : ["sutta", "vinaya", "abhidhamma"];
-    const output = [
-      formatDivisions(pitakas),
-      "",
-      "Nguồn: SuttaCentral — xem từng bộ tại https://suttacentral.net/{uid} (vd https://suttacentral.net/dn)",
-    ].join("\n");
-    return { content: [{ type: "text", text: output }] };
+  async ({ format, ...params }) => {
+    const url = buildMenuUrl(params);
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`SuttaCentral API error: ${res.status}`);
+    return { content: renderBody(url, await res.text(), format) };
   }
 );
 
