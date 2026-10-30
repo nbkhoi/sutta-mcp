@@ -1,0 +1,338 @@
+{
+  "url": "https://suttacentral.net/api/parallels/mn10",
+  "recorded": "2026-10-30",
+  "tool": "get_parallels",
+  "params": {
+    "uid": "mn10"
+  },
+  "body": {
+    "mn10": [
+      {
+        "enumber": 10,
+        "to": {
+          "to": "dn22",
+          "volpages": "PTS DN 2.290, PTS 2.291, PTS 2.292, PTS 2.293, PTS 2.294, PTS 2.295, PTS 2.296, PTS 2.297, PTS 2.298, PTS 2.299, PTS 2.300, PTS 2.301, PTS 2.302, PTS 2.303, PTS 2.304, PTS 2.305, PTS 2.306, PTS 2.307, PTS 2.308, PTS 2.309, PTS 2.310, PTS 2.311, PTS 2.312, PTS 2.313, PTS 2.314, PTS 2.315",
+          "alt_volpages": null,
+          "acronym": "DN 22",
+          "alt_acronym": null,
+          "uid": "dn22",
+          "root_lang": "pli",
+          "original_title": "Mahāsatipaṭṭhānasutta",
+          "translated_title": "The Long Discourse about the Ways of Attending to Mindfulness",
+          "type": "full",
+          "from": "super_nav_details/mn10",
+          "biblio": null
+        },
+        "type": "full",
+        "remark": null,
+        "resembling": false
+      },
+      {
+        "enumber": 10,
+        "to": {
+          "to": "ea12.1",
+          "volpages": "T ii 568a01",
+          "alt_volpages": null,
+          "acronym": "EA 12.1",
+          "alt_acronym": "T 125.12.1",
+          "uid": "ea12.1",
+          "root_lang": "lzh",
+          "original_title": "?",
+          "translated_title": "The One Way In Sūtra",
+          "type": "full",
+          "from": "super_nav_details/mn10",
+          "biblio": null
+        },
+        "type": "full",
+        "remark": null,
+        "resembling": false
+      },
+      {
+        "enumber": 10,
+        "to": {
+          "to": "ma98",
+          "volpages": "T i 582b07",
+          "alt_volpages": null,
+          "acronym": "MA 98",
+          "alt_acronym": "T 26.98",
+          "uid": "ma98",
+          "root_lang": "lzh",
+          "original_title": "念處",
+          "translated_title": null,
+          "type": "full",
+          "from": "super_nav_details/mn10",
+          "biblio": null
+        },
+        "type": "full",
+        "remark": null,
+        "resembling": false
+      },
+      {
+        "enumber": 10,
+        "to": {
+          "to": "sht",
+          "volpages": "SHT 614, 862, 1180 A1, 3039",
+          "alt_volpages": null,
+          "acronym": "SHT Sutta 11",
+          "alt_acronym": null,
+          "uid": "sht-sutta11",
+          "root_lang": "san",
+          "original_title": "",
+          "translated_title": null,
+          "type": "full",
+          "from": "super_nav_details/mn10",
+          "biblio": "SHT, Sanskrithandschriften aus den Turfanfunden. 1965 (vol i) ed. <span class='author'>W. Clawiter</span>, <span class='author'>L. Holzmann</span>, <span class='author'>E. Waldschmidt</span>; 1968 (vol ii) ed. idem; 1971 (vol iii) ed. idem; 1980 (vol iv) ed. <span class='author'>L. Sander</span>, <span class='author'>E. Waldschmidt</span>; 1985 (vol v) ed. idem; 1989 (vol vi) ed. <span class='author'>H. Bechert</span>, <span class='author'>K. Wille</span>; 1995 (vol vii) ed. idem; 2000 (vol viii) ed. idem; 2004 (vol ix) ed. idem; 2008 (vol x) ed. <span class='author'>K. Wille</span>. Wiesbaden/Stuttgart: Franz Steiner."
+        },
+        "type": "full",
+        "remark": "Identified in SHT vii p. 286.",
+        "resembling": false
+      },
+      {
+        "enumber": 10,
+        "to": {
+          "to": "ma31",
+          "volpages": "T i 467a28",
+          "alt_volpages": null,
+          "acronym": "MA 31",
+          "alt_acronym": "T 26.31",
+          "uid": "ma31",
+          "root_lang": "lzh",
+          "original_title": "分別聖諦",
+          "translated_title": null,
+          "type": "full",
+          "from": "super_nav_details/mn10",
+          "biblio": null
+        },
+        "type": "full",
+        "remark": null,
+        "resembling": true
+      },
+      {
+        "enumber": 10,
+        "to": {
+          "to": "ma81",
+          "volpages": "T i 554c10",
+          "alt_volpages": null,
+          "acronym": "MA 81",
+          "alt_acronym": "T 26.81",
+          "uid": "ma81",
+          "root_lang": "lzh",
+          "original_title": "念身",
+          "translated_title": null,
+          "type": "full",
+          "from": "super_nav_details/mn10",
+          "biblio": null
+        },
+        "type": "full",
+        "remark": null,
+        "resembling": true
+      },
+      {
+        "enumber": 10,
+        "to": {
+          "to": "mn119",
+          "volpages": "PTS MN 3.88, PTS 3.89, PTS 3.90, PTS 3.91, PTS 3.92, PTS 3.93, PTS 3.94, PTS 3.95, PTS 3.96, PTS 3.97, PTS 3.98, PTS 3.99",
+          "alt_volpages": null,
+          "acronym": "MN 119",
+          "alt_acronym": null,
+          "uid": "mn119",
+          "root_lang": "pli",
+          "original_title": "Kāyagatāsatisutta",
+          "translated_title": "Mindfulness of the Body",
+          "type": "full",
+          "from": "super_nav_details/mn10",
+          "biblio": null
+        },
+        "type": "full",
+        "remark": null,
+        "resembling": true
+      },
+      {
+        "enumber": 10,
+        "to": {
+          "to": "t32",
+          "volpages": "T i 814b08",
+          "alt_volpages": null,
+          "acronym": "T 32",
+          "alt_acronym": null,
+          "uid": "t32",
+          "root_lang": "lzh",
+          "original_title": "四諦",
+          "translated_title": null,
+          "type": "full",
+          "from": "super_nav_details/mn10",
+          "biblio": null
+        },
+        "type": "full",
+        "remark": null,
+        "resembling": true
+      }
+    ],
+    "mn10#44.1": [
+      {
+        "enumber": 1,
+        "to": {
+          "to": "dn22#17.1",
+          "volpages": "PTS DN 2.290, PTS 2.291, PTS 2.292, PTS 2.293, PTS 2.294, PTS 2.295, PTS 2.296, PTS 2.297, PTS 2.298, PTS 2.299, PTS 2.300, PTS 2.301, PTS 2.302, PTS 2.303, PTS 2.304, PTS 2.305, PTS 2.306, PTS 2.307, PTS 2.308, PTS 2.309, PTS 2.310, PTS 2.311, PTS 2.312, PTS 2.313, PTS 2.314, PTS 2.315",
+          "alt_volpages": null,
+          "acronym": "DN 22",
+          "alt_acronym": null,
+          "uid": "dn22",
+          "root_lang": "pli",
+          "original_title": "Mahāsatipaṭṭhānasutta",
+          "translated_title": "The Long Discourse about the Ways of Attending to Mindfulness",
+          "type": "full",
+          "from": "super_nav_details/mn10",
+          "biblio": null
+        },
+        "type": "full",
+        "remark": null,
+        "resembling": false
+      },
+      {
+        "enumber": 1,
+        "to": {
+          "to": "mn9#14",
+          "volpages": "PTS MN 1.46, PTS 1.47, PTS 1.48, PTS 1.49, PTS 1.50, PTS 1.51, PTS 1.52, PTS 1.53, PTS 1.54, PTS 1.55",
+          "alt_volpages": null,
+          "acronym": "MN 9",
+          "alt_acronym": null,
+          "uid": "mn9",
+          "root_lang": "pli",
+          "original_title": "Sammādiṭṭhisutta",
+          "translated_title": "Right View",
+          "type": "full",
+          "from": "super_nav_details/mn10",
+          "biblio": null
+        },
+        "type": "full",
+        "remark": null,
+        "resembling": false
+      }
+    ],
+    "mn10#47.1": [
+      {
+        "enumber": 1,
+        "to": {
+          "to": "dn22#22.24",
+          "volpages": "PTS DN 2.290, PTS 2.291, PTS 2.292, PTS 2.293, PTS 2.294, PTS 2.295, PTS 2.296, PTS 2.297, PTS 2.298, PTS 2.299, PTS 2.300, PTS 2.301, PTS 2.302, PTS 2.303, PTS 2.304, PTS 2.305, PTS 2.306, PTS 2.307, PTS 2.308, PTS 2.309, PTS 2.310, PTS 2.311, PTS 2.312, PTS 2.313, PTS 2.314, PTS 2.315",
+          "alt_volpages": null,
+          "acronym": "DN 22",
+          "alt_acronym": null,
+          "uid": "dn22",
+          "root_lang": "pli",
+          "original_title": "Mahāsatipaṭṭhānasutta",
+          "translated_title": "The Long Discourse about the Ways of Attending to Mindfulness",
+          "type": "full",
+          "from": "super_nav_details/mn10",
+          "biblio": null
+        },
+        "type": "full",
+        "remark": null,
+        "resembling": false
+      },
+      {
+        "enumber": 1,
+        "to": {
+          "to": "sn47.1#2.1",
+          "volpages": "PTS SN 5.141",
+          "alt_volpages": null,
+          "acronym": "SN 47.1",
+          "alt_acronym": null,
+          "uid": "sn47.1",
+          "root_lang": "pli",
+          "original_title": "Ambapālisutta",
+          "translated_title": "Ambapali",
+          "type": "full",
+          "from": "super_nav_details/mn10",
+          "biblio": null
+        },
+        "type": "full",
+        "remark": null,
+        "resembling": false
+      },
+      {
+        "enumber": 1,
+        "to": {
+          "to": "kv1.9#10.1",
+          "volpages": "PTS 156, PTS 157, PTS 158, PTS 159",
+          "alt_volpages": null,
+          "acronym": "Kv 1.9",
+          "alt_acronym": null,
+          "uid": "kv1.9",
+          "root_lang": "pli",
+          "original_title": "Satipaṭṭhānakathā",
+          "translated_title": "Of Applications in Mindfulness",
+          "type": "mention",
+          "from": "super_nav_details/mn10",
+          "biblio": null
+        },
+        "type": "mention",
+        "remark": null,
+        "resembling": false
+      }
+    ],
+    "mn10#10.1": [
+      {
+        "enumber": 1,
+        "to": {
+          "to": "dn22#5.1",
+          "volpages": "PTS DN 2.290, PTS 2.291, PTS 2.292, PTS 2.293, PTS 2.294, PTS 2.295, PTS 2.296, PTS 2.297, PTS 2.298, PTS 2.299, PTS 2.300, PTS 2.301, PTS 2.302, PTS 2.303, PTS 2.304, PTS 2.305, PTS 2.306, PTS 2.307, PTS 2.308, PTS 2.309, PTS 2.310, PTS 2.311, PTS 2.312, PTS 2.313, PTS 2.314, PTS 2.315",
+          "alt_volpages": null,
+          "acronym": "DN 22",
+          "alt_acronym": null,
+          "uid": "dn22",
+          "root_lang": "pli",
+          "original_title": "Mahāsatipaṭṭhānasutta",
+          "translated_title": "The Long Discourse about the Ways of Attending to Mindfulness",
+          "type": "full",
+          "from": "super_nav_details/mn10",
+          "biblio": null
+        },
+        "type": "full",
+        "remark": null,
+        "resembling": false
+      },
+      {
+        "enumber": 1,
+        "to": {
+          "to": "ne17#22.1",
+          "volpages": "PTS 73, PTS 74, PTS 75, PTS 76, PTS 77, PTS 78",
+          "alt_volpages": null,
+          "acronym": "Ne 17",
+          "alt_acronym": null,
+          "uid": "ne17",
+          "root_lang": "pli",
+          "original_title": "Adhiṭṭhānahāravibhaṅga",
+          "translated_title": "Counter-Demonstrative Subsection (Continued)",
+          "type": "mention",
+          "from": "super_nav_details/mn10",
+          "biblio": null
+        },
+        "type": "mention",
+        "remark": null,
+        "resembling": false
+      },
+      {
+        "enumber": 1,
+        "to": {
+          "to": "vb7#2.1",
+          "volpages": "PTS 193, PTS 194, PTS 195, PTS 196, PTS 197, PTS 198, PTS 199, PTS 200, PTS 201, PTS 202, PTS 203, PTS 204, PTS 205, PTS 206, PTS 207",
+          "alt_volpages": null,
+          "acronym": "Vb 7",
+          "alt_acronym": null,
+          "uid": "vb7",
+          "root_lang": "pli",
+          "original_title": "Satipaṭṭhānavibhaṅga",
+          "translated_title": "Analysis of the Foundations of Mindfulness",
+          "type": "mention",
+          "from": "super_nav_details/mn10",
+          "biblio": null
+        },
+        "type": "mention",
+        "remark": null,
+        "resembling": false
+      }
+    ]
+  }
+}

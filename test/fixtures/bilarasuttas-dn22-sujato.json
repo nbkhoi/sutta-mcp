@@ -1,0 +1,60 @@
+{
+  "url": "https://suttacentral.net/api/bilarasuttas/dn22/sujato",
+  "recorded": "2026-10-30",
+  "tool": "get_bilarasuttas",
+  "params": {
+    "uid": "dn22",
+    "author_uid": "sujato"
+  },
+  "body": {
+    "comment_text": {
+      "dn22:0.1": "",
+      "dn22:0.2": "",
+      "dn22:1.1": "This discourse is copied from <a href='https://suttacentral.net/mn10/en/sujato'>MN 10</a>. The section on the four noble truths has been expanded with material mostly drawn from <a href='https://suttacentral.net/mn141/en/sujato'>MN 141</a>. These discourses are the most influential texts for modern Theravada meditation, prompting countless modern commentaries. Comparative study of the several parallel versions reveals that this discourse, while comprised almost entirely of early material, was compiled in this form as one of the latest texts in the Pali suttas (see <a href='https://suttacentral.net/sn47.18/en/sujato'>SN 47.18</a> and note). | While mindfulness is always useful (<a href='https://suttacentral.net/sn46.53/en/sujato#15.4'>SN 46.53:15.4</a>), the “establishment of mindfulness” (<i lang='pi' translate='no'>satipaṭṭhāna</i>) refers especially to a conscious development of contemplative practices based on mindfulness, i.e. “mindfulness meditation”. ",
+      "dn22:22.27": "",
+      "dn22:22.28": ""
+    },
+    "html_text": {
+      "dn22:0.1": "<article id='dn22'><header><ul><li class='division'>{}</li></ul>",
+      "dn22:0.2": "<h1 class='sutta-title'>{}</h1></header>",
+      "dn22:1.1": "<p><span class='evam'>{}</span>",
+      "dn22:22.27": "{}</p>",
+      "dn22:22.28": "<p class='endsutta'>{}</p></article>"
+    },
+    "root_text": {
+      "dn22:0.1": "Dīgha Nikāya 22 ",
+      "dn22:0.2": "Mahāsatipaṭṭhānasutta ",
+      "dn22:1.1": "Evaṁ me sutaṁ—",
+      "dn22:22.27": "Attamanā te bhikkhū bhagavato bhāsitaṁ abhinandunti. ",
+      "dn22:22.28": "Mahāsatipaṭṭhānasuttaṁ niṭṭhitaṁ navamaṁ. "
+    },
+    "translation_text": {
+      "dn22:0.1": "Long Discourses 22 ",
+      "dn22:0.2": "The Longer Discourse on Mindfulness Meditation ",
+      "dn22:1.1": "So I have heard. ",
+      "dn22:22.27": "Satisfied, the mendicants approved what the Buddha said. ",
+      "dn22:22.28": ""
+    },
+    "variant_text": {
+      "dn22:0.1": "",
+      "dn22:0.2": "",
+      "dn22:1.1": "",
+      "dn22:22.27": "",
+      "dn22:22.28": ""
+    },
+    "reference_text": {
+      "dn22:0.1": "",
+      "dn22:0.2": "",
+      "dn22:1.1": "bj8.436, cck10.340, csp1ed7.231, csp2ed7.231, dr10.321, mc10.248, ms7D_941, msdiv372, ndp7.217, pts-cs1, pts-vp-pli2.290, sya10.325, vri2.214",
+      "dn22:22.27": "",
+      "dn22:22.28": ""
+    },
+    "keys_order": [
+      "dn22:0.1",
+      "dn22:0.2",
+      "dn22:1.1",
+      "dn22:22.27",
+      "dn22:22.28"
+    ]
+  }
+}

@@ -1,4 +1,4 @@
-// Unit test offline cho logic thuần của search_topic (spec search-api-passthrough). Mỗi case mang
+// Unit test offline cho logic thuần của search_instant (spec search-api-passthrough). Mỗi case mang
 // tiền tố id FR của specs/search-api-passthrough/requirements.md. Fixture: response
 // /api/search/instant ghi live rồi cắt (test/fixtures/, xem design §Fixture).
 import { test } from "node:test";
