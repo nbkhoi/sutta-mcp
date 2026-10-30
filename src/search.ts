@@ -1,9 +1,9 @@
-// Logic thuần của tool search_topic (spec search-api-passthrough): dựng URL request của
+// Logic thuần của tool search_instant (spec search-api-passthrough): dựng URL request của
 // GET /api/search/instant và dựng output từ body response. Không lọc, không khử trùng, không
 // đổi thứ tự. Module không import gì, không I/O, không giữ trạng thái. src/index.ts gọi API;
 // test/ import thẳng module này.
 
-// ─── search_topic: wrapper mỏng của /api/search/instant ─────────────────────
+// ─── search_instant: wrapper mỏng của /api/search/instant ───────────────────
 
 // Tham số API của tool, cùng tên với API. Tham số vắng thì không gửi.
 export type SearchParams = {
@@ -147,21 +147,4 @@ function formatError(error: any): string {
     for (const s of error.suggestions) if (typeof s === "string") lines.push(`suggestion: ${s}`);
   }
   return lines.join("\n");
-}
-
-// ─── Citation dùng chung: get_sutta, get_sutta_meta (import từ đây) ──────────
-
-export function formatCitation(suttaplex: any): string {
-  const uid = suttaplex?.uid ?? "?";
-  const acronym = suttaplex?.acronym ?? uid.toUpperCase();
-  const title = suttaplex?.translated_title ?? suttaplex?.original_title ?? "";
-  const parallels = suttaplex?.parallel_count ?? 0;
-  const difficulty = suttaplex?.difficulty?.name ?? "unknown";
-  const url = `https://suttacentral.net/${uid}`;
-
-  return [
-    `**${acronym}** — ${title}`,
-    `Difficulty: ${difficulty} | Parallels: ${parallels}`,
-    `URL: ${url}`,
-  ].join("\n");
 }
