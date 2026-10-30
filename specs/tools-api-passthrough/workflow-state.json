@@ -1,0 +1,1146 @@
+{
+  "contract_sha256": "843d6812d9ef0e65f3d2c817a0563c8238daa58f8ea5d68d153ed6cf1ef77cff",
+  "contract_status": "active",
+  "contract_updates": [
+    {
+      "affected_gates": [
+        {
+          "id": "dependencies.context:agents",
+          "type": "contract"
+        }
+      ],
+      "decision_id": "decision-6",
+      "new_sha256": "843d6812d9ef0e65f3d2c817a0563c8238daa58f8ea5d68d153ed6cf1ef77cff",
+      "old_sha256": "48c66c07a8153449e0220a700c6500728d59824ed01ad711e22becf978ba2e53",
+      "status": "applied"
+    }
+  ],
+  "decisions": [
+    {
+      "choice": "reopen",
+      "contract_sha256": "48c66c07a8153449e0220a700c6500728d59824ed01ad711e22becf978ba2e53",
+      "decision_id": "decision-1",
+      "evidence": [
+        {
+          "path": "specs/tools-api-passthrough/reviews/requirements-review-1.md",
+          "sha256": "ac43497a3f1e907ef8785d4a96de319832b1f1c70a12f5f0d7fda5a48b585927"
+        }
+      ],
+      "kind": "reopen",
+      "scope": {
+        "id": "requirements",
+        "type": "artifact"
+      }
+    },
+    {
+      "choice": "reopen",
+      "contract_sha256": "48c66c07a8153449e0220a700c6500728d59824ed01ad711e22becf978ba2e53",
+      "decision_id": "decision-2",
+      "evidence": [
+        {
+          "path": "specs/tools-api-passthrough/reviews/requirements-review-2.md",
+          "sha256": "d84af5d8ce3143ff25a6a2fb22a090500ff90fc48c1ff87b03b47bdbce99c372"
+        }
+      ],
+      "kind": "reopen",
+      "scope": {
+        "id": "requirements",
+        "type": "artifact"
+      }
+    },
+    {
+      "choice": "reopen",
+      "contract_sha256": "48c66c07a8153449e0220a700c6500728d59824ed01ad711e22becf978ba2e53",
+      "decision_id": "decision-3",
+      "evidence": [
+        {
+          "path": "specs/tools-api-passthrough/reviews/design-review-1.md",
+          "sha256": "7bb60b04fd15ee4a05613ff740734c52516470e3c967f26e4bdef59e1eb0707e"
+        }
+      ],
+      "kind": "reopen",
+      "scope": {
+        "id": "design",
+        "type": "artifact"
+      }
+    },
+    {
+      "choice": "continue",
+      "contract_sha256": "48c66c07a8153449e0220a700c6500728d59824ed01ad711e22becf978ba2e53",
+      "decision_id": "decision-4",
+      "evidence": [],
+      "kind": "phase-pause",
+      "scope": {
+        "id": "design",
+        "type": "phase"
+      }
+    },
+    {
+      "choice": "reopen",
+      "contract_sha256": "48c66c07a8153449e0220a700c6500728d59824ed01ad711e22becf978ba2e53",
+      "decision_id": "decision-5",
+      "evidence": [
+        {
+          "path": ".claude/spec-evidence/tools-api-passthrough/T-1-3.log",
+          "sha256": "4fd510140b40a62ba70daa651f64b07090d3a7c4a672ce5fb4a8a47bbef778cb"
+        }
+      ],
+      "kind": "reopen",
+      "scope": {
+        "id": "tasks",
+        "type": "artifact"
+      }
+    },
+    {
+      "choice": "apply:843d6812d9ef0e65f3d2c817a0563c8238daa58f8ea5d68d153ed6cf1ef77cff",
+      "contract_sha256": "48c66c07a8153449e0220a700c6500728d59824ed01ad711e22becf978ba2e53",
+      "decision_id": "decision-6",
+      "evidence": [
+        {
+          "path": ".claude/spec-evidence/tools-api-passthrough/contract-update-preview.json",
+          "sha256": "20dfb21424d8fb3f17c89cee465f845de41a2233bbdb26fb0f3a39eace2ea334"
+        }
+      ],
+      "kind": "contract-update",
+      "scope": {
+        "id": "843d6812d9ef0e65f3d2c817a0563c8238daa58f8ea5d68d153ed6cf1ef77cff",
+        "type": "contract"
+      }
+    }
+  ],
+  "git": {
+    "baseline": {
+      "base_commit": "7dc2299b4223ebc9b3e093a18deb2db0fd37572c",
+      "head_commit": "7dc2299b4223ebc9b3e093a18deb2db0fd37572c",
+      "scope": {
+        "id": "T-5-1",
+        "type": "task"
+      },
+      "worktree_status_sha256": "edef98e4ff436dd1d8d30a707c667581fc4f3aad9e5fedf5a77827890127c04b"
+    },
+    "evidence": [
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-1",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/tools-api-passthrough/T-1-1-baseline.status",
+        "output_sha256": "bc882788c9c967540791da6860a218183ca11110132359bd71ce4b3c73bca8a1"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "7dc2299b4223ebc9b3e093a18deb2db0fd37572c"
+        ],
+        "evidence_id": "git-2",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/tools-api-passthrough/T-1-1-diff-2.bin",
+        "output_sha256": "b6a5fc9fc12934f1898e9f23f940103e00d946856f0cdd03f21fa2072398cdcb"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-3",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/tools-api-passthrough/T-1-2-baseline.status",
+        "output_sha256": "6ac2478d4253261642b6ed5223eaa79a8200bd3c682512cc28608358dce4f935"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "7dc2299b4223ebc9b3e093a18deb2db0fd37572c"
+        ],
+        "evidence_id": "git-4",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/tools-api-passthrough/T-1-2-diff-4.bin",
+        "output_sha256": "86bcea94f87879417a78a7b8020188fd5f13c34e78488fc1dbdd3b61b2f9d97c"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-5",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/tools-api-passthrough/T-1-3-baseline.status",
+        "output_sha256": "b40e444febe1de7119e1bbd4ceac8b3c0e222981013fbe124113c7a43925c6e7"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "7dc2299b4223ebc9b3e093a18deb2db0fd37572c"
+        ],
+        "evidence_id": "git-6",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/tools-api-passthrough/T-1-3-diff-6.bin",
+        "output_sha256": "a285b425683256aeedb08545894ace202162c4f7eeb3808717349c607ab3e9e7"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-7",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/tools-api-passthrough/T-2-1-baseline.status",
+        "output_sha256": "1f61167882243b571e86dce2763f5880ef623587d44b6b46f9982e57988b1cb3"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "7dc2299b4223ebc9b3e093a18deb2db0fd37572c"
+        ],
+        "evidence_id": "git-8",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/tools-api-passthrough/T-2-1-diff-8.bin",
+        "output_sha256": "17a64c9fa67baa7af3ce65d610bfb8de7796da256819034c8e3afb75865d985f"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-9",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/tools-api-passthrough/T-2-2-baseline.status",
+        "output_sha256": "4e59f08c8ef3700f89379c878bda24825b7cd95501d3979c9808ec3738214d8d"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "7dc2299b4223ebc9b3e093a18deb2db0fd37572c"
+        ],
+        "evidence_id": "git-10",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/tools-api-passthrough/T-2-2-diff-10.bin",
+        "output_sha256": "a0f396acc5ddb44f37157dec46ae8c161d9c904a87d21d4d5fa4301af4c69d8b"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-11",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/tools-api-passthrough/T-3-1-baseline.status",
+        "output_sha256": "2ab4284a31dd532a82806c25dd996eb1727e30a965bca5c738bf48a5720db13f"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "7dc2299b4223ebc9b3e093a18deb2db0fd37572c"
+        ],
+        "evidence_id": "git-12",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/tools-api-passthrough/T-3-1-diff-12.bin",
+        "output_sha256": "ac09982b86f20ecd70205d75e70a39a4558ef0162f68673c7186d462b4f70e11"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-13",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/tools-api-passthrough/T-3-2-baseline.status",
+        "output_sha256": "2ab4284a31dd532a82806c25dd996eb1727e30a965bca5c738bf48a5720db13f"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "7dc2299b4223ebc9b3e093a18deb2db0fd37572c"
+        ],
+        "evidence_id": "git-14",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/tools-api-passthrough/T-3-2-diff-14.bin",
+        "output_sha256": "9981f6fc5b6c38658b65fb5f34239a5ddafd01a323589a67dd6866361ac9b20b"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-15",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/tools-api-passthrough/T-3-3-baseline.status",
+        "output_sha256": "2ab4284a31dd532a82806c25dd996eb1727e30a965bca5c738bf48a5720db13f"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "7dc2299b4223ebc9b3e093a18deb2db0fd37572c"
+        ],
+        "evidence_id": "git-16",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/tools-api-passthrough/T-3-3-diff-16.bin",
+        "output_sha256": "2532522567c873ec13677e6bb748b22cbab022a475f42194e199e2289146fdac"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-17",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/tools-api-passthrough/T-3-4-baseline.status",
+        "output_sha256": "2ab4284a31dd532a82806c25dd996eb1727e30a965bca5c738bf48a5720db13f"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "7dc2299b4223ebc9b3e093a18deb2db0fd37572c"
+        ],
+        "evidence_id": "git-18",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/tools-api-passthrough/T-3-4-diff-18.bin",
+        "output_sha256": "5020b183c36903f6aff1cd204c6869d219de843deb444f704b49ef7355ed1849"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-19",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/tools-api-passthrough/T-4-1-baseline.status",
+        "output_sha256": "2ab4284a31dd532a82806c25dd996eb1727e30a965bca5c738bf48a5720db13f"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "7dc2299b4223ebc9b3e093a18deb2db0fd37572c"
+        ],
+        "evidence_id": "git-20",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/tools-api-passthrough/T-4-1-diff-20.bin",
+        "output_sha256": "936992c1613aea0fd7b0d27680934db0df06b5248a5857908f46c073170cbf12"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-21",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/tools-api-passthrough/T-4-2-baseline.status",
+        "output_sha256": "723fa3ba4bb9d6abbbb9a4eee975028143cf23d08853d13ab66a5af82d919049"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "7dc2299b4223ebc9b3e093a18deb2db0fd37572c"
+        ],
+        "evidence_id": "git-22",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/tools-api-passthrough/T-4-2-diff-22.bin",
+        "output_sha256": "5545690a27a0d907a543f52b3da439a9264f7e4fc2026d12ea3203eda267321d"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-23",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/tools-api-passthrough/T-4-3-baseline.status",
+        "output_sha256": "edef98e4ff436dd1d8d30a707c667581fc4f3aad9e5fedf5a77827890127c04b"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "7dc2299b4223ebc9b3e093a18deb2db0fd37572c"
+        ],
+        "evidence_id": "git-24",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/tools-api-passthrough/T-4-3-diff-24.bin",
+        "output_sha256": "25ffab982cbf73ade0a9ed2a04f31a2fc8baf44eb5ef5023df43d82e46d722ed"
+      },
+      {
+        "command": [
+          "git",
+          "status",
+          "--porcelain=v2",
+          "-z",
+          "--untracked-files=all"
+        ],
+        "evidence_id": "git-25",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/tools-api-passthrough/T-5-1-baseline.status",
+        "output_sha256": "edef98e4ff436dd1d8d30a707c667581fc4f3aad9e5fedf5a77827890127c04b"
+      },
+      {
+        "command": [
+          "spec-workflow",
+          "capture-review-diff",
+          "--base",
+          "7dc2299b4223ebc9b3e093a18deb2db0fd37572c"
+        ],
+        "evidence_id": "git-26",
+        "exit_code": 0,
+        "output_path": ".claude/spec-evidence/tools-api-passthrough/T-5-1-diff-26.bin",
+        "output_sha256": "d1d567833245fc62d4150342b4cf1b9229d4721ca5e5ca608088b732fb0d3b3d"
+      }
+    ]
+  },
+  "history": [
+    {
+      "event_id": "event-1",
+      "from_revision": 0,
+      "kind": "created",
+      "refs": [],
+      "to_revision": 1
+    },
+    {
+      "event_id": "event-2",
+      "from_revision": 1,
+      "kind": "contract-activated",
+      "refs": [
+        "48c66c07a8153449e0220a700c6500728d59824ed01ad711e22becf978ba2e53"
+      ],
+      "to_revision": 2
+    },
+    {
+      "event_id": "event-3",
+      "from_revision": 3,
+      "kind": "gate-opened",
+      "refs": [
+        "requirements",
+        "specs/tools-api-passthrough/reviews/requirements-review-1.md"
+      ],
+      "to_revision": 4
+    },
+    {
+      "event_id": "event-4",
+      "from_revision": 6,
+      "kind": "report-processed",
+      "refs": [
+        "specs/tools-api-passthrough/reviews/requirements-review-1.md",
+        "ac43497a3f1e907ef8785d4a96de319832b1f1c70a12f5f0d7fda5a48b585927"
+      ],
+      "to_revision": 7
+    },
+    {
+      "event_id": "event-5",
+      "from_revision": 7,
+      "kind": "reopened",
+      "refs": [
+        "decision-1"
+      ],
+      "to_revision": 8
+    },
+    {
+      "event_id": "event-6",
+      "from_revision": 8,
+      "kind": "gate-opened",
+      "refs": [
+        "requirements",
+        "specs/tools-api-passthrough/reviews/requirements-review-2.md"
+      ],
+      "to_revision": 9
+    },
+    {
+      "event_id": "event-7",
+      "from_revision": 11,
+      "kind": "report-processed",
+      "refs": [
+        "specs/tools-api-passthrough/reviews/requirements-review-2.md",
+        "d84af5d8ce3143ff25a6a2fb22a090500ff90fc48c1ff87b03b47bdbce99c372"
+      ],
+      "to_revision": 12
+    },
+    {
+      "event_id": "event-8",
+      "from_revision": 12,
+      "kind": "reopened",
+      "refs": [
+        "decision-2"
+      ],
+      "to_revision": 13
+    },
+    {
+      "event_id": "event-9",
+      "from_revision": 13,
+      "kind": "gate-opened",
+      "refs": [
+        "requirements",
+        "specs/tools-api-passthrough/reviews/requirements-review-3.md"
+      ],
+      "to_revision": 14
+    },
+    {
+      "event_id": "event-10",
+      "from_revision": 16,
+      "kind": "report-processed",
+      "refs": [
+        "specs/tools-api-passthrough/reviews/requirements-review-3.md",
+        "a690f39bf12ffcf71ae618be19a82b633a9c34b506a03562e581d2a1b089ddc8"
+      ],
+      "to_revision": 17
+    },
+    {
+      "event_id": "event-11",
+      "from_revision": 17,
+      "kind": "reopen-advanced",
+      "refs": [
+        "requirements",
+        "design"
+      ],
+      "to_revision": 18
+    },
+    {
+      "event_id": "event-12",
+      "from_revision": 18,
+      "kind": "phase-advanced",
+      "refs": [
+        "requirements",
+        "design"
+      ],
+      "to_revision": 19
+    },
+    {
+      "event_id": "event-13",
+      "from_revision": 20,
+      "kind": "gate-opened",
+      "refs": [
+        "design",
+        "specs/tools-api-passthrough/reviews/design-review-1.md"
+      ],
+      "to_revision": 21
+    },
+    {
+      "event_id": "event-14",
+      "from_revision": 23,
+      "kind": "report-processed",
+      "refs": [
+        "specs/tools-api-passthrough/reviews/design-review-1.md",
+        "7bb60b04fd15ee4a05613ff740734c52516470e3c967f26e4bdef59e1eb0707e"
+      ],
+      "to_revision": 24
+    },
+    {
+      "event_id": "event-15",
+      "from_revision": 24,
+      "kind": "reopened",
+      "refs": [
+        "decision-3"
+      ],
+      "to_revision": 25
+    },
+    {
+      "event_id": "event-16",
+      "from_revision": 25,
+      "kind": "gate-opened",
+      "refs": [
+        "design",
+        "specs/tools-api-passthrough/reviews/design-review-2.md"
+      ],
+      "to_revision": 26
+    },
+    {
+      "event_id": "event-17",
+      "from_revision": 28,
+      "kind": "report-processed",
+      "refs": [
+        "specs/tools-api-passthrough/reviews/design-review-2.md",
+        "cceb39413334ebef1710f766d9f723ffa750cc27d64bf981b11554f1de5851c8"
+      ],
+      "to_revision": 29
+    },
+    {
+      "event_id": "event-18",
+      "from_revision": 29,
+      "kind": "reopen-advanced",
+      "refs": [
+        "design",
+        "tasks"
+      ],
+      "to_revision": 30
+    },
+    {
+      "event_id": "event-19",
+      "from_revision": 30,
+      "kind": "gate-opened",
+      "refs": [
+        "phase-pause:design"
+      ],
+      "to_revision": 31
+    },
+    {
+      "event_id": "event-20",
+      "from_revision": 31,
+      "kind": "decision-recorded",
+      "refs": [
+        "decision-4",
+        "design"
+      ],
+      "to_revision": 32
+    },
+    {
+      "event_id": "event-21",
+      "from_revision": 33,
+      "kind": "review-skipped",
+      "refs": [
+        "tasks",
+        "specs_review:design"
+      ],
+      "to_revision": 34
+    },
+    {
+      "event_id": "event-22",
+      "from_revision": 33,
+      "kind": "phase-advanced",
+      "refs": [
+        "tasks",
+        "build"
+      ],
+      "to_revision": 34
+    },
+    {
+      "event_id": "event-23",
+      "from_revision": 37,
+      "kind": "task-advanced",
+      "refs": [
+        "T-1-1",
+        "T-1-2"
+      ],
+      "to_revision": 38
+    },
+    {
+      "event_id": "event-24",
+      "from_revision": 41,
+      "kind": "task-advanced",
+      "refs": [
+        "T-1-2",
+        "T-1-3"
+      ],
+      "to_revision": 42
+    },
+    {
+      "event_id": "event-25",
+      "from_revision": 45,
+      "kind": "task-advanced",
+      "refs": [
+        "T-1-3",
+        "T-2-1"
+      ],
+      "to_revision": 46
+    },
+    {
+      "event_id": "event-26",
+      "from_revision": 47,
+      "kind": "reopened",
+      "refs": [
+        "decision-5"
+      ],
+      "to_revision": 48
+    },
+    {
+      "event_id": "event-27",
+      "from_revision": 48,
+      "kind": "reopen-advanced",
+      "refs": [
+        "tasks",
+        "T-2-1"
+      ],
+      "to_revision": 49
+    },
+    {
+      "event_id": "event-28",
+      "from_revision": 51,
+      "kind": "task-advanced",
+      "refs": [
+        "T-2-1",
+        "T-2-2"
+      ],
+      "to_revision": 52
+    },
+    {
+      "event_id": "event-29",
+      "from_revision": 55,
+      "kind": "task-advanced",
+      "refs": [
+        "T-2-2",
+        "T-3-1"
+      ],
+      "to_revision": 56
+    },
+    {
+      "event_id": "event-30",
+      "from_revision": 59,
+      "kind": "task-advanced",
+      "refs": [
+        "T-3-1",
+        "T-3-2"
+      ],
+      "to_revision": 60
+    },
+    {
+      "event_id": "event-31",
+      "from_revision": 63,
+      "kind": "task-advanced",
+      "refs": [
+        "T-3-2",
+        "T-3-3"
+      ],
+      "to_revision": 64
+    },
+    {
+      "event_id": "event-32",
+      "from_revision": 67,
+      "kind": "task-advanced",
+      "refs": [
+        "T-3-3",
+        "T-3-4"
+      ],
+      "to_revision": 68
+    },
+    {
+      "event_id": "event-33",
+      "from_revision": 71,
+      "kind": "task-advanced",
+      "refs": [
+        "T-3-4",
+        "T-4-1"
+      ],
+      "to_revision": 72
+    },
+    {
+      "event_id": "event-34",
+      "from_revision": 76,
+      "kind": "task-advanced",
+      "refs": [
+        "T-4-1",
+        "T-4-2"
+      ],
+      "to_revision": 77
+    },
+    {
+      "event_id": "event-35",
+      "from_revision": 80,
+      "kind": "task-advanced",
+      "refs": [
+        "T-4-2",
+        "T-4-3"
+      ],
+      "to_revision": 81
+    },
+    {
+      "event_id": "event-36",
+      "from_revision": 84,
+      "kind": "task-advanced",
+      "refs": [
+        "T-4-3",
+        "T-5-1"
+      ],
+      "to_revision": 85
+    },
+    {
+      "event_id": "event-37",
+      "from_revision": 86,
+      "kind": "decision-recorded",
+      "refs": [
+        "decision-6",
+        ".claude/spec-evidence/tools-api-passthrough/contract-update-preview.json",
+        "20dfb21424d8fb3f17c89cee465f845de41a2233bbdb26fb0f3a39eace2ea334"
+      ],
+      "to_revision": 87
+    },
+    {
+      "event_id": "event-38",
+      "from_revision": 87,
+      "kind": "contract-updated",
+      "refs": [
+        "decision-6",
+        "48c66c07a8153449e0220a700c6500728d59824ed01ad711e22becf978ba2e53",
+        "843d6812d9ef0e65f3d2c817a0563c8238daa58f8ea5d68d153ed6cf1ef77cff"
+      ],
+      "to_revision": 88
+    },
+    {
+      "event_id": "event-39",
+      "from_revision": 88,
+      "kind": "invalidation-settled",
+      "refs": [
+        "dependencies.context:agents",
+        "decision-6"
+      ],
+      "to_revision": 89
+    },
+    {
+      "event_id": "event-40",
+      "from_revision": 91,
+      "kind": "gate-opened",
+      "refs": [
+        "tools-api-passthrough",
+        "specs/tools-api-passthrough/reviews/code-review-final-1.md"
+      ],
+      "to_revision": 92
+    },
+    {
+      "event_id": "event-41",
+      "from_revision": 94,
+      "kind": "report-processed",
+      "refs": [
+        "specs/tools-api-passthrough/reviews/code-review-final-1.md",
+        "b781589ae87163e3ee1633f067b46f46bd96411d342f738c978341cccc7cbfff"
+      ],
+      "to_revision": 95
+    },
+    {
+      "event_id": "event-42",
+      "from_revision": 95,
+      "kind": "completed",
+      "refs": [],
+      "to_revision": 96
+    }
+  ],
+  "invalidations": [
+    {
+      "decision_id": "decision-6",
+      "reason": "contract-update",
+      "scope": {
+        "id": "dependencies.context:agents",
+        "type": "contract"
+      },
+      "status": "resolved"
+    }
+  ],
+  "lifecycle": "complete",
+  "next_action": {
+    "kind": "report-complete"
+  },
+  "pending_gate": null,
+  "phase": "complete",
+  "processed_reports": [
+    {
+      "disposition": "resolved",
+      "path": "specs/tools-api-passthrough/reviews/requirements-review-1.md",
+      "purpose": "phase-review",
+      "scope": {
+        "id": "requirements",
+        "type": "artifact"
+      },
+      "sha256": "ac43497a3f1e907ef8785d4a96de319832b1f1c70a12f5f0d7fda5a48b585927",
+      "verdict": "Approve with changes"
+    },
+    {
+      "disposition": "resolved",
+      "path": "specs/tools-api-passthrough/reviews/requirements-review-2.md",
+      "purpose": "phase-review",
+      "scope": {
+        "id": "requirements",
+        "type": "artifact"
+      },
+      "sha256": "d84af5d8ce3143ff25a6a2fb22a090500ff90fc48c1ff87b03b47bdbce99c372",
+      "verdict": "Approve with changes"
+    },
+    {
+      "disposition": "resolved",
+      "path": "specs/tools-api-passthrough/reviews/requirements-review-3.md",
+      "purpose": "phase-review",
+      "scope": {
+        "id": "requirements",
+        "type": "artifact"
+      },
+      "sha256": "a690f39bf12ffcf71ae618be19a82b633a9c34b506a03562e581d2a1b089ddc8",
+      "verdict": "Approve"
+    },
+    {
+      "disposition": "resolved",
+      "path": "specs/tools-api-passthrough/reviews/design-review-1.md",
+      "purpose": "phase-review",
+      "scope": {
+        "id": "design",
+        "type": "artifact"
+      },
+      "sha256": "7bb60b04fd15ee4a05613ff740734c52516470e3c967f26e4bdef59e1eb0707e",
+      "verdict": "Approve with changes"
+    },
+    {
+      "disposition": "resolved",
+      "path": "specs/tools-api-passthrough/reviews/design-review-2.md",
+      "purpose": "phase-review",
+      "scope": {
+        "id": "design",
+        "type": "artifact"
+      },
+      "sha256": "cceb39413334ebef1710f766d9f723ffa750cc27d64bf981b11554f1de5851c8",
+      "verdict": "Approve"
+    },
+    {
+      "disposition": "resolved",
+      "path": "specs/tools-api-passthrough/reviews/code-review-final-1.md",
+      "purpose": "on-completion",
+      "scope": {
+        "id": "tools-api-passthrough",
+        "type": "feature"
+      },
+      "sha256": "b781589ae87163e3ee1633f067b46f46bd96411d342f738c978341cccc7cbfff",
+      "verdict": "Approve"
+    }
+  ],
+  "schema_version": 1,
+  "state_revision": 96,
+  "verification": [
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-1-1.sh"
+      ],
+      "evidence_id": "verification-1",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/tools-api-passthrough/T-1-1-verify-1.log",
+      "output_sha256": "c0848b4b3b1147f46c079c11e08952e19fb37a3e592a0ca11de8863f090358c0",
+      "scope": {
+        "id": "T-1-1",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-1-2.sh"
+      ],
+      "evidence_id": "verification-2",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/tools-api-passthrough/T-1-2-verify-1.log",
+      "output_sha256": "cb99dde7f96d085b724ddedb96d0c1bf89dff66a6ea29cd6ee3aa3a5f7d304d9",
+      "scope": {
+        "id": "T-1-2",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-1-3.sh"
+      ],
+      "evidence_id": "verification-3",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/tools-api-passthrough/T-1-3-verify-1.log",
+      "output_sha256": "36b4106f04427a49079f2fbf4819bafd4640e20ed280dce1454fa7e5ed8de58d",
+      "scope": {
+        "id": "T-1-3",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-2-1.sh"
+      ],
+      "evidence_id": "verification-4",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/tools-api-passthrough/T-2-1-verify-1.log",
+      "output_sha256": "ab0b55559fe86e283649a8ad086e5b07ab6066f058e53c506ce242741de366c8",
+      "scope": {
+        "id": "T-2-1",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-2-2.sh"
+      ],
+      "evidence_id": "verification-5",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/tools-api-passthrough/T-2-2-verify-1.log",
+      "output_sha256": "ce9340a0ca261284fb29aa7f79b5c1ba1b697bb780fa0150773d3ee9845d00bb",
+      "scope": {
+        "id": "T-2-2",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-3-1.sh"
+      ],
+      "evidence_id": "verification-6",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/tools-api-passthrough/T-3-1-verify-1.log",
+      "output_sha256": "64200b1a9a152e625b5dc475dfa5d995b1590a065d6c64f88905588e1720aa41",
+      "scope": {
+        "id": "T-3-1",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-3-2.sh"
+      ],
+      "evidence_id": "verification-7",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/tools-api-passthrough/T-3-2-verify-1.log",
+      "output_sha256": "4257f9a10d2767237b417f978dfc4ee19e46173477dd31666ef642236729c604",
+      "scope": {
+        "id": "T-3-2",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-3-3.sh"
+      ],
+      "evidence_id": "verification-8",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/tools-api-passthrough/T-3-3-verify-1.log",
+      "output_sha256": "82a78774803c38600db5b7a12b9fa84e907361bced597a710bb66b8c4ab3eb8c",
+      "scope": {
+        "id": "T-3-3",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-3-4.sh"
+      ],
+      "evidence_id": "verification-9",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/tools-api-passthrough/T-3-4-verify-1.log",
+      "output_sha256": "02552cd5c0c971fc16bd72ad208a54c900beb6f838a9960ba5ff92fddcd9362d",
+      "scope": {
+        "id": "T-3-4",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-4-1.sh"
+      ],
+      "evidence_id": "verification-10",
+      "exit_code": 127,
+      "output_path": ".claude/spec-evidence/tools-api-passthrough/T-4-1-verify-1.log",
+      "output_sha256": "b378b8fecea3667557d5b4ac6c6b553b04d3923e15bb3f5ae8b4d9e21883409f",
+      "scope": {
+        "id": "T-4-1",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-4-1.sh"
+      ],
+      "evidence_id": "verification-11",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/tools-api-passthrough/T-4-1-verify-2.log",
+      "output_sha256": "2a066a9bbcdb40979c408fb7ce10b9b3f03755422769edb2b3fc7817e92b3181",
+      "scope": {
+        "id": "T-4-1",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-4-2.sh"
+      ],
+      "evidence_id": "verification-12",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/tools-api-passthrough/T-4-2-verify-1.log",
+      "output_sha256": "2bc3d3e5a8d523e9847bd08c9c14d50397b13cbbe90e11ef23ae392de265ca1f",
+      "scope": {
+        "id": "T-4-2",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-4-3.sh"
+      ],
+      "evidence_id": "verification-13",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/tools-api-passthrough/T-4-3-verify-1.log",
+      "output_sha256": "7cb7e3e731e486b5cd816ab74f74859b3a2d10599236626fd7cc04d9401d99b1",
+      "scope": {
+        "id": "T-4-3",
+        "type": "task"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "/private/tmp/claude-501/-Users-khoinb-worktrees-sutta-mcp-main/0273a56c-41a0-47b2-bbf9-5c62f908fd91/scratchpad/verify-T-5-1.sh"
+      ],
+      "evidence_id": "verification-14",
+      "exit_code": 0,
+      "output_path": ".claude/spec-evidence/tools-api-passthrough/T-5-1-verify-1.log",
+      "output_sha256": "c91eff0ac207e2595295e2486107e81120087f748dae49ac076b7fa562cb08a9",
+      "scope": {
+        "id": "T-5-1",
+        "type": "task"
+      }
+    }
+  ]
+}
