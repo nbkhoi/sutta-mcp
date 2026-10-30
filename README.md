@@ -10,11 +10,11 @@ MCP server kết nối Claude với SuttaCentral — giúp trả lời câu hỏ
 
 | Tool | Mô tả |
 |------|-------|
-| `search_topic` | Wrapper mỏng của search SuttaCentral (`GET /api/search/instant`): tham số API `query`, `language`, `limit`, `offset`, `selectedLanguages`, `restrict`, `matchpartial` được gửi nguyên, tham số không truyền thì không gửi; `format` chọn `text` (mặc định: mọi kết quả theo thứ tự SC, kèm link) hoặc `json` (body response nguyên văn) |
-| `get_sutta` | Lấy toàn văn sutta theo UID, mỗi đoạn kèm segment ID để dẫn link tới đúng đoạn trên SuttaCentral |
-| `get_sutta_meta` | Metadata: tên, blurb, độ khó, danh sách bản dịch |
-| `get_parallels` | Parallels giữa các truyền thống (Pali, Hán tạng, Sanskrit) |
-| `list_divisions` | Liệt kê các bộ kinh, lọc theo tạng (sutta/vinaya/abhidhamma) |
+| `search_instant` | Wrapper mỏng của search SuttaCentral (`GET /api/search/instant`): tham số API `query`, `language`, `limit`, `offset`, `selectedLanguages`, `restrict`, `matchpartial` được gửi nguyên, tham số không truyền thì không gửi; `format` chọn `text` (mặc định: mọi kết quả theo thứ tự SC, kèm link) hoặc `json` (body response nguyên văn) |
+| `get_bilarasuttas` | Văn bản segmented của một sutta (`GET /api/bilarasuttas/{uid}/{author_uid}?lang=`): tham số API `uid`, `author_uid` (bỏ trống thì chỉ có văn bản gốc), `lang` (bản dịch không phải tiếng Anh cần `lang` của bản dịch); mọi map (`root_text`, `translation_text`, `comment_text`, …) và `keys_order`, key là segment ID, không cắt; `format` `text` (mặc định) hoặc `json` |
+| `get_suttaplex` | Metadata (`GET /api/suttaplex/{uid}?language=`): tham số API `uid`, `language`; nguyên mảng suttaplex, gồm mọi bản dịch trong `translations`; `format` `text` (mặc định) hoặc `json` |
+| `get_parallels` | Parallels giữa các truyền thống (`GET /api/parallels/{uid}?language=`): tham số API `uid`, `language`; parallels theo anchor của sutta nguồn; `format` `text` (mặc định) hoặc `json` |
+| `get_menu` | Cây duyệt của SuttaCentral (`GET /api/menu`, `GET /api/menu/{submenu_id}`, `?language=`): tham số API `submenu_id`, `language`; mỗi lời gọi trả một cấp con; `format` `text` (mặc định) hoặc `json` |
 
 ## Cài đặt
 
@@ -67,11 +67,13 @@ Claude sẽ tự động gọi MCP tools, tra cứu SuttaCentral, rồi trả l�
 
 ## Tìm bằng tiếng Việt
 
-`search_topic` gửi truy vấn nguyên văn tới search của SuttaCentral, không ánh xạ hay dịch.
+`search_instant` gửi truy vấn nguyên văn tới search của SuttaCentral, không ánh xạ hay dịch.
 Để khớp tiêu đề tiếng Việt, truyền `language` = `vi`, ví dụ `{"query": "vô ngã", "language": "vi"}`.
 Để có cả bản dịch tiếng Việt trong phần khớp nội dung (`hits`), thêm `selectedLanguages` có `vi`, ví dụ
 `{"query": "vô ngã", "language": "vi", "selectedLanguages": ["vi", "pli"]}`. Khi bỏ trống `selectedLanguages`,
 SuttaCentral dùng mặc định `["en", "pli"]`.
+Để lấy toàn văn bản dịch tiếng Việt, dùng `get_bilarasuttas` với `author_uid` của bản dịch và `lang` = `vi`, ví dụ
+`{"uid": "dhp1-20", "author_uid": "phantuananh", "lang": "vi"}`.
 
 ## Lưu ý
 
